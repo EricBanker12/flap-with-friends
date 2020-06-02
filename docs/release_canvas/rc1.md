@@ -7,18 +7,16 @@ Create basic gameplay for initial playtesting and user feedback.
 ### Features
 
 * Back End
-    * GET new maze
+    * GET new game field
     * GET Front End static files
 * Front End
-    * User can view maze
-        * Responsive to desktop and mobile
-        * User can adjust zoom
-    * User can navigate through a maze
-        * User is moved by portals
-        * User can move with keyboard
-        * (Stretch) Gameplay has some sound effects
+    * User can view game
+        * View is responsive to desktop and mobile
+    * User can navigate through field
+        * User can fly up on space/click/tap
+        * Gameplay has some sound effects
         * (Stretch) User can customize name/avatar
-    * User can view time spent on maze exit
+    * User can view distance on game over
 
 ### Quantifiers
 

@@ -37,7 +37,7 @@
 ### Java
 ```diff
 + strongly typed
-+ faster compute (vs node.js) for generating new mazes
++ faster compute (vs node.js)
 - more boiler plate
 - slower server startup
 ```
