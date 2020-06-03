@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `MazeAtk`,
-    description: `MazeAtk is an online, multiplayer time-attack video game. Earn points by clearing each maze faster than other players.`,
+    title: `Flap With Friends`,
+    description: `A remake of Flappy Bird with private room multiplayer to compete with friends and co-workers. Perfect for team-bonding.`,
     author: `Eric Banker`,
   },
   plugins: [
@@ -18,8 +18,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `MazeAtk`,
-        short_name: `MazeAtk`,
+        name: `Flap With Friends`,
+        short_name: `F.W.F`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
