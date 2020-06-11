@@ -16,9 +16,15 @@ const IndexPage = () => (
     >
       <section>
         <h1>About</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel tempus neque. Nunc tempor mauris ut ligula tincidunt, id accumsan risus semper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent mattis justo dui, quis sodales mi luctus vel.</p>
+        <p>This is a remake of Dong Nguyen's Flappy Bird with private multiplayer to compete with friends. It's a great way to do team-bonding on a new assignment or a slow, Friday afternoon.</p>
+        
         <h1>How to Play</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel tempus neque. Nunc tempor mauris ut ligula tincidunt, id accumsan risus semper.</p>
+        <ul>
+          <li>Tap the screen or hit the spacebar to flap upwards.</li>
+          <li>Wait for gravity to fall downwards.</li>
+          <li>Avoid the obstacles to stay in flight the longest and win!</li>
+        </ul>
+        
         <div
           style={{
             width: 320,
@@ -33,6 +39,7 @@ const IndexPage = () => (
           Gameplay Animation Here
         </div>
       </section>
+      
       <section>
         <h1>Setup</h1>
         <div
