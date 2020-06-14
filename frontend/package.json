@@ -27,8 +27,6 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "buildmv": "gatsby build & mv ./public ../backend/src/main/resources",
-    "buildmove": "gatsby build & move ./public ../backend/src/main/resources",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
