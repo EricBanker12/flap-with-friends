@@ -1,7 +1,0 @@
-src
-target/*/
-target/*.original
-*.*
-client/node_modules
-client/src
-client/*.*

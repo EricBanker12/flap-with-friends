@@ -6,9 +6,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "cd client && npm install && npm run build && cd ..",
-    "start": "echo \"Ran start script\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "heroku-prebuild": "cd client && npm install && cd ..",
+    "heroku-postbuild": "cd client && npm run build && cd ..",
+    "heroku-cleanup": "rm -r client/node_modules && rm client/package-lock.json"
   },
   "repository": {
     "type": "git",
