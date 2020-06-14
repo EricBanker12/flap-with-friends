@@ -6,9 +6,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "client": "cd client & npm install & npm run build & cd ..",
-    "build": "echo npm run build & npm run client",
-    "start": "echo npm run start",
+    "build": "cd /client && npm install && npm run build && cd ..",
+    "start": "echo \"Ran start script\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
