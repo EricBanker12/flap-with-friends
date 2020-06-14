@@ -1,0 +1,22 @@
+{
+  "name": "flapwithfriends",
+  "version": "1.0.0",
+  "description": "A remake of Flappy Bird with private multiplayer to compete with friends.",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "cd client & npm i & npm build & cd ..",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EricBanker12/flap-with-friends.git"
+  },
+  "author": "Eric Banker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EricBanker12/flap-with-friends/issues"
+  },
+  "homepage": "https://github.com/EricBanker12/flap-with-friends#readme"
+}
