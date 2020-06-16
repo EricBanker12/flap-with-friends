@@ -1,0 +1,6 @@
+apiVersion: beta/v1
+deploy:
+  skaffold: {}
+ingress:
+  service: flapwithfriendsservice
+  port: 8080
