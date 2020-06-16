@@ -1,0 +1,9 @@
+docs
+
+backend/.vscode
+backend/target
+
+frontend/*
+!frontend/src
+!frontend/*.*
+frontend/yarn.lock
