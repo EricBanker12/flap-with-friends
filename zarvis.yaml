@@ -1,6 +1,9 @@
 apiVersion: beta/v1
 deploy:
-  skaffold: {}
+  docker:
+    file: Dockerfile
+    service: flapwithfriendsservice
+    port: 8080
 ingress:
   service: flapwithfriendsservice
   port: 8080
