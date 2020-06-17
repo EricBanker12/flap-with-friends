@@ -14,7 +14,8 @@ public class ApiRouter {
 
     @Bean
     public RouterFunction<ServerResponse> route(ApiHandler apiHandler) {
-        return RouterFunctions.route(RequestPredicates.GET("/api"), apiHandler::api);
+        return RouterFunctions.route(RequestPredicates.GET("/api"), apiHandler::api)
+            .andRoute(RequestPredicates.GET("/api/status"), apiHandler::status);
     }
     
 }

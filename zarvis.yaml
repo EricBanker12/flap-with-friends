@@ -1,6 +1,0 @@
-apiVersion: beta/v1
-deploy:
-  skaffold: {}
-ingress:
-  - serviceName: flapwithfriendsservice
-    port: 8080

@@ -1,9 +1,15 @@
 docs
+Dockerfile
 
-backend/.vscode
 backend/target
 
-frontend/*
-!frontend/src
-!frontend/*.*
+frontend/.cache
+frontend/public
+frontend/node_modules
 frontend/yarn.lock
+
+**/.*
+**/*.md
+**/LICENSE
+
+!backend/.mvn
