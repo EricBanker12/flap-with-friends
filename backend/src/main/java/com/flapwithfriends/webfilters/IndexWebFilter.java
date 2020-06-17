@@ -1,4 +1,4 @@
-package com.flapwithfriends.components;
+package com.flapwithfriends.webfilters;
 
 import java.util.regex.Pattern;
 
@@ -11,14 +11,14 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 @Component
-public class IndexWebFilterComponent implements WebFilter {
+public class IndexWebFilter implements WebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String path = exchange.getRequest().getPath().toString();
 
         // ignore /api
-        if (Pattern.matches("/api/?|/api/.*", path)) {
+        if (Pattern.matches("/api|/api/.*", path)) {
             return chain.filter(exchange);
         }
 

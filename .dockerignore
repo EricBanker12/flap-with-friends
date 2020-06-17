@@ -1,0 +1,15 @@
+docs
+Dockerfile
+
+backend/target
+
+frontend/.cache
+frontend/public
+frontend/node_modules
+frontend/yarn.lock
+
+**/.*
+**/*.md
+**/LICENSE
+
+!backend/.mvn

@@ -1,4 +1,4 @@
-package com.flapwithfriends.components;
+package com.flapwithfriends.webfilters;
 
 import java.util.regex.Pattern;
 
@@ -10,7 +10,7 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 @Component
-public class SvgzWebFilterComponent implements WebFilter {
+public class SvgzWebFilter implements WebFilter {
     
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
