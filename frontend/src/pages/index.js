@@ -4,6 +4,7 @@ import { Link } from "gatsby"
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
+import GameSetup from "../components/gameSetup"
 
 const IndexPage = () => (
   <Layout>
@@ -42,18 +43,7 @@ const IndexPage = () => (
       
       <section>
         <h1>Setup</h1>
-        <div
-          style={{
-            width: '100%',
-            height: 'calc(100% - 70px)',
-            backgroundColor: '#DDD',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          Game Setup Component
-        </div>
+        <GameSetup/>
       </section>
     </div>
   </Layout>
