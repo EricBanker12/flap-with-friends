@@ -17,7 +17,7 @@ const IndexPage = () => (
     >
       <section>
         <h1>About</h1>
-        <p>This is a remake of Dong Nguyen's Flappy Bird with private multiplayer to compete with friends. It's a great way to do team-bonding on a new assignment or a slow, Friday afternoon.</p>
+        <p>This is a remake of Dong Nguyen's Flappy Bird with private multiplayer to compete with friends.</p>
         
         <h1>How to Play</h1>
         <ul>
