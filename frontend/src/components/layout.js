@@ -28,9 +28,9 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header siteTitle={data.site.siteMetadata.title} />
-      <div style={{background: "#fff", margin: "0 auto", flex: 1, width: "100%", maxWidth: 864, padding: "1rem 2rem"}}>
+      <div className="layout" style={{background: "#fff", margin: "0 auto", flex: 1, width: "100%", maxWidth: 864}}>
         <main>{children}</main>
-        <footer>
+        <footer style={{textAlign: "center"}}>
           <p>footer placeholder</p>
         </footer>
       </div>
