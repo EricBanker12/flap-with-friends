@@ -19,11 +19,11 @@ const IndexPage = () => (
         <h1>About</h1>
         <p>This is a remake of Dong Nguyen's Flappy Bird with private multiplayer to compete with friends.</p>
         
-        <h1>How to Play</h1>
+        <h2>How to Play</h2>
         <ul>
-          <li>Tap the screen or hit the spacebar to flap upwards.</li>
+          <li>Tap the screen or hit spacebar to flap upwards.</li>
           <li>Wait for gravity to fall downwards.</li>
-          <li>Avoid the obstacles to stay in flight the longest and win!</li>
+          <li>Avoid obstacles and stay in flight the longest to win!</li>
         </ul>
         
         <div
