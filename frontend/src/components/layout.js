@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header siteTitle={data.site.siteMetadata.title} />
-      <div style={{background: "#fff", margin: "0 auto", flex: 1, maxWidth: 864, padding: "1rem 2rem"}}>
+      <div style={{background: "#fff", margin: "0 auto", flex: 1, width: "100%", maxWidth: 864, padding: "1rem 2rem"}}>
         <main>{children}</main>
         <footer>
           <p>footer placeholder</p>

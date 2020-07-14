@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Flap With Friends`,
+    title: `Flap with Friends`,
     description: `A remake of Flappy Bird with private room multiplayer to compete with friends and co-workers. Perfect for team-bonding.`,
     author: `Eric Banker`,
   },
@@ -19,7 +19,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Flap With Friends`,
+        name: `Flap with Friends`,
         short_name: `F.W.F`,
         start_url: `/`,
         background_color: `#663399`,
