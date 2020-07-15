@@ -23,6 +23,7 @@ const Player = ({app}) => {
     const [frameCount, setFrameCount] = useState(0)
     
     const animate = (delta) => {
+        // animate wings flaping at 12 fps
         if (frameCount + delta >= 5) {
             setFrameCount(frameCount + delta - 5)
             setFrame((frame + 1) % 4)
