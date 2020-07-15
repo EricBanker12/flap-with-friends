@@ -39,14 +39,14 @@ const GameSetup = () => {
                     </div>
                 </div>
             </label>
-            <div style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
+            <div className="mx-4" style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
                 <button className="btn btn-primary btn-lg col-sm-12 col-md-6" type='button'>Ready</button>
             </div>
             <h2 className="mx-4">Player Status</h2>
             <div className="mx-4">
                 <p>To Do</p>
             </div>
-            <div style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
+            <div className="mx-4" style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
                 <button className="btn btn-warning btn-lg col-sm-12 col-md-6" type='submit'>Start</button>
             </div>
         </form>
