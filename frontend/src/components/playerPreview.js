@@ -38,7 +38,7 @@ const PlayerPreview = ({app, x, y, colors}) => {
     useEffect(() => {
         app.ticker.add(animate)
         return () => {app.ticker.remove(animate)}
-    })
+    }, [])
 
     return (
         <>
