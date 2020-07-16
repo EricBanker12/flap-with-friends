@@ -1,44 +1,90 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { Stage } from "react-pixi-fiber"
+import {debounce} from "lodash"
+
+import PlayerPreview from "./playerPreview"
 
 const GameSetup = () => {
-    const [charColor, setCharColor] = useState("#ff0000")
+    const [colors, setColors] = useState({
+        main: "#ff0000",
+        accent: "#ffffff"
+    })
+
+    const handleColors = debounce((name, value) => {
+        setColors({...colors, [name]: value})
+    }, 100)
 
     return (
         <form>
             <h2 className="mx-4">Game Settings</h2>
             <label className="mx-4">
-                <span>Rounds:</span>
+                <span>Rounds: </span>
                 <input className="form-control" type='number' name='rounds' min={1} max={20} defaultValue={3} />
             </label>
             <h2 className="mx-4">Player Settings</h2>
-            <label className="mx-4">
-                <span>Nickname:</span>
-                <input className="form-control" type='text' name='nickname' />
-            </label>
-            <label className="mx-4" style={{display: "flex", flexDirection: "column", width: "8ch"}}>
-                <span>Color: </span>
-                <div style={{position: "relative"}}>
-                    <input
-                        type='color'
-                        name='color'
-                        style={{width: 1, height: 1}}
-                        value={charColor}
-                        onChange={(e) => {setCharColor(e.currentTarget.value)}}
-                    />
-                    <div
-                        style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "1rem",
-                            height: "1rem",
-                            border: "1px solid #ced4da",
-                            borderRadius: "1rem",
-                            background: charColor,
-                        }}>
+            <div className="mx-4" style={{display: "flex", flexWrap: "wrap"}}>
+                <div className="col-xs-12 col-sm-6 col-md-3 px-0">
+                    <label>
+                        <span>Nickname: </span>
+                        <input className="form-control" type='text' name='nickname' />
+                    </label>
+                    <label style={{display: "block"}}>
+                        <span>Main Color: </span>
+                        <div style={{display: "inline", position: "relative"}}>
+                            <input
+                                type='color'
+                                name="main"
+                                style={{opacity: 0}}
+                                defaultValue={colors.main}
+                                onChange={({currentTarget: {name, value}}) => handleColors(name, value)}
+                            />
+                            <div style={{
+                                position: "absolute",
+                                bottom: 0,
+                                left: 0,
+                                width: "1rem",
+                                height: "1rem",
+                                border: "1px solid #ced4da",
+                                borderRadius: "1rem",
+                                background: colors.main,
+                            }}/>
+                        </div>
+                    </label>
+                    <label style={{display: "block"}}>
+                        <span>Accent Color: </span>
+                        <div style={{display: "inline", position: "relative"}}>
+                            <input
+                                type='color'
+                                name="accent"
+                                style={{opacity: 0}}
+                                defaultValue={colors.accent}
+                                onChange={({currentTarget: {name, value}}) => handleColors(name, value)}
+                            />
+                            <div style={{
+                                position: "absolute",
+                                bottom: 0,
+                                left: 0,
+                                width: "1rem",
+                                height: "1rem",
+                                border: "1px solid #ced4da",
+                                borderRadius: "1rem",
+                                background: colors.accent,
+                            }}/>
+                        </div>
+                    </label>
+                </div>
+                <div className="col-xs-12 col-sm-6 col-md-3 px-0 my-2" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <div style={{width: 64, height: 64, borderRadius: 64, overflow: "hidden"}}>
+                        <Stage options={{width: 64, height: 64, backgroundColor: 0x75CAEB}}>
+                            <PlayerPreview
+                                x={32}
+                                y={32}
+                                colors={colors}
+                            />
+                        </Stage>
                     </div>
                 </div>
-            </label>
+            </div>
             <div className="mx-4" style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
                 <button className="btn btn-primary btn-lg col-sm-12 col-md-6" type='button'>Ready</button>
             </div>
