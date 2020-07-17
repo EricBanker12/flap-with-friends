@@ -9,7 +9,7 @@ const GamePage = () => {
   return (
     <Layout>
       <SEO title="Game" />
-      <section style={{display: "flex", justifyContent: "center"}}>
+      <section style={{display: "flex", justifyContent: "center", userSelect: "none"}}>
         <Game />
       </section>
     </Layout>

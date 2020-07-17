@@ -29,7 +29,7 @@ class Player extends Component {
         frame: 0,
         frameCount: 0,
         x: 160,
-        y: 240,
+        y: 80,
         dy: 0,
     }
 
@@ -51,28 +51,42 @@ class Player extends Component {
         }
     }
     
-    gravity = (t, state) => {
-        state.y = Math.min(Math.max(state.y + state.dy * t - GRAVITY * (t - 1), 16), 463)
-        state.dy = Math.min(state.dy + GRAVITY * t, TVELOCITY)
+    gravity = (delta, state) => {
+        for (let i = 0; i < delta; i++) {
+            state.y = Math.min(Math.max(state.y + state.dy, 17), 463)
+            state.dy = Math.min(state.dy + GRAVITY, TVELOCITY)
+        }
     }
     
     flap = (e) => {
         // click or spacebar
-        if ((e instanceof MouseEvent && e.target.tagName === "CANVAS") || (e instanceof KeyboardEvent && e.key === " ")) {
+        if (
+            (e instanceof MouseEvent && e.button === 0 && e.target.tagName === "CANVAS") ||
+            (e instanceof KeyboardEvent && e.key === " ") ||
+            (e instanceof TouchEvent && e.target.tagName === "CANVAS")
+            ) {
             this.setState({ dy: -1 * TVELOCITY})
+            // e.preventDefault() // not working because synthetic event queue
         }
     }
 
     componentDidMount() {
         this.props.app.ticker.add(this.update)
-        window.addEventListener("keydown", this.flap)
-        window.addEventListener("click", this.flap)
+        document.addEventListener("keydown", this.flap)
+        document.addEventListener("mousedown", this.flap)
+        document.addEventListener("touchstart", this.flap)
+        document.addEventListener("click", (e) => {
+            if (e.button === 0 && e.target.tagName === "CANVAS") {
+                e.preventDefault()
+            }
+        })
     }
 
     componentWillUnmount() {
         this.props.app.ticker.remove(this.update)
-        window.removeEventListener("keydown", this.flap)
-        window.removeEventListener("click", this.flap)
+        document.removeEventListener("keydown", this.flap)
+        document.removeEventListener("mousedown", this.flap)
+        document.removeEventListener("touchstart", this.flap)
     }
 
     render() {
@@ -83,6 +97,7 @@ class Player extends Component {
                 <Sprite anchor={center} x={this.state.x} y={this.state.y} texture={wingFrames[this.state.frame]} tint={0xffffff} />
                 <Sprite anchor={center} x={this.state.x} y={this.state.y} texture={faceTex1} />
                 <Sprite anchor={center} x={this.state.x} y={this.state.y} texture={bodyTex3} tint={0xffffff} />
+                {/* <Sprite anchor={center} x={this.state.x} y={this.state.y} texture={faceTex2} /> */}
             </>
         )
     }
