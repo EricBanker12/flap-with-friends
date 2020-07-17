@@ -6,7 +6,7 @@ import spriteSheet from "../images/spritesheet.svg"
 
 const sprites = PIXI.BaseTexture.from(spriteSheet, {resolution: 1})
 
-const cloudTex = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 0, 127, 63))
+const cloudTex = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 0, 128, 64))
 
 const Cloud = ({app}) => {
 

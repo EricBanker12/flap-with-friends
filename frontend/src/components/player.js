@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { Component } from "react"
 import * as PIXI from "pixi.js"
 import { withApp, Sprite } from "react-pixi-fiber"
 
@@ -6,37 +6,41 @@ import spriteSheet from "../images/spritesheet.svg"
 
 const sprites = PIXI.BaseTexture.from(spriteSheet, {resolution: 1})
 
-const bodyTex1 = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 64, 33, 33))
-const bodyTex2 = new PIXI.Texture(sprites, new PIXI.Rectangle(34, 64, 33, 33))
+const bodyTex1 = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 65, 34, 34))
+const bodyTex2 = new PIXI.Texture(sprites, new PIXI.Rectangle(35, 65, 34, 34))
+const bodyTex3 = new PIXI.Texture(sprites, new PIXI.Rectangle(70, 65, 34, 34))
 
-const wingTex1 = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 98, 33, 33))
-const wingTex2 = new PIXI.Texture(sprites, new PIXI.Rectangle(34, 98, 33, 33))
-const wingTex3 = new PIXI.Texture(sprites, new PIXI.Rectangle(68, 98, 33, 33))
+const wingTex1 = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 100, 34, 34))
+const wingTex2 = new PIXI.Texture(sprites, new PIXI.Rectangle(35, 100, 34, 34))
+const wingTex3 = new PIXI.Texture(sprites, new PIXI.Rectangle(70, 100, 34, 34))
 
 const wingFrames = [wingTex1, wingTex2, wingTex3, wingTex2]
 
-const faceTex1 = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 132, 33, 33))
-const faceTex2 = new PIXI.Texture(sprites, new PIXI.Rectangle(34, 132, 33, 33))
+const faceTex1 = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 135, 34, 34))
+const faceTex2 = new PIXI.Texture(sprites, new PIXI.Rectangle(35, 135, 34, 34))
 
 const center = new PIXI.Point(0.5, 0.5)
 
-const Player = ({app}) => {
-    const [state, setState] = useState({
+const GRAVITY = 0.4
+const TVELOCITY = 6
+
+class Player extends Component {
+    state = {
         frame: 0,
         frameCount: 0,
         x: 160,
         y: 240,
         dy: 0,
-    })
+    }
 
-    const update = (delta) => {
-        const newState = {...state}
-        animate(delta, newState)
-        gravity(delta, newState)
-        setState(newState)
+    update = (delta) => {
+        const newState = {...this.state}
+        this.animate(delta, newState)
+        this.gravity(delta, newState)
+        this.setState(newState)
     }
     
-    const animate = (delta, state) => {
+    animate = (delta, state) => {
         // animate wings flaping at 12 fps
         if (state.frameCount + delta >= 5) {
             state.frameCount += delta - 5
@@ -47,44 +51,41 @@ const Player = ({app}) => {
         }
     }
     
-    const gravity = (t, state) => {
-        const g = 0.667
-        const termVel = 10
-        state.y = Math.min(Math.max(state.y + state.dy * t - g * (t - 1), 0), 480)
-        state.dy = Math.min(state.dy + g * t, termVel)
+    gravity = (t, state) => {
+        state.y = Math.min(Math.max(state.y + state.dy * t - GRAVITY * (t - 1), 16), 463)
+        state.dy = Math.min(state.dy + GRAVITY * t, TVELOCITY)
     }
     
-    const flap = (e) => {
+    flap = (e) => {
         // click or spacebar
         if ((e instanceof MouseEvent && e.target.tagName === "CANVAS") || (e instanceof KeyboardEvent && e.key === " ")) {
-            setState({...state, dy: -10})
-            console.log("flap", state.dy)
+            this.setState({ dy: -1 * TVELOCITY})
         }
     }
 
-    useEffect(() => {
-        console.log("useEffect")
-        // componentDidMount
-        app.ticker.add(update)
-        window.addEventListener("keydown", flap)
-        window.addEventListener("click", flap)
+    componentDidMount() {
+        this.props.app.ticker.add(this.update)
+        window.addEventListener("keydown", this.flap)
+        window.addEventListener("click", this.flap)
+    }
 
-        // componentWillUnmount
-        return () => {
-            app.ticker.remove(update)
-            window.removeEventListener("keydown", flap)
-            window.removeEventListener("click", flap)
-        }
-    }, [])
+    componentWillUnmount() {
+        this.props.app.ticker.remove(this.update)
+        window.removeEventListener("keydown", this.flap)
+        window.removeEventListener("click", this.flap)
+    }
 
-    return (
-        <>
-            <Sprite anchor={center} x={state.x} y={state.y} texture={bodyTex1} tint={0xff0000} />
-            <Sprite anchor={center} x={state.x} y={state.y} texture={bodyTex2} tint={0xffccff} />
-            <Sprite anchor={center} x={state.x} y={state.y} texture={wingFrames[state.frame]} tint={0xffccff} />
-            <Sprite anchor={center} x={state.x} y={state.y} texture={faceTex1} />
-        </>
-    )
+    render() {
+        return (
+            <>
+                <Sprite anchor={center} x={this.state.x} y={this.state.y} texture={bodyTex1} tint={0xff0000} />
+                <Sprite anchor={center} x={this.state.x} y={this.state.y} texture={bodyTex2} tint={0xffffff} />
+                <Sprite anchor={center} x={this.state.x} y={this.state.y} texture={wingFrames[this.state.frame]} tint={0xffffff} />
+                <Sprite anchor={center} x={this.state.x} y={this.state.y} texture={faceTex1} />
+                <Sprite anchor={center} x={this.state.x} y={this.state.y} texture={bodyTex3} tint={0xffffff} />
+            </>
+        )
+    }
 }
 
 export default withApp(Player)

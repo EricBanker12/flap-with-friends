@@ -6,7 +6,7 @@ import spriteSheet from "../images/spritesheet.svg"
 
 const sprites = PIXI.BaseTexture.from(spriteSheet, {resolution: 1})
 
-const obstacleTex = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 166, 65, 400))
+const obstacleTex = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 169, 66, 400))
 
 const Obstacle = ({app}) => {
 
