@@ -2,32 +2,29 @@ import React, { Component } from "react"
 import * as PIXI from "pixi.js"
 import { withApp, Sprite } from "react-pixi-fiber"
 
-import spriteSheet from "../images/spritesheet.svg"
-
-const sprites = PIXI.BaseTexture.from(spriteSheet, {resolution: 1})
-
-const obstacleTex = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 169, 66, 400))
-
-const center = new PIXI.Point(0.5, 0)
 const flip = new PIXI.Point(1, -1)
+const center = new PIXI.Point(0.5, 0)
 
 class Obstacle extends Component {
     state = {
-        y: 190,
-        x: 353,
+        x: 480,
+        y: 176,
         dx: 2,
     }
 
     update = (delta) => {
         const x = this.state.x - this.state.dx * delta
-        if (x > 110) this.setState({x})
+        if (x > -33) this.setState({x})
         else {
-            this.setState({x: 353, y: 80 + Math.floor(Math.random() * 221)})
+            this.setState({x: 353, y: 80 + Math.floor(Math.random() * 198)})
         }
     }
 
     componentDidMount() {
         this.props.app.ticker.add(this.update)
+        if (this.props.x) {
+            this.setState({x: this.props.x})
+        }
     }
 
     componentWillUnmount() {
@@ -37,8 +34,8 @@ class Obstacle extends Component {
     render() {
         return (
             <>
-                <Sprite x={this.state.x} y={this.state.y} anchor={center} scale={flip} texture={obstacleTex} />
-                <Sprite x={this.state.x} y={this.state.y + 100} anchor={center} texture={obstacleTex} />
+                <Sprite x={this.state.x} y={this.state.y} anchor={center} scale={flip} texture={this.props.texture} />
+                <Sprite x={this.state.x} y={this.state.y + 123} anchor={center} texture={this.props.texture} />
             </>
         )
     }

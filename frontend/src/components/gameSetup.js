@@ -1,17 +1,20 @@
-import React, { useState } from "react"
+import React from "react"
+import { navigate } from "gatsby"
 import { Stage } from "react-pixi-fiber"
 import {debounce} from "lodash"
 
 import PlayerPreview from "./playerPreview"
+import { connect } from "react-redux"
 
-const GameSetup = () => {
-    const [colors, setColors] = useState({
-        main: "#ff0000",
-        accent: "#ffffff"
-    })
-
+const GameSetup = ({game, player, dispatch}) => {
     const handleColors = debounce((name, value) => {
-        setColors({...colors, [name]: value})
+        dispatch({
+            type: "GAMESETUP",
+            payload: {
+                [name]: Number(value.replace("#", "0x")),
+                [name + "Hex"]: value,
+            }
+        })
     }, 100)
 
     return (
@@ -33,9 +36,9 @@ const GameSetup = () => {
                         <div style={{display: "inline", position: "relative"}}>
                             <input
                                 type='color'
-                                name="main"
+                                name="mainColor"
                                 style={{opacity: 0}}
-                                defaultValue={colors.main}
+                                defaultValue={player.mainColorHex}
                                 onChange={({currentTarget: {name, value}}) => handleColors(name, value)}
                             />
                             <div style={{
@@ -46,7 +49,7 @@ const GameSetup = () => {
                                 height: "1rem",
                                 border: "1px solid #ced4da",
                                 borderRadius: "1rem",
-                                background: colors.main,
+                                background: player.mainColorHex,
                             }}/>
                         </div>
                     </label>
@@ -55,9 +58,9 @@ const GameSetup = () => {
                         <div style={{display: "inline", position: "relative"}}>
                             <input
                                 type='color'
-                                name="accent"
+                                name="accentColor"
                                 style={{opacity: 0}}
-                                defaultValue={colors.accent}
+                                defaultValue={player.accentColorHex}
                                 onChange={({currentTarget: {name, value}}) => handleColors(name, value)}
                             />
                             <div style={{
@@ -68,7 +71,7 @@ const GameSetup = () => {
                                 height: "1rem",
                                 border: "1px solid #ced4da",
                                 borderRadius: "1rem",
-                                background: colors.accent,
+                                background: player.accentColorHex,
                             }}/>
                         </div>
                     </label>
@@ -79,14 +82,20 @@ const GameSetup = () => {
                             <PlayerPreview
                                 x={32}
                                 y={32}
-                                colors={colors}
+                                mainColor={player.mainColor}
+                                accentColor={player.accentColor}
                             />
                         </Stage>
                     </div>
                 </div>
             </div>
             <div className="mx-4" style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
-                <button className="btn btn-primary btn-lg col-sm-12 col-md-6" type='button'>Ready</button>
+                <button
+                    className="btn btn-primary btn-lg col-sm-12 col-md-6"
+                    type='button'
+                    onClick={()=>{navigate("/game")}}>
+                    Ready
+                </button>
             </div>
             <h2 className="mx-4">Player Status</h2>
             <div className="mx-4">
@@ -99,4 +108,4 @@ const GameSetup = () => {
     )
 }
 
-export default GameSetup
+export default connect(({game, player}) => ({game, player}))(GameSetup)

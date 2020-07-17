@@ -9,15 +9,12 @@ const sprites = PIXI.BaseTexture.from(spriteSheet, {resolution: 1})
 const bodyTex1 = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 65, 34, 34))
 const bodyTex2 = new PIXI.Texture(sprites, new PIXI.Rectangle(35, 65, 34, 34))
 const bodyTex3 = new PIXI.Texture(sprites, new PIXI.Rectangle(70, 65, 34, 34))
-
 const wingTex1 = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 100, 34, 34))
 const wingTex2 = new PIXI.Texture(sprites, new PIXI.Rectangle(35, 100, 34, 34))
 const wingTex3 = new PIXI.Texture(sprites, new PIXI.Rectangle(70, 100, 34, 34))
+const faceTex1 = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 135, 34, 34))
 
 const wingFrames = [wingTex1, wingTex2, wingTex3, wingTex2]
-
-const faceTex1 = new PIXI.Texture(sprites, new PIXI.Rectangle(0, 135, 34, 34))
-const faceTex2 = new PIXI.Texture(sprites, new PIXI.Rectangle(35, 135, 34, 34))
 
 const center = new PIXI.Point(0.5, 0.5)
 
@@ -53,11 +50,11 @@ class PlayerPreview extends Component {
     render() {
         return (
             <>
-                <Sprite anchor={center} {...this.props} texture={bodyTex1} tint={Number(this.props.colors.main.replace("#", "0x"))} />
-                <Sprite anchor={center} {...this.props} texture={bodyTex2} tint={Number(this.props.colors.accent.replace("#", "0x"))} />
-                <Sprite anchor={center} {...this.props} texture={wingFrames[this.state.frame]} tint={Number(this.props.colors.accent.replace("#", "0x"))} />
+                <Sprite anchor={center} {...this.props} texture={bodyTex1} tint={this.props.mainColor} />
+                <Sprite anchor={center} {...this.props} texture={bodyTex2} tint={this.props.accentColor} />
+                <Sprite anchor={center} {...this.props} texture={wingFrames[this.state.frame]} tint={this.props.accentColor} />
                 <Sprite anchor={center} {...this.props} texture={faceTex1} />
-                <Sprite anchor={center} {...this.props} texture={bodyTex3} tint={Number(this.props.colors.accent.replace("#", "0x"))} />
+                <Sprite anchor={center} {...this.props} texture={bodyTex3} tint={this.props.accentColor} />
             </>
         )
     }
