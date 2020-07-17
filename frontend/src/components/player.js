@@ -59,14 +59,19 @@ class Player extends Component {
     }
     
     flap = (e) => {
-        // click or spacebar
         if (
             (e instanceof MouseEvent && e.button === 0 && e.target.tagName === "CANVAS") ||
             (e instanceof KeyboardEvent && e.key === " ") ||
             (e instanceof TouchEvent && e.target.tagName === "CANVAS")
             ) {
             this.setState({ dy: -1 * TVELOCITY})
-            // e.preventDefault() // not working because synthetic event queue
+            e.preventDefault() // does not stop click/highlight because synthetic event queue
+        }
+    }
+
+    preventClick = (e) => {
+        if (e.button === 0 && e.target.tagName === "CANVAS") {
+            e.preventDefault()
         }
     }
 
@@ -75,11 +80,7 @@ class Player extends Component {
         document.addEventListener("keydown", this.flap)
         document.addEventListener("mousedown", this.flap)
         document.addEventListener("touchstart", this.flap)
-        document.addEventListener("click", (e) => {
-            if (e.button === 0 && e.target.tagName === "CANVAS") {
-                e.preventDefault()
-            }
-        })
+        document.addEventListener("click", this.preventClick)
     }
 
     componentWillUnmount() {
@@ -87,6 +88,7 @@ class Player extends Component {
         document.removeEventListener("keydown", this.flap)
         document.removeEventListener("mousedown", this.flap)
         document.removeEventListener("touchstart", this.flap)
+        document.removeEventListener("click", this.preventClick)
     }
 
     render() {
