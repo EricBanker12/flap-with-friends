@@ -8,7 +8,7 @@ const TVELOCITY = 6
 
 const center = new PIXI.Point(0.5, 0.5)
 
-class Player extends Component {
+class PlayerSprite extends Component {
     state = {
         frame: 0,
         frameCount: 0,
@@ -95,4 +95,4 @@ class Player extends Component {
     }
 }
 
-export default withApp(connect(({player}) => ({player}))(Player))
+export default withApp(connect(({player}) => ({player}))(PlayerSprite))

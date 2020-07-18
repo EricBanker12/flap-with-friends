@@ -1,14 +1,14 @@
 import React, { Component } from "react"
 import * as PIXI from "pixi.js"
 import { Stage } from "react-pixi-fiber"
+import { Provider } from "react-redux"
 
-import Player from "./player"
-import Obstacle from "./obstacle"
-import Cloud from "./cloud"
+import Player from "./playerSprite"
+import Obstacle from "./obstacleSprite"
+import Cloud from "./cloudSprite"
 import store from "../utils/store"
 
 import spriteSheet from "../images/spritesheet.svg"
-import { Provider } from "react-redux"
 
 class Game extends Component {
     sprites = PIXI.BaseTexture.from(spriteSheet, {resolution: 1})

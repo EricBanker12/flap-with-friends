@@ -1,8 +1,8 @@
 import React from "react"
 import { Sprite } from "react-pixi-fiber"
 
-const Cloud = ({texture}) => {
+const CloudSprite = ({texture}) => {
     return <Sprite texture={texture} />
 }
 
-export default Cloud
+export default CloudSprite

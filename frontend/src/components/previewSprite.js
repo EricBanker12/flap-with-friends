@@ -18,7 +18,7 @@ const wingFrames = [wingTex1, wingTex2, wingTex3, wingTex2]
 
 const center = new PIXI.Point(0.5, 0.5)
 
-class PlayerPreview extends Component {
+class PreviewSprite extends Component {
     state = {
         frame: 0,
         frameCount: 0,
@@ -61,4 +61,4 @@ class PlayerPreview extends Component {
 
 }
 
-export default withApp(PlayerPreview)
+export default withApp(PreviewSprite)

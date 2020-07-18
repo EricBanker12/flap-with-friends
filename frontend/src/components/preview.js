@@ -1,7 +1,7 @@
 import React from "react"
 import { Stage } from "react-pixi-fiber"
 
-import PlayerPreview from "./playerPreview"
+import PlayerPreview from "./previewSprite"
 
 const Preview = (props) => {
     return (

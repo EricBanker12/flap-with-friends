@@ -5,7 +5,7 @@ import { withApp, Sprite } from "react-pixi-fiber"
 const flip = new PIXI.Point(1, -1)
 const center = new PIXI.Point(0.5, 0)
 
-class Obstacle extends Component {
+class ObstacleSprite extends Component {
     state = {
         x: 480,
         y: 176,
@@ -41,4 +41,4 @@ class Obstacle extends Component {
     }
 }
 
-export default withApp(Obstacle)
+export default withApp(ObstacleSprite)
