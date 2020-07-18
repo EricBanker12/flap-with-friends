@@ -21,36 +21,43 @@ class PlayerSprite extends Component {
         this.props.textures.wingTex2,
     ]
     
-    animate = (delta) => {
+    update = (delta) => {
+        let player = {...this.props.player}
+
         // animate wings flaping at 12 fps
-        if (this.state.frameCount + delta >= 5) {
-            this.setState({
-                frameCount: this.state.frameCount + delta - 5,
-                frame: (this.state.frame + 1) % 4,
-            })
+        if (player.alive) {
+            if (this.state.frameCount + delta >= 5) {
+                this.setState({
+                    frameCount: this.state.frameCount + delta - 5,
+                    frame: (this.state.frame + 1) % 4,
+                })
+            }
+            else {
+                this.setState({frameCount: this.state.frameCount + delta})
+            }
         }
-        else {
-            this.setState({frameCount: this.state.frameCount + delta})
-        }
-    }
-    
-    gravity = (delta) => {
-        let y = this.props.player.y
-        let dy = this.props.player.dy
         
+        // gravity
         for (let i = 0; i < delta; i++) {
-            y = Math.min(Math.max(y + dy, 17), 463)
-            dy = Math.min(dy + GRAVITY, TVELOCITY)
+            player.y = Math.min(Math.max(player.y + player.dy, 17), 463)
+            player.dy = Math.min(player.dy + GRAVITY, TVELOCITY)
         }
+
+        // dead
+        player.x -= player.dx * delta
         
-        this.props.dispatch({type: "player", payload: {y, dy}})
+        this.props.dispatch({
+            type: "player",
+            payload: player,
+        })
     }
     
     flap = (e) => {
         if (
-            (e instanceof MouseEvent && e.button === 0 && e.target.tagName === "CANVAS") ||
-            (e instanceof KeyboardEvent && e.key === " ") ||
-            (e instanceof TouchEvent && e.target.tagName === "CANVAS")
+            this.props.player.alive && (
+                (e instanceof MouseEvent && e.button === 0 && e.target.tagName === "CANVAS") ||
+                (e instanceof KeyboardEvent && e.key === " ") ||
+                (e instanceof TouchEvent && e.target.tagName === "CANVAS"))
             ) {
             this.props.dispatch({type: "player", payload: {dy: -TVELOCITY}})
             e.preventDefault() // does not stop click/highlight because synthetic event queue
@@ -64,8 +71,7 @@ class PlayerSprite extends Component {
     }
 
     componentDidMount() {
-        this.props.app.ticker.add(this.animate)
-        this.props.app.ticker.add(this.gravity)
+        this.props.app.ticker.add(this.update)
         document.addEventListener("keydown", this.flap)
         document.addEventListener("mousedown", this.flap)
         document.addEventListener("touchstart", this.flap)
@@ -73,8 +79,7 @@ class PlayerSprite extends Component {
     }
 
     componentWillUnmount() {
-        this.props.app.ticker.remove(this.animate)
-        this.props.app.ticker.remove(this.gravity)
+        this.props.app.ticker.remove(this.update)
         document.removeEventListener("keydown", this.flap)
         document.removeEventListener("mousedown", this.flap)
         document.removeEventListener("touchstart", this.flap)
@@ -89,7 +94,7 @@ class PlayerSprite extends Component {
                 <Sprite anchor={center} x={this.props.player.x} y={this.props.player.y} texture={this.wingFrames[this.state.frame]} tint={this.props.player.accentColor} />
                 <Sprite anchor={center} x={this.props.player.x} y={this.props.player.y} texture={this.props.textures.faceTex1} />
                 <Sprite anchor={center} x={this.props.player.x} y={this.props.player.y} texture={this.props.textures.bodyTex3} tint={this.props.player.accentColor} />
-                {/* <Sprite anchor={center} x={this.props.player.x} y={this.props.player.y} texture={faceTex2} /> */}
+                {!this.props.player.alive && <Sprite anchor={center} x={this.props.player.x} y={this.props.player.y} texture={this.props.textures.faceTex2} />}
             </>
         )
     }

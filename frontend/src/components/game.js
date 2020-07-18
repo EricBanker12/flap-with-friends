@@ -6,6 +6,8 @@ import { Provider } from "react-redux"
 import Player from "./playerSprite"
 import Obstacle from "./obstacleSprite"
 import Cloud from "./cloudSprite"
+import Score from "./scoreSprite"
+
 import store from "../utils/store"
 
 import spriteSheet from "../images/spritesheet.svg"
@@ -35,7 +37,7 @@ class Game extends Component {
                     <Obstacle texture={this.textures.obstacleTex} x={480 + 127 + 66} />
                     {/* other players */}
                     <Player textures={this.textures} />
-                    {/* score overlay */}
+                    <Score />
                 </Provider>
             </Stage>
         )

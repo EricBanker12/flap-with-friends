@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import * as PIXI from "pixi.js"
 import { withApp, Sprite } from "react-pixi-fiber"
+import { connect } from "react-redux"
+import player from "../utils/reducers/player"
 
 const flip = new PIXI.Point(1, -1)
 const center = new PIXI.Point(0.5, 0)
@@ -10,14 +12,68 @@ class ObstacleSprite extends Component {
         x: 480,
         y: 176,
         dx: 2,
+        scored: false,
     }
 
     update = (delta) => {
-        const x = this.state.x - this.state.dx * delta
-        if (x > -33) this.setState({x})
-        else {
-            this.setState({x: 353, y: 80 + Math.floor(Math.random() * 198)})
+        const state = {...this.state}
+        const player = {...this.props.player}
+
+        // kill
+        if (player.alive) {
+            // top/bottom
+            const diffX = Math.abs(state.x - player.x)
+            if (diffX <= 31 && (player.y <= state.y + 13 || player.y >= state.y + 110)) {
+                player.dx = state.dx
+                player.alive = false
+            }
+            // left/right
+            else if (diffX <= 46 && (player.y <= state.y - 2 || player.y >= state.y + 125)) {
+                player.dx = state.dx
+                player.alive = false
+            }
+            // top left
+            else if (Math.sqrt((player.x - state.x + 31)**2 + (player.y - state.y + 2)**2) <= 15) {
+                player.dx = state.dx
+                player.alive = false
+            }
+            // top right
+            else if (Math.sqrt((player.x - state.x - 31)**2 + (player.y - state.y + 2)**2) <= 15) {
+                player.dx = state.dx
+                player.alive = false
+            }
+            // bottom left
+            else if (Math.sqrt((player.x - state.x + 31)**2 + (player.y - state.y - 125)**2) <= 15) {
+                player.dx = state.dx
+                player.alive = false
+            }
+            // bottom right
+            else if (Math.sqrt((player.x - state.x - 31)**2 + (player.y - state.y - 125)**2) <= 15) {
+                player.dx = state.dx
+                player.alive = false
+            }
         }
+
+        // score
+        if (!state.scored && player.x > state.x) {
+            state.scored = true
+            player.score += 1
+        }
+
+        // update obstacle position and gap
+        state.x = state.x - state.dx * delta
+        if (state.x <= -33) {
+            state.x = 353
+            state.y = 80 + Math.floor(Math.random() * 198)
+            state.scored = false
+        }
+
+        this.setState(state)
+
+        this.props.dispatch({
+            type: "player",
+            payload: player,
+        })
     }
 
     componentDidMount() {
@@ -41,4 +97,4 @@ class ObstacleSprite extends Component {
     }
 }
 
-export default withApp(ObstacleSprite)
+export default withApp(connect(({player}) => ({player}))(ObstacleSprite))

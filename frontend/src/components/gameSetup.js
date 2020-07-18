@@ -7,7 +7,24 @@ import loadable from "@loadable/component"
 const Preview = loadable(() => import("./preview"))
 
 const GameSetup = ({game, player, dispatch}) => {
-    const handleColors = debounce((name, value) => {
+    
+    const handleGameInput = (e) => {
+        const {name, value} = e.currentTarget
+        dispatch({
+            type: "game",
+            payload: {[name]: value}
+        })
+    }
+
+    const handlePlayerInput = (e) => {
+        const {name, value} = e.currentTarget
+        dispatch({
+            type: "player",
+            payload: {[name]: value}
+        })
+    }
+
+    const dispatchColors = debounce((name, value) => {
         dispatch({
             type: "player",
             payload: {
@@ -16,20 +33,40 @@ const GameSetup = ({game, player, dispatch}) => {
             }
         })
     }, 100)
+    
+    const handleColors = (e) => {
+        const {name, value} = e.currentTarget
+        dispatchColors(name, value)
+    }
 
     return (
         <form>
             <h2 className="mx-4">Game Settings</h2>
             <label className="mx-4">
                 <span>Rounds: </span>
-                <input className="form-control" type='number' name='rounds' min={1} max={20} defaultValue={3} />
+                <input
+                    className="form-control"
+                    type='number'
+                    name='rounds'
+                    min={1}
+                    max={20}
+                    defaultValue={game.rounds}
+                    onChange={handleGameInput}
+                />
             </label>
             <h2 className="mx-4">Player Settings</h2>
             <div className="mx-4" style={{display: "flex", flexWrap: "wrap"}}>
                 <div className="col-xs-12 col-sm-6 col-md-3 px-0">
                     <label>
                         <span>Nickname: </span>
-                        <input className="form-control" type='text' name='nickname' />
+                        <input
+                            className="form-control"
+                            type='text'
+                            name='nickname'
+                            required
+                            defaultValue={player.nickname}
+                            onChange={handlePlayerInput}
+                        />
                     </label>
                     <label style={{display: "block"}}>
                         <span>Main Color: </span>
@@ -39,7 +76,7 @@ const GameSetup = ({game, player, dispatch}) => {
                                 name="mainColor"
                                 style={{opacity: 0}}
                                 defaultValue={player.mainColorHex}
-                                onChange={({currentTarget: {name, value}}) => handleColors(name, value)}
+                                onChange={handleColors}
                             />
                             <div style={{
                                 position: "absolute",
@@ -61,7 +98,7 @@ const GameSetup = ({game, player, dispatch}) => {
                                 name="accentColor"
                                 style={{opacity: 0}}
                                 defaultValue={player.accentColorHex}
-                                onChange={({currentTarget: {name, value}}) => handleColors(name, value)}
+                                onChange={handleColors}
                             />
                             <div style={{
                                 position: "absolute",

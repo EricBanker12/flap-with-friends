@@ -6,6 +6,7 @@ const initState = {
     accentColor: 0xffffff,
     accentColorHex: "#ffffff",
     alive: true,
+    score: 0,
     x: 160,
     dx: 0,
     y: 0,
