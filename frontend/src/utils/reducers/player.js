@@ -13,10 +13,9 @@ const initState = {
 }
 
 export default function(state = initState, action) {
-    if (action.payload) {
+    if (action.type === "player") {
         for (let key in action.payload) {
             if (state[key] !== action.payload[key]) {
-                // console.log(action.type)
                 return {...state, ...action.payload}
             }
         }

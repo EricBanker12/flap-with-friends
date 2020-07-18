@@ -43,7 +43,7 @@ class Player extends Component {
             dy = Math.min(dy + GRAVITY, TVELOCITY)
         }
         
-        this.props.dispatch({type: "GRAVITY", payload: {y, dy}})
+        this.props.dispatch({type: "player", payload: {y, dy}})
     }
     
     flap = (e) => {
@@ -52,7 +52,7 @@ class Player extends Component {
             (e instanceof KeyboardEvent && e.key === " ") ||
             (e instanceof TouchEvent && e.target.tagName === "CANVAS")
             ) {
-            this.props.dispatch({type: "FLAP", payload: {dy: -TVELOCITY}})
+            this.props.dispatch({type: "player", payload: {dy: -TVELOCITY}})
             e.preventDefault() // does not stop click/highlight because synthetic event queue
         }
     }

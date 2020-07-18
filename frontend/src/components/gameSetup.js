@@ -1,15 +1,15 @@
 import React from "react"
 import { navigate } from "gatsby"
-import { Stage } from "react-pixi-fiber"
 import {debounce} from "lodash"
-
-import PlayerPreview from "./playerPreview"
 import { connect } from "react-redux"
+import loadable from "@loadable/component"
+
+const Preview = loadable(() => import("./preview"))
 
 const GameSetup = ({game, player, dispatch}) => {
     const handleColors = debounce((name, value) => {
         dispatch({
-            type: "GAMESETUP",
+            type: "player",
             payload: {
                 [name]: Number(value.replace("#", "0x")),
                 [name + "Hex"]: value,
@@ -77,16 +77,7 @@ const GameSetup = ({game, player, dispatch}) => {
                     </label>
                 </div>
                 <div className="col-xs-12 col-sm-6 col-md-3 px-0 my-2" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                    <div style={{width: 64, height: 64, borderRadius: 64, overflow: "hidden"}}>
-                        <Stage options={{width: 64, height: 64, backgroundColor: 0x75CAEB}}>
-                            <PlayerPreview
-                                x={32}
-                                y={32}
-                                mainColor={player.mainColor}
-                                accentColor={player.accentColor}
-                            />
-                        </Stage>
-                    </div>
+                    <Preview mainColor={player.mainColor} accentColor={player.accentColor} />
                 </div>
             </div>
             <div className="mx-4" style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>

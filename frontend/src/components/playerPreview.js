@@ -50,11 +50,11 @@ class PlayerPreview extends Component {
     render() {
         return (
             <>
-                <Sprite anchor={center} {...this.props} texture={bodyTex1} tint={this.props.mainColor} />
-                <Sprite anchor={center} {...this.props} texture={bodyTex2} tint={this.props.accentColor} />
-                <Sprite anchor={center} {...this.props} texture={wingFrames[this.state.frame]} tint={this.props.accentColor} />
-                <Sprite anchor={center} {...this.props} texture={faceTex1} />
-                <Sprite anchor={center} {...this.props} texture={bodyTex3} tint={this.props.accentColor} />
+                <Sprite anchor={center} x={32} y={32} texture={bodyTex1} tint={this.props.mainColor} />
+                <Sprite anchor={center} x={32} y={32} texture={bodyTex2} tint={this.props.accentColor} />
+                <Sprite anchor={center} x={32} y={32} texture={wingFrames[this.state.frame]} tint={this.props.accentColor} />
+                <Sprite anchor={center} x={32} y={32} texture={faceTex1} />
+                <Sprite anchor={center} x={32} y={32} texture={bodyTex3} tint={this.props.accentColor} />
             </>
         )
     }

@@ -1,8 +1,10 @@
 import React from "react"
+import loadable from "@loadable/component"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import Game from "../components/game"
+
+const Game = loadable(() => import("../components/game"))
 
 const GamePage = () => {
 
