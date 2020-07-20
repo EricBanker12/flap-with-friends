@@ -16,20 +16,19 @@ const style = {
         "Segoe UI Emoji",
         "Segoe UI Symbol"
     ],
-    fontSize: 14,
     lineJoin: "round",
     fill: "white",
     stroke: "black",
     strokeThickness: 4,
 }
 
-const ScoreSprite = ({player}) => {
+const ScoreSprite = ({game, player}) => {
     return (
         <>
-            <Text x={20} y={20} text={`\u2b24`} style={{...style, fill: player.mainColor}} />
-            <Text x={40} y={20} text={player.nickname + "\n" + player.score} style={style} />
+            <Text x={20*game.scale} y={20*game.scale} text={`\u2b24`} style={{...style, fill: player.mainColor, fontSize: 14 * game.scale}} />
+            <Text x={40*game.scale} y={20*game.scale} text={player.nickname + "\n" + player.score} style={{...style, fontSize: 14 * game.scale}} />
         </>
     )
 }
 
-export default withApp(connect(({player}) => ({player}))(ScoreSprite))
+export default withApp(connect(({game, player}) => ({game, player}))(ScoreSprite))

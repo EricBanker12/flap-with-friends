@@ -1,8 +1,9 @@
 import React from "react"
 import { Sprite } from "react-pixi-fiber"
+import { connect } from "react-redux"
 
-const CloudSprite = ({texture}) => {
+const CloudSprite = ({game, texture}) => {
     return <Sprite texture={texture} />
 }
 
-export default CloudSprite
+export default connect(({game}) => ({game}))(CloudSprite)

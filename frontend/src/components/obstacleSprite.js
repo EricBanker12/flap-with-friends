@@ -54,7 +54,7 @@ class ObstacleSprite extends Component {
                 player.alive = false
             }
             // sound
-            if (!player.alive) {
+            if (!player.alive && this.props.audio.current) {
                 this.props.audio.current.src = hitObstacleSFX
                 this.props.audio.current.play()
             }
@@ -96,11 +96,22 @@ class ObstacleSprite extends Component {
     render() {
         return (
             <>
-                <Sprite x={this.state.x} y={this.state.y} anchor={center} scale={flip} texture={this.props.texture} />
-                <Sprite x={this.state.x} y={this.state.y + 123} anchor={center} texture={this.props.texture} />
+                <Sprite
+                    x={this.state.x * this.props.game.scale}
+                    y={this.state.y * this.props.game.scale}
+                    anchor={center}
+                    scale={flip}
+                    texture={this.props.texture}
+                />
+                <Sprite
+                    x={this.state.x * this.props.game.scale}
+                    y={(this.state.y + 123) * this.props.game.scale}
+                    anchor={center}
+                    texture={this.props.texture}
+                />
             </>
         )
     }
 }
 
-export default withApp(connect(({player}) => ({player}))(ObstacleSprite))
+export default withApp(connect(({game, player}) => ({game, player}))(ObstacleSprite))

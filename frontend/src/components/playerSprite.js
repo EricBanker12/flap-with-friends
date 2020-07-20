@@ -10,20 +10,18 @@ const TVELOCITY = 6
 
 const center = new PIXI.Point(0.5, 0.5)
 
+const wingFrames = [
+    "wingTex1",
+    "wingTex2",
+    "wingTex3",
+    "wingTex2",
+]
+
 class PlayerSprite extends Component {
     state = {
         frame: 0,
         frameCount: 0,
     }
-
-    wingFrames = [
-        this.props.textures.wingTex1,
-        this.props.textures.wingTex2,
-        this.props.textures.wingTex3,
-        this.props.textures.wingTex2,
-    ]
-    
-    flapSFX = null
 
     update = (delta) => {
         let player = {...this.props.player}
@@ -64,8 +62,10 @@ class PlayerSprite extends Component {
                 (e instanceof TouchEvent && e.target.tagName === "CANVAS"))
             ) {
             this.props.dispatch({type: "player", payload: {dy: -TVELOCITY}})
-            this.props.audio.current.src = playerFlapSFX
-            this.props.audio.current.play()
+            if (this.props.audio.current) {
+                this.props.audio.current.src = playerFlapSFX
+                this.props.audio.current.play()
+            }
             e.preventDefault() // does not stop click/highlight because synthetic event queue
         }
     }
@@ -95,15 +95,51 @@ class PlayerSprite extends Component {
     render() {
         return (
             <>
-                <Sprite anchor={center} x={this.props.player.x} y={this.props.player.y} texture={this.props.textures.bodyTex1} tint={this.props.player.mainColor} />
-                <Sprite anchor={center} x={this.props.player.x} y={this.props.player.y} texture={this.props.textures.bodyTex2} tint={this.props.player.accentColor} />
-                <Sprite anchor={center} x={this.props.player.x} y={this.props.player.y} texture={this.wingFrames[this.state.frame]} tint={this.props.player.accentColor} />
-                <Sprite anchor={center} x={this.props.player.x} y={this.props.player.y} texture={this.props.textures.faceTex1} />
-                <Sprite anchor={center} x={this.props.player.x} y={this.props.player.y} texture={this.props.textures.bodyTex3} tint={this.props.player.accentColor} />
-                {!this.props.player.alive && <Sprite anchor={center} x={this.props.player.x} y={this.props.player.y} texture={this.props.textures.faceTex2} />}
+                <Sprite
+                    anchor={center}
+                    x={this.props.player.x * this.props.game.scale}
+                    y={this.props.player.y * this.props.game.scale}
+                    texture={this.props.textures.bodyTex1}
+                    tint={this.props.player.mainColor}
+                />
+                <Sprite
+                    anchor={center}
+                    x={this.props.player.x * this.props.game.scale}
+                    y={this.props.player.y * this.props.game.scale}
+                    texture={this.props.textures.bodyTex2}
+                    tint={this.props.player.accentColor}
+                />
+                <Sprite
+                    anchor={center}
+                    x={this.props.player.x * this.props.game.scale}
+                    y={this.props.player.y * this.props.game.scale}
+                    texture={this.props.textures[wingFrames[this.state.frame]]}
+                    tint={this.props.player.accentColor}
+                />
+                <Sprite
+                    anchor={center}
+                    x={this.props.player.x * this.props.game.scale}
+                    y={this.props.player.y * this.props.game.scale}
+                    texture={this.props.textures.faceTex1}
+                />
+                <Sprite
+                    anchor={center}
+                    x={this.props.player.x * this.props.game.scale}
+                    y={this.props.player.y * this.props.game.scale}
+                    texture={this.props.textures.bodyTex3}
+                    tint={this.props.player.accentColor}
+                />
+                {!this.props.player.alive && (
+                    <Sprite
+                        anchor={center}
+                        x={this.props.player.x * this.props.game.scale}
+                        y={this.props.player.y * this.props.game.scale}
+                        texture={this.props.textures.faceTex2}
+                    />
+                )}
             </>
         )
     }
 }
 
-export default withApp(connect(({player}) => ({player}))(PlayerSprite))
+export default withApp(connect(({game, player}) => ({game, player}))(PlayerSprite))
