@@ -3,6 +3,8 @@ import * as PIXI from "pixi.js"
 import { withApp, Sprite } from "react-pixi-fiber"
 import { connect } from "react-redux"
 
+import playerFlapSFX from "../audio/player_flap.mp3"
+
 const GRAVITY = 0.3
 const TVELOCITY = 6
 
@@ -21,6 +23,8 @@ class PlayerSprite extends Component {
         this.props.textures.wingTex2,
     ]
     
+    flapSFX = null
+
     update = (delta) => {
         let player = {...this.props.player}
 
@@ -29,7 +33,7 @@ class PlayerSprite extends Component {
             if (this.state.frameCount + delta >= 5) {
                 this.setState({
                     frameCount: this.state.frameCount + delta - 5,
-                    frame: (this.state.frame + 1) % 4,
+                    frame: (this.state.frame + 1) & 0x11, // (x % 4) optimization
                 })
             }
             else {
@@ -60,6 +64,8 @@ class PlayerSprite extends Component {
                 (e instanceof TouchEvent && e.target.tagName === "CANVAS"))
             ) {
             this.props.dispatch({type: "player", payload: {dy: -TVELOCITY}})
+            this.props.audio.current.src = playerFlapSFX
+            this.props.audio.current.play()
             e.preventDefault() // does not stop click/highlight because synthetic event queue
         }
     }

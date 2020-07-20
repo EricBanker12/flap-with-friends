@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, createRef } from "react"
 import * as PIXI from "pixi.js"
 import { Stage } from "react-pixi-fiber"
 import { Provider } from "react-redux"
@@ -27,19 +27,32 @@ class Game extends Component {
         faceTex2: new PIXI.Texture(this.sprites, new PIXI.Rectangle(35, 135, 34, 34)),
         obstacleTex: new PIXI.Texture(this.sprites, new PIXI.Rectangle(0, 169, 66, 400)),
     }
+
+    audio = createRef()
     
     render() {
         return(
-            <Stage {...this.props} options={{width: 320, height: 480, backgroundColor: 0x75CAEB}}>
-                <Provider store={store}>
-                    <Cloud texture={this.textures.cloudTex} />
-                    <Obstacle texture={this.textures.obstacleTex} x={480} />
-                    <Obstacle texture={this.textures.obstacleTex} x={480 + 127 + 66} />
-                    {/* other players */}
-                    <Player textures={this.textures} />
-                    <Score />
-                </Provider>
-            </Stage>
+            <>
+                <audio ref={this.audio} />
+                <Stage {...this.props} options={{width: 320, height: 480, backgroundColor: 0x75CAEB}}>
+                    <Provider store={store}>
+                        <Cloud texture={this.textures.cloudTex} />
+                        <Obstacle
+                            texture={this.textures.obstacleTex}
+                            audio={this.audio}
+                            x={480}
+                        />
+                        <Obstacle
+                            texture={this.textures.obstacleTex}
+                            audio={this.audio}
+                            x={480 + 127 + 66}
+                        />
+                        {/* other players */}
+                        <Player textures={this.textures} audio={this.audio} />
+                        <Score />
+                    </Provider>
+                </Stage>
+            </>
         )
     }
 }

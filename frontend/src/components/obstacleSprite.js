@@ -2,7 +2,8 @@ import React, { Component } from "react"
 import * as PIXI from "pixi.js"
 import { withApp, Sprite } from "react-pixi-fiber"
 import { connect } from "react-redux"
-import player from "../utils/reducers/player"
+
+import hitObstacleSFX from "../audio/hit_obstacle.mp3"
 
 const flip = new PIXI.Point(1, -1)
 const center = new PIXI.Point(0.5, 0)
@@ -51,6 +52,11 @@ class ObstacleSprite extends Component {
             else if (Math.sqrt((player.x - state.x - 31)**2 + (player.y - state.y - 125)**2) <= 15) {
                 player.dx = state.dx
                 player.alive = false
+            }
+            // sound
+            if (!player.alive) {
+                this.props.audio.current.src = hitObstacleSFX
+                this.props.audio.current.play()
             }
         }
 
