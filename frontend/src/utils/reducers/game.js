@@ -2,6 +2,12 @@ const initState = {
     rounds: 3,
     round: 1,
     scale: 1,
+    obstacles: [
+        150,
+        250,
+        200,
+        100,
+    ],
 }
 
 export default function(state = initState, action) {

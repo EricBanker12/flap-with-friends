@@ -2,6 +2,7 @@ import React, { Component, createRef } from "react"
 import * as PIXI from "pixi.js"
 import { Stage } from "react-pixi-fiber"
 import { Provider, connect } from "react-redux"
+import { debounce } from "lodash"
 
 import Player from "./playerSprite"
 import Obstacle from "./obstacleSprite"
@@ -21,9 +22,11 @@ class Game extends Component {
 
     audio = createRef()
 
-    resize = () => {
-        const scaleX = Math.min(800, window.innerWidth) / 320
-        const scaleY = window.innerHeight / 480
+    resize = debounce(() => {
+        const width = Math.min(800, window.innerWidth)
+        const height = window.innerHeight
+        const scaleX = width / 320
+        const scaleY = height / 480
         const scale = Math.min(scaleX, scaleY)
         
         if (!this.state.loaded || this.props.game.scale !== scale) {
@@ -53,7 +56,7 @@ class Game extends Component {
                 loaded: true,
             })
         }
-    }
+    }, 100)
 
     componentDidMount() {
         this.resize()
@@ -72,18 +75,23 @@ class Game extends Component {
         return (
             <>
                 <audio ref={this.audio} />
-                <Stage options={{width: 320*this.props.game.scale, height: 480*this.props.game.scale, backgroundColor: 0x75CAEB}}>
+                <Stage
+                    options={{
+                        width: 320 * this.props.game.scale,
+                        height: 480 * this.props.game.scale,
+                        backgroundColor: 0x75CAEB
+                    }}>
                     <Provider store={store}>
                         <Cloud texture={this.state.textures.cloudTex} />
                         <Obstacle
                             texture={this.state.textures.obstacleTex}
                             audio={this.audio}
-                            x={480}
+                            obstacle={0}
                         />
                         <Obstacle
                             texture={this.state.textures.obstacleTex}
                             audio={this.audio}
-                            x={673}
+                            obstacle={1}
                         />
                         {/* other players */}
                         <Player

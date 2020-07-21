@@ -9,84 +9,83 @@ const flip = new PIXI.Point(1, -1)
 const center = new PIXI.Point(0.5, 0)
 
 class ObstacleSprite extends Component {
-    state = {
-        x: 480,
-        y: 176,
-        dx: 2,
-        scored: false,
-    }
 
     update = (delta) => {
-        const state = {...this.state}
-        const player = {...this.props.player}
+        let {x, dx, y, alive, score} = this.props.player
+        
+        const obstacle = this.props.obstacles[this.props.obstacle]
+        obstacle.y = this.props.game.obstacles[obstacle.id]
 
         // kill
-        if (player.alive) {
+        if (alive) {
             // top/bottom
-            const diffX = Math.abs(state.x - player.x)
-            if (diffX <= 31 && (player.y <= state.y + 13 || player.y >= state.y + 110)) {
-                player.dx = state.dx
-                player.alive = false
+            const diffX = Math.abs(obstacle.x - x)
+            if (diffX <= 31 && (y <= obstacle.y + 13 || y >= obstacle.y + 110)) {
+                alive = false
             }
             // left/right
-            else if (diffX <= 46 && (player.y <= state.y - 2 || player.y >= state.y + 125)) {
-                player.dx = state.dx
-                player.alive = false
+            else if (diffX <= 46 && (y <= obstacle.y - 2 || y >= obstacle.y + 125)) {
+                alive = false
             }
             // top left
-            else if (Math.sqrt((player.x - state.x + 31)**2 + (player.y - state.y + 2)**2) <= 15) {
-                player.dx = state.dx
-                player.alive = false
+            else if (Math.sqrt((x - obstacle.x + 31)**2 + (y - obstacle.y + 2)**2) <= 15) {
+                alive = false
             }
             // top right
-            else if (Math.sqrt((player.x - state.x - 31)**2 + (player.y - state.y + 2)**2) <= 15) {
-                player.dx = state.dx
-                player.alive = false
+            else if (Math.sqrt((x - obstacle.x - 31)**2 + (y - obstacle.y + 2)**2) <= 15) {
+                alive = false
             }
             // bottom left
-            else if (Math.sqrt((player.x - state.x + 31)**2 + (player.y - state.y - 125)**2) <= 15) {
-                player.dx = state.dx
-                player.alive = false
+            else if (Math.sqrt((x - obstacle.x + 31)**2 + (y - obstacle.y - 125)**2) <= 15) {
+                alive = false
             }
             // bottom right
-            else if (Math.sqrt((player.x - state.x - 31)**2 + (player.y - state.y - 125)**2) <= 15) {
-                player.dx = state.dx
-                player.alive = false
+            else if (Math.sqrt((x - obstacle.x - 31)**2 + (y - obstacle.y - 125)**2) <= 15) {
+                alive = false
             }
             // sound
-            if (!player.alive && this.props.audio.current) {
+            if (!alive && this.props.audio.current) {
                 this.props.audio.current.src = hitObstacleSFX
                 this.props.audio.current.play()
             }
         }
 
+        if (!alive) {
+            dx = 0
+        }
+
         // score
-        if (!state.scored && player.x > state.x) {
-            state.scored = true
-            player.score += 1
+        if (!obstacle.scored && x > obstacle.x) {
+            obstacle.scored = true
+            score += 1
         }
 
-        // update obstacle position and gap
-        state.x = state.x - state.dx * delta
-        if (state.x <= -33) {
-            state.x = 353
-            state.y = 80 + Math.floor(Math.random() * 198)
-            state.scored = false
+        // update obstacle
+        if (obstacle.x - x <= -193) {
+            obstacle.id = (obstacle.id + 2) % this.props.game.obstacles.length
+            obstacle.x += 386
+            obstacle.scored = false
         }
-
-        this.setState(state)
 
         this.props.dispatch({
             type: "player",
-            payload: player,
+            payload: {x, dx, alive, score},
+        })
+
+        this.props.dispatch({
+            type: "obstacles",
+            payload: {
+                [this.props.obstacle]: {
+                    id: obstacle.id,
+                    x: obstacle.x,
+                    scored: obstacle.scored,
+                }
+            }
         })
     }
 
     componentDidMount() {
         this.props.app.ticker.add(this.update)
-        if (this.props.x) {
-            this.setState({x: this.props.x})
-        }
     }
 
     componentWillUnmount() {
@@ -94,18 +93,22 @@ class ObstacleSprite extends Component {
     }
     
     render() {
+        const obstacle = this.props.obstacles[this.props.obstacle]
+        obstacle.y = this.props.game.obstacles[obstacle.id]
+        const player = this.props.player
+        const scale = this.props.game.scale
         return (
             <>
                 <Sprite
-                    x={this.state.x * this.props.game.scale}
-                    y={this.state.y * this.props.game.scale}
+                    x={(160 + obstacle.x - player.x) * scale}
+                    y={obstacle.y * scale}
                     anchor={center}
                     scale={flip}
                     texture={this.props.texture}
                 />
                 <Sprite
-                    x={this.state.x * this.props.game.scale}
-                    y={(this.state.y + 123) * this.props.game.scale}
+                    x={(160 + obstacle.x - player.x) * scale}
+                    y={(obstacle.y + 123) * scale}
                     anchor={center}
                     texture={this.props.texture}
                 />
@@ -114,4 +117,4 @@ class ObstacleSprite extends Component {
     }
 }
 
-export default withApp(connect(({game, player}) => ({game, player}))(ObstacleSprite))
+export default withApp(connect(({game, player, obstacles}) => ({game, player, obstacles}))(ObstacleSprite))

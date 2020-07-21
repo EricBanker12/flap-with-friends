@@ -7,8 +7,8 @@ const initState = {
     accentColorHex: "#ffffff",
     alive: true,
     score: 0,
-    x: 160,
-    dx: 0,
+    x: -633, // 5s from first obstacle
+    dx: 2,
     y: 0,
     dy: 0,
 }

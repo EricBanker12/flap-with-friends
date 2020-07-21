@@ -24,33 +24,32 @@ class PlayerSprite extends Component {
     }
 
     update = (delta) => {
-        let player = {...this.props.player}
+        let {x, dx, y, dy, alive} = this.props.player
 
         // animate wings flaping at 12 fps
-        if (player.alive) {
+        if (alive) {
             if (this.state.frameCount + delta >= 5) {
                 this.setState({
                     frameCount: this.state.frameCount + delta - 5,
-                    frame: (this.state.frame + 1) & 0x11, // (x % 4) optimization
+                    frame: (this.state.frame + 1) % 4,
                 })
             }
             else {
                 this.setState({frameCount: this.state.frameCount + delta})
             }
         }
-        
+
         // gravity
         for (let i = 0; i < delta; i++) {
-            player.y = Math.min(Math.max(player.y + player.dy, 17), 463)
-            player.dy = Math.min(player.dy + GRAVITY, TVELOCITY)
+            y = Math.min(Math.max(y + dy, 17), 463)
+            dy = Math.min(dy + GRAVITY, TVELOCITY)
         }
 
-        // dead
-        player.x -= player.dx * delta
-        
+        x += dx * delta
+
         this.props.dispatch({
             type: "player",
-            payload: player,
+            payload: {x, y, dy},
         })
     }
     
@@ -61,11 +60,18 @@ class PlayerSprite extends Component {
                 (e instanceof KeyboardEvent && e.key === " ") ||
                 (e instanceof TouchEvent && e.target.tagName === "CANVAS"))
             ) {
-            this.props.dispatch({type: "player", payload: {dy: -TVELOCITY}})
+            this.props.dispatch({
+                type: "player",
+                payload: {
+                    dy: -TVELOCITY
+                }
+            })
+
             if (this.props.audio.current) {
                 this.props.audio.current.src = playerFlapSFX
                 this.props.audio.current.play()
             }
+
             e.preventDefault() // does not stop click/highlight because synthetic event queue
         }
     }
@@ -97,34 +103,34 @@ class PlayerSprite extends Component {
             <>
                 <Sprite
                     anchor={center}
-                    x={this.props.player.x * this.props.game.scale}
+                    x={160 * this.props.game.scale}
                     y={this.props.player.y * this.props.game.scale}
                     texture={this.props.textures.bodyTex1}
                     tint={this.props.player.mainColor}
                 />
                 <Sprite
                     anchor={center}
-                    x={this.props.player.x * this.props.game.scale}
+                    x={160 * this.props.game.scale}
                     y={this.props.player.y * this.props.game.scale}
                     texture={this.props.textures.bodyTex2}
                     tint={this.props.player.accentColor}
                 />
                 <Sprite
                     anchor={center}
-                    x={this.props.player.x * this.props.game.scale}
+                    x={160 * this.props.game.scale}
                     y={this.props.player.y * this.props.game.scale}
                     texture={this.props.textures[wingFrames[this.state.frame]]}
                     tint={this.props.player.accentColor}
                 />
                 <Sprite
                     anchor={center}
-                    x={this.props.player.x * this.props.game.scale}
+                    x={160 * this.props.game.scale}
                     y={this.props.player.y * this.props.game.scale}
                     texture={this.props.textures.faceTex1}
                 />
                 <Sprite
                     anchor={center}
-                    x={this.props.player.x * this.props.game.scale}
+                    x={160 * this.props.game.scale}
                     y={this.props.player.y * this.props.game.scale}
                     texture={this.props.textures.bodyTex3}
                     tint={this.props.player.accentColor}
@@ -132,7 +138,7 @@ class PlayerSprite extends Component {
                 {!this.props.player.alive && (
                     <Sprite
                         anchor={center}
-                        x={this.props.player.x * this.props.game.scale}
+                        x={160 * this.props.game.scale}
                         y={this.props.player.y * this.props.game.scale}
                         texture={this.props.textures.faceTex2}
                     />
