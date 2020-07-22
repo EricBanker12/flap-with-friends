@@ -3,6 +3,7 @@ import { navigate } from "gatsby"
 import {debounce} from "lodash"
 import { connect } from "react-redux"
 import loadable from "@loadable/component"
+import Axios from "axios"
 
 const Preview = loadable(() => import("./preview"))
 
@@ -39,9 +40,23 @@ const GameSetup = ({game, player, dispatch}) => {
         dispatchColors(name, value)
     }
 
+    const play = async (e) => {
+        e.preventDefault()
+        // const res = await Axios.get("http://localhost:8080/api/obstacles")
+        const res = await Axios.get("/api/obstacles")
+        const obstacles = res.data.obstacles
+        if (obstacles) {
+            dispatch({
+                type: "game",
+                payload: {obstacles},
+            })
+        }
+        navigate("/game")
+    }
+
     return (
-        <form>
-            <h2 className="mx-4">Game Settings</h2>
+        <form onSubmit={play}>
+            {/* <h2 className="mx-4">Game Settings</h2>
             <label className="mx-4">
                 <span>Rounds: </span>
                 <input
@@ -53,7 +68,7 @@ const GameSetup = ({game, player, dispatch}) => {
                     defaultValue={game.rounds}
                     onChange={handleGameInput}
                 />
-            </label>
+            </label> */}
             <h2 className="mx-4">Player Settings</h2>
             <div className="mx-4" style={{display: "flex", flexWrap: "wrap"}}>
                 <div className="col-xs-12 col-sm-6 col-md-3 px-0">
@@ -120,18 +135,17 @@ const GameSetup = ({game, player, dispatch}) => {
             <div className="mx-4" style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
                 <button
                     className="btn btn-primary btn-lg col-sm-12 col-md-6"
-                    type='button'
-                    onClick={()=>{navigate("/game")}}>
-                    Ready
+                    type='submit'>
+                    Play
                 </button>
             </div>
-            <h2 className="mx-4">Player Status</h2>
+            {/* <h2 className="mx-4">Player Status</h2>
             <div className="mx-4">
                 <p>To Do</p>
             </div>
             <div className="mx-4" style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
                 <button className="btn btn-warning btn-lg col-sm-12 col-md-6" type='submit'>Start</button>
-            </div>
+            </div> */}
         </form>
     )
 }
