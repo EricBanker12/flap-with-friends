@@ -19,14 +19,32 @@ const style = {
     lineJoin: "round",
     fill: "white",
     stroke: "black",
-    strokeThickness: 4,
 }
 
 const ScoreSprite = ({game, player}) => {
     return (
         <>
-            <Text x={20*game.scale} y={20*game.scale} text={`\u2b24`} style={{...style, fill: player.mainColor, fontSize: 14 * game.scale}} />
-            <Text x={40*game.scale} y={20*game.scale} text={player.nickname + "\n" + player.score} style={{...style, fontSize: 14 * game.scale}} />
+            <Text
+                x={20*game.scale}
+                y={20*game.scale}
+                text={`\u2b24`}
+                style={{
+                    ...style,
+                    fill: player.mainColor,
+                    fontSize: 14 * game.scale,
+                    strokeThickness: 4 * game.scale,
+                }}
+            />
+            <Text
+                x={40*game.scale}
+                y={20*game.scale}
+                text={player.nickname + "\n" + player.score}
+                style={{
+                    ...style,
+                    fontSize: 14 * game.scale,
+                    strokeThickness: 4 * game.scale,
+                }}
+            />
         </>
     )
 }

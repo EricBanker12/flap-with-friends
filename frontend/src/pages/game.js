@@ -4,6 +4,8 @@ import loadable from "@loadable/component"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
+import "../styles/game.css"
+
 const Game = loadable(() => import("../components/game"))
 
 const GamePage = () => {
