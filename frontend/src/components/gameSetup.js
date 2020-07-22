@@ -1,56 +1,153 @@
-import React, { useState } from "react"
+import React from "react"
+import { navigate } from "gatsby"
+import {debounce} from "lodash"
+import { connect } from "react-redux"
+import loadable from "@loadable/component"
+import Axios from "axios"
 
-const GameSetup = () => {
-    const [charColor, setCharColor] = useState("#ff0000")
+const Preview = loadable(() => import("./preview"))
+
+const GameSetup = ({game, player, dispatch}) => {
+    
+    const handleGameInput = (e) => {
+        const {name, value} = e.currentTarget
+        dispatch({
+            type: "game",
+            payload: {[name]: value}
+        })
+    }
+
+    const handlePlayerInput = (e) => {
+        const {name, value} = e.currentTarget
+        dispatch({
+            type: "player",
+            payload: {[name]: value}
+        })
+    }
+
+    const dispatchColors = debounce((name, value) => {
+        dispatch({
+            type: "player",
+            payload: {
+                [name]: Number(value.replace("#", "0x")),
+                [name + "Hex"]: value,
+            }
+        })
+    }, 100)
+    
+    const handleColors = (e) => {
+        const {name, value} = e.currentTarget
+        dispatchColors(name, value)
+    }
+
+    const play = async (e) => {
+        e.preventDefault()
+        // const res = await Axios.get("http://localhost:8080/api/obstacles")
+        const res = await Axios.get("/api/obstacles")
+        const obstacles = res.data.obstacles
+        if (obstacles) {
+            dispatch({
+                type: "game",
+                payload: {obstacles},
+            })
+        }
+        navigate("/game")
+    }
 
     return (
-        <form>
-            <h2 className="mx-4">Game Settings</h2>
+        <form onSubmit={play}>
+            {/* <h2 className="mx-4">Game Settings</h2>
             <label className="mx-4">
-                <span>Rounds:</span>
-                <input className="form-control" type='number' name='rounds' min={1} max={20} defaultValue={3} />
-            </label>
+                <span>Rounds: </span>
+                <input
+                    className="form-control"
+                    type='number'
+                    name='rounds'
+                    min={1}
+                    max={20}
+                    defaultValue={game.rounds}
+                    onChange={handleGameInput}
+                />
+            </label> */}
             <h2 className="mx-4">Player Settings</h2>
-            <label className="mx-4">
-                <span>Nickname:</span>
-                <input className="form-control" type='text' name='nickname' />
-            </label>
-            <label className="mx-4" style={{display: "flex", flexDirection: "column", width: "8ch"}}>
-                <span>Color: </span>
-                <div style={{position: "relative"}}>
-                    <input
-                        type='color'
-                        name='color'
-                        style={{width: 1, height: 1}}
-                        value={charColor}
-                        onChange={(e) => {setCharColor(e.currentTarget.value)}}
-                    />
-                    <div
-                        style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "1rem",
-                            height: "1rem",
-                            border: "1px solid #ced4da",
-                            borderRadius: "1rem",
-                            background: charColor,
-                        }}>
-                    </div>
+            <div className="mx-4" style={{display: "flex", flexWrap: "wrap"}}>
+                <div className="col-xs-12 col-sm-6 col-md-3 px-0">
+                    <label>
+                        <span>Nickname: </span>
+                        <input
+                            className="form-control"
+                            type='text'
+                            name='nickname'
+                            required
+                            defaultValue={player.nickname}
+                            onChange={handlePlayerInput}
+                        />
+                    </label>
+                    <label style={{display: "block"}}>
+                        <span>Main Color: </span>
+                        <div style={{display: "inline", position: "relative"}}>
+                            <input
+                                type='color'
+                                name="mainColor"
+                                style={{opacity: 0}}
+                                defaultValue={player.mainColorHex}
+                                onChange={handleColors}
+                            />
+                            <div style={{
+                                position: "absolute",
+                                bottom: 0,
+                                left: 0,
+                                width: "1rem",
+                                height: "1rem",
+                                border: "1px solid #ced4da",
+                                borderRadius: "1rem",
+                                background: player.mainColorHex,
+                            }}/>
+                        </div>
+                    </label>
+                    <label style={{display: "block"}}>
+                        <span>Accent Color: </span>
+                        <div style={{display: "inline", position: "relative"}}>
+                            <input
+                                type='color'
+                                name="accentColor"
+                                style={{opacity: 0}}
+                                defaultValue={player.accentColorHex}
+                                onChange={handleColors}
+                            />
+                            <div style={{
+                                position: "absolute",
+                                bottom: 0,
+                                left: 0,
+                                width: "1rem",
+                                height: "1rem",
+                                border: "1px solid #ced4da",
+                                borderRadius: "1rem",
+                                background: player.accentColorHex,
+                            }}/>
+                        </div>
+                    </label>
                 </div>
-            </label>
-            <div style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
-                <button className="btn btn-primary btn-lg col-sm-12 col-md-6" type='button'>Ready</button>
+                <div className="col-xs-12 col-sm-6 col-md-3 px-0 my-2" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <Preview mainColor={player.mainColor} accentColor={player.accentColor} />
+                </div>
             </div>
-            <h2 className="mx-4">Player Status</h2>
+            <div className="mx-4" style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
+                <button
+                    className="btn btn-primary btn-lg col-sm-12 col-md-6"
+                    type='submit'>
+                    Play
+                </button>
+            </div>
+            {/* <h2 className="mx-4">Player Status</h2>
             <div className="mx-4">
                 <p>To Do</p>
             </div>
-            <div style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
+            <div className="mx-4" style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
                 <button className="btn btn-warning btn-lg col-sm-12 col-md-6" type='submit'>Start</button>
-            </div>
+            </div> */}
         </form>
     )
 }
 
-export default GameSetup
+export default connect(({game, player}) => ({game, player}))(GameSetup)

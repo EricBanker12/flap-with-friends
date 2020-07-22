@@ -24,4 +24,8 @@ public class ApiHandler {
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(apiService.status());
     }
 
+    public Mono<ServerResponse> obstacles(ServerRequest request) {
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(apiService.obstacles());
+    }
+
 }
