@@ -119,7 +119,7 @@ class Game extends Component {
                     options={{
                         width: 320 * this.props.game.scale,
                         height: 480 * this.props.game.scale,
-                        backgroundColor: 0x75CAEB
+                        backgroundColor: 0x75CAEB,
                     }}>
                     <Provider store={store}>
                         <Cloud texture={this.state.textures.cloudTex} />
@@ -142,7 +142,6 @@ class Game extends Component {
                     </Provider>
                 </Stage>
                 <div
-                    // hidden={this.props.player.alive || this.props.player.y > 17}
                     hidden={!this.props.game.ended}
                     style={{
                         display: "flex",

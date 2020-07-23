@@ -51,7 +51,7 @@ const GameSetup = ({game, player, dispatch}) => {
                 payload: {obstacles},
             })
         }
-        navigate("/game")
+        navigate("/play")
     }
 
     return (

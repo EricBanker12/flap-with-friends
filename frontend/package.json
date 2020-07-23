@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "flap-with-firends",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Play a remake of Dong Nguyen's Flappy Bird video game with added multiplayer to compete with friends.",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Eric Banker <EricBanker12@gmail.com>",
   "dependencies": {
     "@loadable/component": "^5.13.1",
     "axios": "^0.19.2",
@@ -13,7 +13,9 @@
     "gatsby-plugin-no-sourcemaps": "^2.2.0",
     "gatsby-plugin-offline": "^3.2.3",
     "gatsby-plugin-react-helmet": "^3.3.1",
+    "gatsby-plugin-robots-txt": "^1.5.1",
     "gatsby-plugin-sharp": "^2.6.4",
+    "gatsby-plugin-sitemap": "^2.4.11",
     "gatsby-source-filesystem": "^2.3.4",
     "gatsby-transformer-sharp": "^2.5.2",
     "lodash": "^4.17.19",
@@ -44,9 +46,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/EricBanker12/flap-with-friends"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/EricBanker12/flap-with-friends/issues"
   }
 }
