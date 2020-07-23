@@ -11,6 +11,8 @@ import { useStaticQuery, graphql } from "gatsby"
 import { Provider } from "react-redux"
 
 import Header from "./header"
+import Footer from "./footer"
+
 import store from "../utils/store"
 
 import "../styles/bootstrap.min.css"
@@ -32,9 +34,7 @@ const Layout = ({ children }) => {
       <Header siteTitle={data.site.siteMetadata.title} />
       <div className="layout" style={{background: "#fff", margin: "0 auto", flex: 1, width: "100%", maxWidth: 864}}>
         <main>{children}</main>
-        <footer style={{textAlign: "center"}}>
-          <p>footer placeholder</p>
-        </footer>
+        <Footer />
       </div>
     </Provider>
   )
