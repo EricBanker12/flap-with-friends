@@ -16,27 +16,29 @@ const IndexPage = () => {
       <section>
         <ul className="nav nav-tabs">
           <li className="nav-item">
-            <div
+            <button
               className={`nav-link ${currentTab === SETUP ? "active" : ""}`}
               style={{cursor: "pointer"}}
+              role="tab"  
               onClick={() => {setCurrentTab(SETUP)}}>
               <h1>Setup</h1>
-            </div>
+            </button>
           </li>
           <li className="nav-item">
-            <div
+            <button
               className={`nav-link ${currentTab === ABOUT ? "active" : ""}`}
               style={{cursor: "pointer"}}
+              role="tab"
               onClick={() => {setCurrentTab(ABOUT)}}>
               <h1>About</h1>
-            </div>
+            </button>
           </li>
         </ul>
         <div className="tab-content">
-          <div className={`tab-pane fade ${currentTab === SETUP ? "active show" : ""}`}>
+          <div role="tabpanel" className={`tab-pane fade ${currentTab === SETUP ? "active show" : ""}`}>
             <GameSetup/>
           </div>
-          <div className={`tab-pane fade ${currentTab === ABOUT ? "active show" : ""}`}>
+          <div role="tabpanel" className={`tab-pane fade ${currentTab === ABOUT ? "active show" : ""}`}>
             <p className="mx-4">This is a remake of Dong Nguyen's Flappy Bird video game with added multiplayer to compete with friends.</p>
             <p className="mx-4"><small>Multiplayer is not yet implemented.</small></p>
           

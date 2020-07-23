@@ -6,6 +6,14 @@ module.exports = {
     author: `Eric Banker`,
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-web-font-loader',
+      options: {
+        google: {
+          families: ['Mali:ital,wght@0,400;0,500;1,400']
+        }
+      }
+    },  
     `gatsby-plugin-sitemap`,{
       resolve: `gatsby-plugin-robots-txt`,
       options: {

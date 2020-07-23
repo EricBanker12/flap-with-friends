@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
 import {debounce} from "lodash"
 import { connect } from "react-redux"
@@ -8,6 +8,24 @@ import Axios from "axios"
 const Preview = loadable(() => import("./preview"))
 
 const GameSetup = ({game, player, dispatch}) => {
+
+    const [focus, setFocus] = useState("")
+    
+    // Gatsby hydration work-around
+    // https://stackoverflow.com/questions/59651070/gatsby-state-updates-only-on-development-but-not-on-build-production
+    const [loaded, setLoaded] = useState(false) 
+
+    useEffect(()=>{
+        setLoaded(true)
+    }, [setLoaded])
+
+    const handleFocus = (e) => {
+        setFocus(e.currentTarget.name)
+    }
+
+    const handleBlur = (e) => {
+        setFocus("")
+    }
     
     const handleGameInput = (e) => {
         const {name, value} = e.currentTarget
@@ -42,16 +60,21 @@ const GameSetup = ({game, player, dispatch}) => {
 
     const play = async (e) => {
         e.preventDefault()
-        // const res = await Axios.get("http://localhost:8080/api/obstacles")
-        const res = await Axios.get("/api/obstacles")
-        const obstacles = res.data.obstacles
-        if (obstacles) {
-            dispatch({
-                type: "game",
-                payload: {obstacles},
-            })
+        try {
+            // const res = await Axios.get("http://localhost:8080/api/obstacles")
+            const res = await Axios.get("/api/obstacles")
+            const obstacles = res.data.obstacles
+            if (obstacles) {
+                dispatch({
+                    type: "game",
+                    payload: {obstacles},
+                })
+            }
+            navigate("/play")
         }
-        navigate("/play")
+        catch (err) {
+            navigate("/play")
+        }
     }
 
     return (
@@ -89,20 +112,25 @@ const GameSetup = ({game, player, dispatch}) => {
                             <input
                                 type='color'
                                 name="mainColor"
-                                style={{opacity: 0}}
+                                style={{opacity: 0, width: "1rem"}}
                                 defaultValue={player.mainColorHex}
                                 onChange={handleColors}
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
                             />
-                            <div style={{
-                                position: "absolute",
-                                bottom: 0,
-                                left: 0,
-                                width: "1rem",
-                                height: "1rem",
-                                border: "1px solid #ced4da",
-                                borderRadius: "1rem",
-                                background: player.mainColorHex,
-                            }}/>
+                            <div
+                                key={loaded} // Gatsby hydration work-around
+                                style={{
+                                    position: "absolute",
+                                    bottom: 0,
+                                    left: 0,
+                                    width: "1rem",
+                                    height: "1rem",
+                                    border: focus === "mainColor" ? "2px solid #158CBA" : "1px solid #ced4da",
+                                    borderRadius: "1rem",
+                                    background: player.mainColorHex,
+                                }}
+                            />
                         </div>
                     </label>
                     <label style={{display: "block"}}>
@@ -111,20 +139,26 @@ const GameSetup = ({game, player, dispatch}) => {
                             <input
                                 type='color'
                                 name="accentColor"
-                                style={{opacity: 0}}
+                                style={{opacity: 0, width: "1rem"}}
                                 defaultValue={player.accentColorHex}
                                 onChange={handleColors}
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
                             />
-                            <div style={{
-                                position: "absolute",
-                                bottom: 0,
-                                left: 0,
-                                width: "1rem",
-                                height: "1rem",
-                                border: "1px solid #ced4da",
-                                borderRadius: "1rem",
-                                background: player.accentColorHex,
-                            }}/>
+                            <div
+                                key={loaded} // Gatsby hydration work-around
+                                style={{
+                                    position: "absolute",
+                                    display: "block",
+                                    bottom: 0,
+                                    left: 0,
+                                    width: "1rem",
+                                    height: "1rem",
+                                    border: focus === "accentColor" ? "2px solid #158CBA" : "1px solid #ced4da",
+                                    borderRadius: "1rem",
+                                    background: player.accentColorHex,
+                                }}
+                            />
                         </div>
                     </label>
                 </div>

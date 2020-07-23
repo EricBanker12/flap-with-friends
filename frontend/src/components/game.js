@@ -3,7 +3,6 @@ import * as PIXI from "pixi.js"
 import { Stage } from "react-pixi-fiber"
 import { Provider, connect } from "react-redux"
 import { debounce } from "lodash"
-import { navigate } from "gatsby"
 
 import Player from "./playerSprite"
 import Obstacle from "./obstacleSprite"

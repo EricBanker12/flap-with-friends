@@ -15,7 +15,7 @@ const initState = {
 }
 
 export default function(state = initState, action) {
-    if (state === initState) {
+    if (typeof localStorage !== "undefined" && state === initState) {
         const nickname = localStorage.getItem("nickname")
         const mainColorHex = localStorage.getItem("mainColorHex") || ""
         const mainColor = parseInt(mainColorHex.slice(1), 16)
@@ -35,17 +35,19 @@ export default function(state = initState, action) {
     if (action.type === "player") {
         for (let key in action.payload) {
             if (state[key] !== action.payload[key]) {
-                if ("nickname" in action.payload) {
-                    localStorage.setItem("nickname", action.payload["nickname"])
-                }
-                if ("mainColorHex" in action.payload) {
-                    localStorage.setItem("mainColorHex", action.payload["mainColorHex"])
-                }
-                if ("accentColorHex" in action.payload) {
-                    localStorage.setItem("accentColorHex", action.payload["accentColorHex"])
-                }
-                if ("highScore" in action.payload) {
-                    localStorage.setItem("highScore", action.payload["highScore"])
+                if (typeof localStorage !== "undefined") {
+                    if("nickname" in action.payload) {
+                        localStorage.setItem("nickname", action.payload["nickname"])
+                    }
+                    if ("mainColorHex" in action.payload) {
+                        localStorage.setItem("mainColorHex", action.payload["mainColorHex"])
+                    }
+                    if ("accentColorHex" in action.payload) {
+                        localStorage.setItem("accentColorHex", action.payload["accentColorHex"])
+                    }
+                    if ("highScore" in action.payload) {
+                        localStorage.setItem("highScore", action.payload["highScore"])
+                    }
                 }
                 return {...state, ...action.payload}
             }
