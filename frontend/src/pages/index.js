@@ -38,6 +38,7 @@ const IndexPage = () => {
           </div>
           <div className={`tab-pane fade ${currentTab === ABOUT ? "active show" : ""}`}>
             <p className="mx-4">This is a remake of Dong Nguyen's Flappy Bird video game with added multiplayer to compete with friends.</p>
+            <p className="mx-4"><small>Multiplayer is not yet implemented.</small></p>
           
             <h2 className="mx-4">How to Play</h2>
             <ul className="mx-4">

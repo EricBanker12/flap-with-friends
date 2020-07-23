@@ -51,14 +51,6 @@ class PlayerSprite extends Component {
             type: "player",
             payload: {x, y, dy},
         })
-
-        // game over
-        if (!this.props.game.ended && !alive && y === 463) {
-            this.props.dispatch({
-                type: "game",
-                payload: {ended: true},
-            })
-        }
     }
     
     flap = (e) => {

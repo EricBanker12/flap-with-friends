@@ -29,7 +29,7 @@ const GameSetup = ({game, player, dispatch}) => {
         dispatch({
             type: "player",
             payload: {
-                [name]: Number(value.replace("#", "0x")),
+                [name]: parseInt(value.slice(1), 16),
                 [name + "Hex"]: value,
             }
         })

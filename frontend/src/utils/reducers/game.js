@@ -2,7 +2,6 @@ const initState = {
     rounds: 1,
     round: 1,
     scale: 1,
-    ended: false,
     obstacles: [
         150,
         250,
