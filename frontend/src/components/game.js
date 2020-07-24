@@ -3,12 +3,12 @@ import * as PIXI from "pixi.js"
 import { Stage } from "react-pixi-fiber"
 import { Provider, connect } from "react-redux"
 import { debounce } from "lodash"
-import { navigate } from "gatsby"
 
 import Player from "./playerSprite"
 import Obstacle from "./obstacleSprite"
 import Cloud from "./cloudSprite"
 import Score from "./scoreSprite"
+import GameOver from "./gameOver"
 
 import store from "../utils/store"
 
@@ -24,11 +24,6 @@ class Game extends Component {
     audio = createRef()
 
     reset = () => {
-        this.props.dispatch({
-            type: "game",
-            payload: {ended: false},
-        })
-
         this.props.dispatch({
             type: "player",
             payload: {
@@ -119,7 +114,7 @@ class Game extends Component {
                     options={{
                         width: 320 * this.props.game.scale,
                         height: 480 * this.props.game.scale,
-                        backgroundColor: 0x75CAEB
+                        backgroundColor: 0x75CAEB,
                     }}>
                     <Provider store={store}>
                         <Cloud texture={this.state.textures.cloudTex} />
@@ -141,32 +136,7 @@ class Game extends Component {
                         <Score />
                     </Provider>
                 </Stage>
-                <div
-                    // hidden={this.props.player.alive || this.props.player.y > 17}
-                    hidden={!this.props.game.ended}
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        alignItems: "stretch",
-                        width: 320 * this.props.game.scale,
-                        height: 138,
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                    }}>
-                    <button
-                        className="btn btn-primary btn-lg mx-4"
-                        onClick={this.reset}>
-                        Restart
-                    </button>
-                    <button
-                        className="btn btn-primary btn-lg mx-4"
-                        onClick={() => {navigate("/")}}>
-                        Setup
-                    </button>
-                </div>
+                <GameOver reset={this.reset} />
             </div>
         )
     }

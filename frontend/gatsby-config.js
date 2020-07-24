@@ -1,10 +1,25 @@
 module.exports = {
   siteMetadata: {
+    siteUrl: `https://flapwithfriends.tk`,
     title: `Flap with Friends`,
-    description: `A remake of Flappy Bird with private room multiplayer to compete with friends and co-workers. Perfect for team-bonding.`,
+    description: `Play a remake of Dong Nguyen's Flappy Bird video game with added multiplayer to compete with friends.`,
     author: `Eric Banker`,
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-web-font-loader',
+      options: {
+        google: {
+          families: ['Mali:ital,wght@0,400;0,500;1,400']
+        }
+      }
+    },  
+    `gatsby-plugin-sitemap`,{
+      resolve: `gatsby-plugin-robots-txt`,
+      options: {
+        policy: [{userAgent: `*`, allow: `/`, disallow: `/api`}]
+      },
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
@@ -22,8 +37,8 @@ module.exports = {
         name: `Flap with Friends`,
         short_name: `F.W.F`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#75CAEB`,
+        theme_color: `#158CBA`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
