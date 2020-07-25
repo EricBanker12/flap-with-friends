@@ -1,11 +1,10 @@
 import * as PIXI from "pixi.js"
 
-import PreviewPlayer from "./PreviewPlayer"
+import PreviewPlayer from "./previewPlayer"
 
 import spriteSheet from "../images/spritesheet.svg"
 
 class PreviewApplication {
-
     constructor() {
         this.app = new PIXI.Application({
             width: 34,
