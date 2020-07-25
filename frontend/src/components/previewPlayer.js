@@ -25,7 +25,6 @@ class PreviewPlayer {
         this.container = new PIXI.Container()
         this.container.addChild(...this.sprites)
 
-        this.time = Date.now()
         this.app.ticker.add(this.animate)
         this.unsubscribe = store.subscribe(this.color)
     }

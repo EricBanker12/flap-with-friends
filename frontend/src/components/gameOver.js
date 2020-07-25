@@ -23,6 +23,7 @@ const GameOver = ({game, player, reset, dispatch}) => {
                 width: 320,
                 height: 240,
                 position: "absolute",
+                zIndex: 1,
                 top: "50%",
                 left: "50%",
                 transform: `translate(-50%, -50%) scale(${game.scale}, ${game.scale})`,

@@ -10,7 +10,7 @@ class PreviewApplication {
         this.app = new PIXI.Application({
             width: 34,
             height: 34,
-            backgroundColor: 0x75CAEB
+            backgroundColor: 0x75CAEB,
         })
 
         const sprites = PIXI.BaseTexture.from(spriteSheet, {resolution: 1})
