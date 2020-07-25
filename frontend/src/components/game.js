@@ -14,7 +14,7 @@ class Game extends Component {
             payload: {
                 alive: true,
                 score: 0,
-                x: -633,
+                x: -393,
                 dx: 2,
                 y: 0,
                 dy: 0,

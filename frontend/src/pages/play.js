@@ -23,7 +23,7 @@ const PlayPage = () => {
         </style>
       </Helmet>
       <SEO title="Play" path="/play" />
-      <section style={{display: "flex", justifyContent: "center", userSelect: "none"}}>
+      <section style={{display: "flex", justifyContent: "center"}}>
         <Game />
       </section>
     </Layout>

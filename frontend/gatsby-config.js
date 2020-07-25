@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     siteUrl: `https://flapwithfriends.tk`,
     title: `Flap with Friends`,
-    description: `Play a remake of Dong Nguyen's Flappy Bird video game with added multiplayer to compete with friends.`,
+    description: `Play a remake of Dong Nguyen's Flappy Bird, the video game, with added multiplayer to compete with friends.`,
     author: `Eric Banker`,
   },
   plugins: [

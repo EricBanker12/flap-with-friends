@@ -1,7 +1,7 @@
 {
   "name": "flap-with-firends",
   "private": true,
-  "description": "Play a remake of Dong Nguyen's Flappy Bird video game with added multiplayer to compete with friends.",
+  "description": "Play a remake of Dong Nguyen's Flappy Bird, the video game, with added multiplayer to compete with friends.",
   "version": "0.1.0",
   "author": "Eric Banker <EricBanker12@gmail.com>",
   "dependencies": {

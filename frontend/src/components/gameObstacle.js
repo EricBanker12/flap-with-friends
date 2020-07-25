@@ -4,7 +4,8 @@ import store from "../utils/store"
 
 import hitObstacle from "../audio/hit_obstacle.mp3"
 
-const GAP_HEIGHT = 125
+const GAP_HEIGHT = 115
+const GAP_VARIENCE = 206
 const OBSTACLE_DIST = 193
 
 class GameObstacle {
@@ -15,7 +16,7 @@ class GameObstacle {
         const { game, player } = store.getState()
 
         this.x = OBSTACLE_DIST * index
-        this.y = game.obstacles[index] || Math.floor(80 + Math.random() * 196)
+        this.y = game.obstacles[index] || Math.floor(80 + Math.random() * GAP_VARIENCE)
         this.scored = false
 
         this.audio = document.createElement("audio")
@@ -53,7 +54,7 @@ class GameObstacle {
     update = (delta) => {
         const { game, player } = store.getState()
 
-        let {dx, alive, score} = player
+        let {dx, dy, alive, score} = player
 
         if (player.alive) {
             const diffX = Math.abs(this.x - player.x)
@@ -84,6 +85,7 @@ class GameObstacle {
             // kill + sound
             if (!alive) {
                 dx = 0
+                dy = -6
                 this.audio.pause()
                 this.audio.currentTime = 0
                 this.audio.play()
@@ -101,7 +103,7 @@ class GameObstacle {
             this.scored = false
             this.index = (this.index + 2) % game.obstacles.length
             this.x += 2 * OBSTACLE_DIST
-            this.y = game.obstacles[this.index] || Math.floor(80 + Math.random() * 196)
+            this.y = game.obstacles[this.index] || Math.floor(80 + Math.random() * GAP_VARIENCE)
             this.container.y = this.y * game.scale
         }
 
@@ -109,7 +111,7 @@ class GameObstacle {
 
         store.dispatch({
             type: "player",
-            payload: {dx, alive, score},
+            payload: {dx, dy, alive, score},
         })
 
     }
