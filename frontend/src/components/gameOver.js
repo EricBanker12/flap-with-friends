@@ -1,8 +1,23 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { connect } from "react-redux"
 import { navigate } from "gatsby"
 
 const GameOver = ({game, player, reset, dispatch}) => {
+    const [hidden, setHidden] = useState(true)
+    const resetButton = useRef()
+
+    useEffect(() => {
+        if (hidden && !player.alive && player.y === 463) {
+            setHidden(false)
+            setTimeout(() => {
+                resetButton.current.focus()
+            }, 0)
+        }
+        else if (!hidden && player.alive) {
+            setHidden(true)
+        }
+    }, [player, hidden])
+    
     useEffect(() => {
         if (!player.alive && player.score > player.highScore) {
             dispatch({
@@ -14,7 +29,7 @@ const GameOver = ({game, player, reset, dispatch}) => {
 
     return (
         <div
-            hidden={player.alive || player.y < 463}
+            hidden={hidden}
             style={{
                 display: "flex",
                 flexDirection: "column",
@@ -23,6 +38,7 @@ const GameOver = ({game, player, reset, dispatch}) => {
                 width: 320,
                 height: 240,
                 position: "absolute",
+                zIndex: 1,
                 top: "50%",
                 left: "50%",
                 transform: `translate(-50%, -50%) scale(${game.scale}, ${game.scale})`,
@@ -41,7 +57,8 @@ const GameOver = ({game, player, reset, dispatch}) => {
                 <h2>High Score: {player.highScore}</h2>
                 <button
                     className="btn btn-primary btn-lg mx-4"
-                    onClick={reset}>
+                    onClick={reset}
+                    ref={resetButton}>
                     Restart
                 </button>
                 <button

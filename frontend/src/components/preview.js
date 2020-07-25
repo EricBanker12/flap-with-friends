@@ -1,16 +1,37 @@
-import React from "react"
-import { Stage } from "react-pixi-fiber"
+import React, { Component, createRef } from "react"
 
-import PlayerPreview from "./previewSprite"
+import PreviewApplication from "./previewApplication"
 
-const Preview = (props) => {
-    return (
-        <div style={{width: 64, height: 64, borderRadius: 64, overflow: "hidden"}}>
-            <Stage options={{width: 64, height: 64, backgroundColor: 0x75CAEB}}>
-                <PlayerPreview {...props} />
-            </Stage>
-        </div>
-    )
+class Preview extends Component {
+    state = {preview: null}
+    ref = createRef()
+
+    componentDidMount() {
+        const preview = new PreviewApplication()
+        this.ref.current.appendChild(preview.app.view)
+        this.setState({preview})
+    }
+    
+    componentWillUnmount() {
+        this.state.preview.destroy()
+    }
+    
+    render() {
+        return (
+            <div
+                ref={this.ref}
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: 64,
+                    height: 64,
+                    borderRadius: 64,
+                    background: "#75CAEB",
+                }}
+            />
+        )
+    }
 }
 
 export default Preview

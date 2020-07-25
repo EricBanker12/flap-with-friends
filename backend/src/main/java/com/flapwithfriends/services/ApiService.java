@@ -32,7 +32,7 @@ public class ApiService {
 
         int[] obstaclesArr = new int[32];
         for (int i = 0; i < obstaclesArr.length; i++) {
-            double randVal = Math.random() * 198.0;
+            double randVal = Math.random() * 206.0;
             obstaclesArr[i] = 80 + (int) randVal;
         }
         obstaclesMap.put("obstacles", obstaclesArr);

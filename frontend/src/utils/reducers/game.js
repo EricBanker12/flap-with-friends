@@ -2,12 +2,9 @@ const initState = {
     rounds: 1,
     round: 1,
     scale: 1,
-    obstacles: [
-        150,
-        250,
-        200,
-        100,
-    ],
+    baseTexture: null,
+    textures: {},
+    obstacles: [],
 }
 
 export default function(state = initState, action) {
