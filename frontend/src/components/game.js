@@ -41,7 +41,7 @@ class Game extends Component {
     
     render() {
         return (
-            <div ref={this.ref}>
+            <div ref={this.ref} style={{position: "relative"}}>
                 <GameOver reset={this.reset} />
             </div>
         )

@@ -19,6 +19,7 @@ class GamePlayer {
 
         this.frame = 0
         this.frameCount = 0
+        this.alive = true
 
         const { game, player } = store.getState()
 
@@ -34,13 +35,14 @@ class GamePlayer {
         this.wingSprite.tint = player.accentColor
         this.bodySprite3.tint = player.accentColor
 
-        const sprites = [this.bodySprite1, this.bodySprite2, this.wingSprite, this.faceSprite1, this.bodySprite3]
+        const sprites = [this.bodySprite1, this.bodySprite2, this.wingSprite, this.faceSprite1, this.bodySprite3, this.faceSprite2]
         sprites.forEach((sprite) => {sprite.anchor.set(0.5, 0.5)})
 
         this.container = new PIXI.Container()
         this.container.x = this.app.screen.width / 2
         this.container.y = player.y * game.scale
         this.container.addChild(...sprites)
+        this.container.removeChild(this.faceSprite2)
 
         this.app.ticker.add(this.update)
         window.addEventListener("keydown", this.flap)
@@ -86,8 +88,6 @@ class GamePlayer {
     update = (delta) => {
         const { game, player } = store.getState()
         
-        this.animate(delta, game)
-        
         let {x, dx, y, dy} = player
         
         // gravity
@@ -96,6 +96,20 @@ class GamePlayer {
         this.container.y = y * game.scale
 
         x += dx * delta
+
+        if (this.alive && !player.alive) {
+            this.alive = false
+            this.container.addChild(this.faceSprite2)
+        }
+
+        if (!this.alive && player.alive) {
+            this.alive = true
+            this.container.removeChild(this.faceSprite2)
+        }
+
+        if (player.alive) {
+            this.animate(delta, game)
+        }
 
         store.dispatch({
             type: "player",

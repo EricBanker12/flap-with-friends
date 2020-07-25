@@ -3,6 +3,8 @@ import { debounce } from "lodash"
 
 import GamePlayer from "./gamePlayer"
 import GameObstacle from "./gameObstacle"
+import GameCloud from "./gameCloud"
+import GameScore from "./gameScore"
 
 import store from "../utils/store"
 
@@ -24,8 +26,10 @@ class GameApplication {
         this.player = new GamePlayer(this.app)
         this.obstacleA = new GameObstacle(this.app, 0)
         this.obstacleB = new GameObstacle(this.app, 1)
+        this.cloud = new GameCloud(this.app)
+        this.score = new GameScore(this.app)
 
-        this.gameObjects = [this.obstacleA, this.obstacleB, this.player]
+        this.gameObjects = [this.cloud, this.obstacleA, this.obstacleB, this.player, this.score]
         this.app.stage.addChild(...this.gameObjects.map(obj => obj.container))
 
         window.addEventListener("resize", this.resizeHandler)
