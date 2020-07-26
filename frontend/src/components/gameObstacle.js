@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js"
+import { Howl } from "howler"
 
 import store from "../utils/store"
 
@@ -7,11 +8,16 @@ import hitObstacle from "../audio/hit_obstacle.mp3"
 const GAP_HEIGHT = 115
 const GAP_VARIENCE = 206
 const OBSTACLE_DIST = 193
+const OBSTACLE_WIDTH = 62
+const PLAYER_RADIUS = 15
+const STROKE_WIDTH = 2
 
 class GameObstacle {
     constructor(app, index) {
         this.app = app
         this.index = index
+
+        this.wait = false
 
         const { game, player } = store.getState()
 
@@ -19,14 +25,13 @@ class GameObstacle {
         this.y = game.obstacles[index] || Math.floor(80 + Math.random() * GAP_VARIENCE)
         this.scored = false
 
-        this.audio = document.createElement("audio")
-        this.audio.src = hitObstacle
+        this.audio = new Howl({src: [hitObstacle]})
 
         this.obstacleTop = new PIXI.Sprite(game.textures.obstacleTex)
         this.obstacleBot = new PIXI.Sprite(game.textures.obstacleTex)
 
         const sprites = [this.obstacleTop, this.obstacleBot]
-        sprites.forEach((sprite) => {sprite.anchor.set(0.5, 0)})
+        // sprites.forEach((sprite) => {sprite.anchor.set(0.5, 0)})
         
         this.obstacleTop.scale.set(1, -1)
         this.obstacleBot.y = GAP_HEIGHT * game.scale
@@ -56,38 +61,43 @@ class GameObstacle {
 
         let {dx, dy, alive, score} = player
 
+        const xDiff = this.x - player.x
+        const yDiff = this.y - player.y
+        
         if (player.alive) {
-            const diffX = Math.abs(this.x - player.x)
             // top/bottom
-            if (diffX < 32 && (player.y < this.y + 15 || player.y > this.y + GAP_HEIGHT - 15)) {
+            if (-xDiff >= STROKE_WIDTH
+                && -xDiff <= STROKE_WIDTH + OBSTACLE_WIDTH
+                && (-yDiff < PLAYER_RADIUS || yDiff + GAP_HEIGHT < PLAYER_RADIUS)) {
                 alive = false
             }
-            // left/right
-            else if (diffX < 48 && (player.y < this.y - 2 || player.y > this.y + GAP_HEIGHT + 2)) {
+            // left (right not possible)
+            else if (xDiff < PLAYER_RADIUS && xDiff > -STROKE_WIDTH
+                && (yDiff >= STROKE_WIDTH || -yDiff >= GAP_HEIGHT + STROKE_WIDTH)) {
                 alive = false
             }
             // top left
-            else if (Math.sqrt((player.x - this.x + 31)**2 + (player.y - this.y + 2)**2) < 16) {
+            else if (Math.sqrt((xDiff + STROKE_WIDTH)**2 + (yDiff - STROKE_WIDTH)**2) < PLAYER_RADIUS) {
                 alive = false
+                return
             }
             // top right
-            else if (Math.sqrt((player.x - this.x - 31)**2 + (player.y - this.y + 2)**2) < 16) {
+            else if (Math.sqrt((xDiff + OBSTACLE_WIDTH + STROKE_WIDTH)**2 + (yDiff - STROKE_WIDTH)**2) < PLAYER_RADIUS) {
                 alive = false
             }
             // bottom left
-            else if (Math.sqrt((player.x - this.x + 31)**2 + (player.y - this.y - GAP_HEIGHT - 2)**2) < 16) {
+            else if (Math.sqrt((xDiff + STROKE_WIDTH)**2 + (yDiff + GAP_HEIGHT + STROKE_WIDTH)**2) < PLAYER_RADIUS) {
                 alive = false
             }
             // bottom right
-            else if (Math.sqrt((player.x - this.x - 31)**2 + (player.y - this.y - GAP_HEIGHT - 2)**2) < 16) {
+            else if (Math.sqrt((xDiff + OBSTACLE_WIDTH + STROKE_WIDTH)**2 + (yDiff + GAP_HEIGHT + STROKE_WIDTH)**2) < PLAYER_RADIUS) {
                 alive = false
             }
             // kill + sound
             if (!alive) {
                 dx = 0
                 dy = -6
-                this.audio.pause()
-                this.audio.currentTime = 0
+                this.audio.stop()
                 this.audio.play()
             }
         }
@@ -99,7 +109,7 @@ class GameObstacle {
         }
 
         // update obstacle
-        if (this.x - player.x <= -OBSTACLE_DIST) {
+        if (xDiff <= -OBSTACLE_DIST - OBSTACLE_WIDTH / 2 - STROKE_WIDTH ) {
             this.scored = false
             this.index = (this.index + 2) % game.obstacles.length
             this.x += 2 * OBSTACLE_DIST
@@ -107,7 +117,7 @@ class GameObstacle {
             this.container.y = this.y * game.scale
         }
 
-        this.container.x = this.app.screen.width / 2 + (this.x - player.x) * game.scale
+        this.container.x = this.app.screen.width / 2 + xDiff * game.scale
 
         store.dispatch({
             type: "player",

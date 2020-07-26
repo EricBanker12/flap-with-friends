@@ -68,13 +68,12 @@ class GameApplication {
             cloudTex: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 0 * scale, 128 * scale, 64 * scale)),
             bodyTex1: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 65 * scale, 34 * scale, 34 * scale)),
             bodyTex2: new PIXI.Texture(baseTexture, new PIXI.Rectangle(35 * scale, 65 * scale, 34 * scale, 34 * scale)),
-            bodyTex3: new PIXI.Texture(baseTexture, new PIXI.Rectangle(70 * scale, 65 * scale, 34 * scale, 34 * scale)),
             wingTex1: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 100 * scale, 34 * scale, 34 * scale)),
             wingTex2: new PIXI.Texture(baseTexture, new PIXI.Rectangle(35 * scale, 100 * scale, 34 * scale, 34 * scale)),
             wingTex3: new PIXI.Texture(baseTexture, new PIXI.Rectangle(70 * scale, 100 * scale, 34 * scale, 34 * scale)),
             faceTex1: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 135 * scale, 34 * scale, 34 * scale)),
             faceTex2: new PIXI.Texture(baseTexture, new PIXI.Rectangle(35 * scale, 135 * scale, 34 * scale, 34 * scale)),
-            obstacleTex: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 169 * scale, 66 * scale, 300 * scale)),
+            obstacleTex: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 170 * scale, 66 * scale, 300 * scale)),
         }
 
         store.dispatch({

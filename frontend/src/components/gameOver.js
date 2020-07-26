@@ -7,7 +7,7 @@ const GameOver = ({game, player, reset, dispatch}) => {
     const resetButton = useRef()
 
     useEffect(() => {
-        if (hidden && !player.alive && player.y === 463) {
+        if (hidden && !player.alive && player.dy === 6) {
             setHidden(false)
             setTimeout(() => {
                 resetButton.current.focus()
