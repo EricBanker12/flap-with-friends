@@ -23,5 +23,6 @@ Add multiplayer gameplay and chat.
 
 ### Quantifiers
 
-* User .
-* Gameplay is functional.
+* User feedback is positive.
+* User count increases.
+* Gameplay and chat are functional.
