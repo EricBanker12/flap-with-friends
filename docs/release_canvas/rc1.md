@@ -22,3 +22,13 @@ Create basic gameplay for initial playtesting and user feedback.
 
 * User feedback is positive.
 * Gameplay is functional.
+
+### Reflection
+
+* Release canvas took too long to complete due to exploring features beyond initial scope and not further breaking down features to smaller sections.
+* Gameplay feedback is mostly positive, but may be too challenging for older age groups.
+* Gameplay is functional, but minor bugs still exist.
+   * Audio is delayed on mobile devices.
+   * Window is not scrolling to top on new page navigation.
+   * White section does not fill to bottom on mobile when mobile browser upper nav bar collapses.
+   * Mobile devices cannot scroll up/down if game canvas fills entire space.

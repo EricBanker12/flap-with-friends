@@ -13,44 +13,55 @@ const IndexPage = () => {
   return (
     <Layout>
       <SEO title="Home" />
-      <section>
-        <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <button
-              className={`nav-link ${currentTab === SETUP ? "active" : ""}`}
-              style={{cursor: "pointer"}}
-              role="tab"  
-              onClick={() => {setCurrentTab(SETUP)}}>
-              <h1>Setup</h1>
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              className={`nav-link ${currentTab === ABOUT ? "active" : ""}`}
-              style={{cursor: "pointer"}}
-              role="tab"
-              onClick={() => {setCurrentTab(ABOUT)}}>
-              <h1>About</h1>
-            </button>
-          </li>
-        </ul>
-        <div className="tab-content">
-          <div role="tabpanel" className={`tab-pane fade ${currentTab === SETUP ? "active show" : ""}`}>
-            <GameSetup/>
+      <div className="row m-0">
+        <section className="col-sm-6 col-xs-12 p-0">
+          <ul className="nav nav-tabs">
+            <li className="nav-item">
+              <button
+                className={`nav-link ${currentTab === SETUP ? "active" : ""}`}
+                role="tab"  
+                onClick={() => {setCurrentTab(SETUP)}}>
+                <h1>Setup</h1>
+              </button>
+            </li>
+            <li className="nav-item">
+              <button
+                className={`nav-link ${currentTab === ABOUT ? "active" : ""}`}
+                role="tab"
+                onClick={() => {setCurrentTab(ABOUT)}}>
+                <h1>About</h1>
+              </button>
+            </li>
+          </ul>
+          <div className="tab-content mx-4">
+            <div role="tabpanel" className={`tab-pane fade ${currentTab === SETUP ? "active show" : ""}`}>
+              <GameSetup/>
+            </div>
+            <div role="tabpanel" className={`tab-pane fade ${currentTab === ABOUT ? "active show" : ""}`}>
+              <p>This is a remake of Dong Nguyen's Flappy Bird, the video game, with added multiplayer to compete with friends.</p>
+              <p><small>Multiplayer is not yet implemented.</small></p>
+              <h2>How to Play</h2>
+              <ul>
+                <li>Tap the screen or hit spacebar to flap upwards.</li>
+                <li>Wait for gravity to fall downwards.</li>
+                <li>Avoid obstacles and stay in flight the longest to win!</li>
+              </ul>
+            </div>
           </div>
-          <div role="tabpanel" className={`tab-pane fade ${currentTab === ABOUT ? "active show" : ""}`}>
-            <p className="mx-4">This is a remake of Dong Nguyen's Flappy Bird, the video game, with added multiplayer to compete with friends.</p>
-            <p className="mx-4"><small>Multiplayer is not yet implemented.</small></p>
-          
-            <h2 className="mx-4">How to Play</h2>
-            <ul className="mx-4">
-              <li>Tap the screen or hit spacebar to flap upwards.</li>
-              <li>Wait for gravity to fall downwards.</li>
-              <li>Avoid obstacles and stay in flight the longest to win!</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+        </section>
+        <section className="col-sm-6 px-0">
+          <ul className="nav nav-tabs">
+            <li className="nav-item">
+              <button
+                className={`nav-link active`}
+                role="tab"
+                onClick={() => {setCurrentTab("CHAT")}}>
+                <h1>Chat</h1>
+              </button>
+            </li>
+          </ul>
+        </section>
+      </div>
     </Layout>
   )
 }

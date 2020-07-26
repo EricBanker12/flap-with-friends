@@ -79,8 +79,8 @@ const GameSetup = ({game, player, dispatch}) => {
 
     return (
         <form onSubmit={play}>
-            {/* <h2 className="mx-4">Game Settings</h2>
-            <label className="mx-4">
+            <h2>Game Settings</h2>
+            <label >
                 <span>Rounds: </span>
                 <input
                     className="form-control"
@@ -91,10 +91,10 @@ const GameSetup = ({game, player, dispatch}) => {
                     defaultValue={game.rounds}
                     onChange={handleGameInput}
                 />
-            </label> */}
-            <h2 className="mx-4">Player Settings</h2>
-            <div className="mx-4" style={{display: "flex", flexWrap: "wrap"}}>
-                <div className="col-xs-12 col-sm-6 col-md-3 px-0">
+            </label>
+            <h2>Player Settings</h2>
+            <div className="row m-0">
+                <div className="col-6 px-0">
                     <label>
                         <span>Nickname: </span>
                         <input
@@ -162,24 +162,28 @@ const GameSetup = ({game, player, dispatch}) => {
                         </div>
                     </label>
                 </div>
-                <div className="col-xs-12 col-sm-6 col-md-3 px-0 my-2" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                    <Preview mainColor={player.mainColor} accentColor={player.accentColor} />
+                <div className="col-6 px-0" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <Preview />
                 </div>
             </div>
-            <div className="mx-4" style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
+            <div style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
                 <button
-                    className="btn btn-primary btn-lg col-sm-12 col-md-6"
-                    type='submit'>
+                    className="btn btn-success btn-lg col-12"
+                    type="button">
+                    Ready
+                </button>
+            </div>
+            <h2>Player Status</h2>
+            <div >
+                <p>To Do</p>
+            </div>
+            <div style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
+                <button
+                    className="btn btn-primary btn-lg col-12"
+                    type="submit">
                     Play
                 </button>
             </div>
-            {/* <h2 className="mx-4">Player Status</h2>
-            <div className="mx-4">
-                <p>To Do</p>
-            </div>
-            <div className="mx-4" style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
-                <button className="btn btn-warning btn-lg col-sm-12 col-md-6" type='submit'>Start</button>
-            </div> */}
         </form>
     )
 }

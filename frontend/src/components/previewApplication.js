@@ -16,7 +16,6 @@ class PreviewApplication {
         const textures = {
             bodyTex1: new PIXI.Texture(sprites, new PIXI.Rectangle(0, 65, 34, 34)),
             bodyTex2: new PIXI.Texture(sprites, new PIXI.Rectangle(35, 65, 34, 34)),
-            bodyTex3: new PIXI.Texture(sprites, new PIXI.Rectangle(70, 65, 34, 34)),
             wingTex1: new PIXI.Texture(sprites, new PIXI.Rectangle(0, 100, 34, 34)),
             wingTex2: new PIXI.Texture(sprites, new PIXI.Rectangle(35, 100, 34, 34)),
             wingTex3: new PIXI.Texture(sprites, new PIXI.Rectangle(70, 100, 34, 34)),
