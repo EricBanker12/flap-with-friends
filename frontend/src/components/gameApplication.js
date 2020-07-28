@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js"
-import { debounce } from "lodash"
+import { debounce } from "lodash-core"
 
 import GamePlayer from "./gamePlayer"
 import GameObstacle from "./gameObstacle"

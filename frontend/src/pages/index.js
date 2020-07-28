@@ -18,18 +18,26 @@ const IndexPage = () => {
           <ul className="nav nav-tabs">
             <li className="nav-item">
               <button
-                className={`nav-link ${currentTab === SETUP ? "active" : ""}`}
-                role="tab"  
+                className={`bg-white nav-link ${currentTab === SETUP ? "active" : ""}`}
+                role="tab"
                 onClick={() => {setCurrentTab(SETUP)}}>
                 <h1>Setup</h1>
               </button>
             </li>
             <li className="nav-item">
               <button
-                className={`nav-link ${currentTab === ABOUT ? "active" : ""}`}
+                className={`bg-white nav-link ${currentTab === ABOUT ? "active" : ""}`}
                 role="tab"
                 onClick={() => {setCurrentTab(ABOUT)}}>
                 <h1>About</h1>
+              </button>
+            </li>
+            <li className="nav-item">
+              <button
+                className={`bg-white nav-link ${currentTab === "CHAT" ? "active" : ""}`}
+                role="tab"
+                onClick={() => {setCurrentTab("CHAT")}}>
+                <h1>Chat</h1>
               </button>
             </li>
           </ul>

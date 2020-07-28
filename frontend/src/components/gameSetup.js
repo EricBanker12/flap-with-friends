@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
-import {debounce} from "lodash"
+import { debounce } from "lodash-core"
 import { connect } from "react-redux"
 import loadable from "@loadable/component"
 import Axios from "axios"
@@ -44,6 +44,7 @@ const GameSetup = ({game, player, dispatch}) => {
     }
 
     const dispatchColors = debounce((name, value) => {
+        console.log("dispatch color")
         dispatch({
             type: "player",
             payload: {

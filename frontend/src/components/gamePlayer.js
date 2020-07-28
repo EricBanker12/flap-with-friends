@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js"
-import { throttle } from "lodash"
+import { throttle } from "lodash-core"
 
 import store from "../utils/store"
 
