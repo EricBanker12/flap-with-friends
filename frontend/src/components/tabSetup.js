@@ -32,24 +32,20 @@ const TabSetup = ({dispatch, hidden}) => {
             <form onSubmit={play}>
                 <SettingsGame />
                 <SettingsPlayer hidden={hidden} />
-                <div style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
-                    <button
-                        className="btn btn-success btn-lg col-12"
-                        type="button">
-                        Ready
-                    </button>
-                </div>
+                <button
+                    className="btn btn-success btn-lg w-100"
+                    type="button">
+                    Ready
+                </button>
                 <h2>Player Status</h2>
                 <div >
                     <p>To Do</p>
                 </div>
-                <div style={{display: "flex", alignItems: "flex-end", height: "3rem"}}>
-                    <button
-                        className="btn btn-primary btn-lg col-12"
-                        type="submit">
-                        Play
-                    </button>
-                </div>
+                <button
+                    className="btn btn-primary btn-lg w-100"
+                    type="submit">
+                    Play
+                </button>
             </form>
         </div>
     )

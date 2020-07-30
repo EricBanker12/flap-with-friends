@@ -2,7 +2,7 @@ import React from "react"
 
 const TabChat = ({ hidden }) => {
     return (
-        <div>chat goes here</div>
+        <div hidden={hidden}>chat goes here</div>
     )
 }
 
