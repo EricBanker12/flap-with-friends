@@ -1,8 +1,10 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { debounce } from "lodash-core"
+import { FiArrowLeft , FiArrowRight } from "react-icons/fi"
 
 import Tab from "./tab"
+
 import { SETUP, ABOUT, GAME, CHAT, MOBILE } from "../utils/constants"
 
 class Tabs extends Component {
@@ -64,11 +66,12 @@ class Tabs extends Component {
             <div className="d-flex">
                 <button
                     className={`bg-white border border-secondary${this.state.disableLeft ? " disabled" : ""}`}
+                    style={{fontSize: "2em"}}
                     aria-label="scroll left"
                     onClick={this.scrollLeft}
                     disabled={this.state.disableLeft}
                     hidden={this.state.hideArrows}>
-                    ←
+                    <FiArrowLeft />
                 </button>
                 <ul
                     className="nav nav-tabs flex-nowrap flex-grow-1 overflow-hidden"
@@ -97,11 +100,12 @@ class Tabs extends Component {
                 </ul>
                 <button
                     className={`bg-white border border-secondary${this.state.disableRight ? " disabled" : ""}`}
+                    style={{fontSize: "2em"}}
                     aria-label="scroll right"
                     onClick={this.scrollRight}
                     disabled={this.state.disableRight}
                     hidden={this.state.hideArrows}>
-                    →
+                    <FiArrowRight />
                 </button>
             </div>
         )

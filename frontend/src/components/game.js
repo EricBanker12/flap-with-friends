@@ -21,7 +21,7 @@ class Game extends Component {
             },
         })
 
-        const game = new GameApplication()
+        const game = new GameApplication(this.ref.current)
         this.ref.current.appendChild(game.app.view)
         this.setState({game})
     }
@@ -41,7 +41,7 @@ class Game extends Component {
     
     render() {
         return (
-            <div ref={this.ref} style={{position: "relative"}}>
+            <div ref={this.ref} style={{position: "relative", height: 0, paddingBottom: "150%", backgroundColor: "#75CAEB"}}>
                 <GameOver reset={this.reset} />
             </div>
         )

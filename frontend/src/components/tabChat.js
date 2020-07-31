@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 const TabChat = ({ game, tab, device }) => {
     
     return (
-        <div hidden={(tab && game.tab !== tab) || (device && game.device !== device)}>
+        <div role="tabpanel" hidden={(tab && game.tab !== tab) || (device && game.device !== device)}>
             <span>chat goes here</span>
         </div>
     )

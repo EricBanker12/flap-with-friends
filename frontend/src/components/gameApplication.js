@@ -14,7 +14,9 @@ const WIDTH = 320
 const HEIGHT = 480
 
 class GameApplication {
-    constructor() {
+    constructor(parent) {
+        this.parent = parent
+
         this.app = new PIXI.Application({
             width: WIDTH,
             height: HEIGHT,
@@ -42,11 +44,8 @@ class GameApplication {
     }
     
     resize = () => {
-        let width = Math.min(800, window.innerWidth)
-        let height = window.innerHeight
-        if (width > 576) {
-            height -= 124
-        }
+        let width = this.parent.clientWidth
+        let height = this.parent.clientHeight
 
         const scaleX = width / WIDTH
         const scaleY = height / HEIGHT

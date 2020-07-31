@@ -7,8 +7,9 @@ import TabSetup from "../components/tabSetup"
 import TabChat from "../components/tabChat"
 import Tabs from "../components/tabs"
 import SideSection from "../components/sideSection"
+import TabGame from "../components/tabGame"
 
-import { MOBILE, SETUP, ABOUT, CHAT } from "../utils/constants"
+import { MOBILE, SETUP, ABOUT, CHAT, GAME } from "../utils/constants"
 
 const IndexPage = () => {
 
@@ -21,6 +22,7 @@ const IndexPage = () => {
           <div className="mx-4">
             <TabSetup tab={SETUP} />
             <TabAbout tab={ABOUT} />
+            <TabGame tab={GAME} />
             <TabChat tab={CHAT} device={MOBILE} />
           </div>
         </section>
