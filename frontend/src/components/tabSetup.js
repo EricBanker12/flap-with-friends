@@ -6,7 +6,7 @@ import Axios from "axios"
 import SettingsPlayer from "./settingsPlayer"
 import SettingsGame from "./settingsGame"
 
-const TabSetup = ({game, dispatch, hidden}) => {
+const TabSetup = ({game, dispatch, tab}) => {
     
     const play = async (e) => {
         e.preventDefault()
@@ -28,10 +28,10 @@ const TabSetup = ({game, dispatch, hidden}) => {
     }
 
     return (
-        <div role="tabpanel" hidden={game.tab !== "Setup" || hidden}>
+        <div role="tabpanel" hidden={game.tab !== tab}>
             <form onSubmit={play}>
                 <SettingsGame />
-                <SettingsPlayer hidden={game.tab !== "Setup" || hidden} />
+                <SettingsPlayer hidden={game.tab !== tab} />
                 <button
                     className="btn btn-success btn-lg w-100"
                     type="button">

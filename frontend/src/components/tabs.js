@@ -3,11 +3,7 @@ import { connect } from "react-redux"
 import { debounce } from "lodash-core"
 
 import Tab from "./tab"
-
-const SETUP = "Setup"
-const ABOUT = "About"
-const GAME = "Game"
-const CHAT = "Chat"
+import { SETUP, ABOUT, GAME, CHAT, MOBILE } from "../utils/constants"
 
 class Tabs extends Component {
     state = {
@@ -42,10 +38,11 @@ class Tabs extends Component {
         }
     }
 
-    resizeHandler = debounce(this.resize, 50, {leading: true})
+    resizeHandler = debounce(this.resize, 100, {leading: true})
 
     componentDidMount() {
         if (typeof window !== typeof undefined) {
+            this.resize()
             window.addEventListener("resize", this.resizeHandler)
         }
         if (this.tabs.current) {
@@ -76,10 +73,27 @@ class Tabs extends Component {
                 <ul
                     className="nav nav-tabs flex-nowrap flex-grow-1 overflow-hidden"
                     ref={this.tabs}>
-                    <Tab text={SETUP} active={this.props.game.tab === SETUP} onClick={this.setTabFactory(SETUP)} />
-                    <Tab text={ABOUT} active={this.props.game.tab === ABOUT} onClick={this.setTabFactory(ABOUT)} />
-                    <Tab text={GAME} active={this.props.game.tab === GAME} onClick={this.setTabFactory(GAME)} />
-                    <Tab text={CHAT} active={this.props.game.tab === CHAT} onClick={this.setTabFactory(CHAT)} hidden={true} />
+                    <Tab
+                        text={SETUP}
+                        active={this.props.game.tab === SETUP}
+                        onClick={this.setTabFactory(SETUP)}
+                    />
+                    <Tab
+                        text={ABOUT}
+                        active={this.props.game.tab === ABOUT}
+                        onClick={this.setTabFactory(ABOUT)}
+                    />
+                    <Tab
+                        text={GAME}
+                        active={this.props.game.tab === GAME}
+                        onClick={this.setTabFactory(GAME)}
+                    />
+                    <Tab
+                        text={CHAT}
+                        active={this.props.game.tab === CHAT}
+                        onClick={this.setTabFactory(CHAT)}
+                        hidden={this.props.game.device !== MOBILE}
+                    />
                 </ul>
                 <button
                     className={`bg-white border border-secondary${this.state.disableRight ? " disabled" : ""}`}

@@ -1,8 +1,11 @@
+import { DESKTOP, SETUP } from "../constants"
+
 const initState = {
     rounds: 1,
     round: 1,
     scale: 1,
-    tab: "Setup",
+    tab: SETUP,
+    device: DESKTOP,
     baseTexture: null,
     textures: {},
     obstacles: [],

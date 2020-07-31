@@ -15,14 +15,15 @@ const initState = {
 }
 
 export default function(state = initState, action) {
+    let localState = state
     if (typeof localStorage !== "undefined" && state === initState) {
         const nickname = localStorage.getItem("nickname")
         const mainColorHex = localStorage.getItem("mainColorHex") || ""
         const mainColor = parseInt(mainColorHex.slice(1), 16)
         const accentColorHex = localStorage.getItem("accentColorHex") || ""
         const accentColor = parseInt(accentColorHex.slice(1), 16)
-        const highScore = parseInt(localStorage.getItem("highScore")) 
-        return {
+        const highScore = parseInt(localStorage.getItem("highScore"))
+        localState = {
             ...state,
             nickname: nickname || state.nickname,
             mainColor: mainColor || state.mainColor,
@@ -34,7 +35,7 @@ export default function(state = initState, action) {
     }
     if (action.type === "player") {
         for (let key in action.payload) {
-            if (state[key] !== action.payload[key]) {
+            if (localState[key] !== action.payload[key]) {
                 if (typeof localStorage !== "undefined") {
                     if("nickname" in action.payload) {
                         localStorage.setItem("nickname", action.payload["nickname"])
@@ -49,9 +50,9 @@ export default function(state = initState, action) {
                         localStorage.setItem("highScore", action.payload["highScore"])
                     }
                 }
-                return {...state, ...action.payload}
+                return {...localState, ...action.payload}
             }
         }
     }
-    return state
+    return localState
 }
