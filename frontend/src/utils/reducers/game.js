@@ -2,6 +2,7 @@ const initState = {
     rounds: 1,
     round: 1,
     scale: 1,
+    tab: "Setup",
     baseTexture: null,
     textures: {},
     obstacles: [],

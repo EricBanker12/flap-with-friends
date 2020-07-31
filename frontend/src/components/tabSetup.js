@@ -6,7 +6,7 @@ import Axios from "axios"
 import SettingsPlayer from "./settingsPlayer"
 import SettingsGame from "./settingsGame"
 
-const TabSetup = ({dispatch, hidden}) => {
+const TabSetup = ({game, dispatch, hidden}) => {
     
     const play = async (e) => {
         e.preventDefault()
@@ -28,10 +28,10 @@ const TabSetup = ({dispatch, hidden}) => {
     }
 
     return (
-        <div role="tabpanel" hidden={hidden}>
+        <div role="tabpanel" hidden={game.tab !== "Setup" || hidden}>
             <form onSubmit={play}>
                 <SettingsGame />
-                <SettingsPlayer hidden={hidden} />
+                <SettingsPlayer hidden={game.tab !== "Setup" || hidden} />
                 <button
                     className="btn btn-success btn-lg w-100"
                     type="button">
@@ -51,4 +51,4 @@ const TabSetup = ({dispatch, hidden}) => {
     )
 }
 
-export default connect()(TabSetup)
+export default connect(({game}) => ({game}))(TabSetup)
