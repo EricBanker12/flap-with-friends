@@ -31,17 +31,33 @@ class Game extends Component {
         this.init()
     }
 
-    componentDidMount() {
-        this.init()
+    componentDidUpdate(props, state) {
+        if (!this.props.hidden && props.hidden) {
+            this.init()
+        }
+        if (this.props.hidden && !props.hidden && state.game) {
+            state.game.destroy()
+        }
     }
 
     componentWillUnmount() {
-        this.state.game.destroy()
+        if (this.state.game) {
+            this.state.game.destroy()
+        }
     }
     
     render() {
         return (
-            <div ref={this.ref} style={{position: "relative", height: 0, paddingBottom: "150%", backgroundColor: "#75CAEB"}}>
+            <div
+                ref={this.ref}
+                style={{
+                    position: "relative",
+                    backgroundColor: "#75CAEB",
+                    width: "100%",
+                    height: 0,
+                    paddingBottom: "150%",
+                    overflow: "hidden",
+                }}>
                 <GameOver reset={this.reset} />
             </div>
         )

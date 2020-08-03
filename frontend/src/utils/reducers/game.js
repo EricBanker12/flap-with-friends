@@ -6,6 +6,7 @@ const initState = {
     scale: 1,
     tab: SETUP,
     device: DESKTOP,
+    playing: false,
     baseTexture: null,
     textures: {},
     obstacles: [],

@@ -80,16 +80,18 @@ class Tabs extends Component {
                         text={SETUP}
                         active={this.props.game.tab === SETUP}
                         onClick={this.setTabFactory(SETUP)}
-                    />
-                    <Tab
-                        text={ABOUT}
-                        active={this.props.game.tab === ABOUT}
-                        onClick={this.setTabFactory(ABOUT)}
+                        hidden={this.props.game.playing}
                     />
                     <Tab
                         text={GAME}
                         active={this.props.game.tab === GAME}
                         onClick={this.setTabFactory(GAME)}
+                        hidden={!this.props.game.playing}
+                    />
+                    <Tab
+                        text={ABOUT}
+                        active={this.props.game.tab === ABOUT}
+                        onClick={this.setTabFactory(ABOUT)}
                     />
                     <Tab
                         text={CHAT}

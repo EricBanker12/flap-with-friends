@@ -6,6 +6,8 @@ import Axios from "axios"
 import SettingsPlayer from "./settingsPlayer"
 import SettingsGame from "./settingsGame"
 
+import { GAME } from "../utils/constants"
+
 const TabSetup = ({game, dispatch, tab}) => {
     
     const play = async (e) => {
@@ -17,13 +19,21 @@ const TabSetup = ({game, dispatch, tab}) => {
             if (obstacles) {
                 dispatch({
                     type: "game",
-                    payload: {obstacles},
+                    payload: {obstacles, tab: GAME, playing: true},
                 })
             }
-            navigate("/play")
+            else {
+                dispatch({
+                    type: "game",
+                    payload: {tab: GAME, playing: true}
+                })
+            }
         }
         catch (err) {
-            navigate("/play")
+            dispatch({
+                type: "game",
+                payload: {tab: GAME, playing: true}
+            })
         }
     }
 

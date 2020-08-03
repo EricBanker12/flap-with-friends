@@ -1,21 +1,30 @@
-import React from "react"
+import React, { useCallback } from "react"
+import { connect } from "react-redux"
 
-const Tab = ({text, active, onClick, hidden, disabled}) => {
+const Tab = ({tab, game, dispatch}) => {
+    
+    const onClick = useCallback((e) => {
+        e.preventDefault()
+        dispatch({
+            type: "game",
+            payload: {tab},
+        })
+    }, [tab, dispatch])
+
     return (
         <li
-            className={`nav-item${active ? " show" : ""}`}
-            hidden={hidden || false}>
-            <button
-                className={`bg-white nav-link${active ? " active" : ""}`}
-                role="tab"
-                onClick={onClick}
-                disabled={disabled || !onClick}>
-                <h1 className={`my-0${disabled ? " text-muted" : ""}`}>
-                    {text}
+            className="nav-item"
+            hidden={game.tab === tab}>
+            <a
+                className="nav-link"
+                href={`#${tab}`}
+                onClick={onClick}>
+                <h1 className="m-0">
+                    {tab}
                 </h1>
-            </button>
+            </a>
         </li>
     )
 }
 
-export default Tab
+export default connect(({game}) => ({game}))(Tab)
