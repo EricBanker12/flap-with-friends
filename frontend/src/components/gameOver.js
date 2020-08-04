@@ -1,10 +1,21 @@
 import React, { useEffect, useState, useRef } from "react"
 import { connect } from "react-redux"
 import { navigate } from "gatsby"
+import { SETUP } from "../utils/constants"
 
 const GameOver = ({game, player, reset, dispatch}) => {
     const [hidden, setHidden] = useState(true)
     const resetButton = useRef()
+
+    const setupHandler = () => {
+        dispatch({
+            type: "game",
+            payload: {
+                playing: false,
+                tab: SETUP,
+            }
+        })
+    }
 
     useEffect(() => {
         if (hidden && !player.alive && player.dy === 6) {
@@ -63,7 +74,7 @@ const GameOver = ({game, player, reset, dispatch}) => {
                 </button>
                 <button
                     className="btn btn-primary btn-lg mx-4"
-                    onClick={() => {navigate("/")}}>
+                    onClick={setupHandler}>
                     Setup
                 </button>
             </div>

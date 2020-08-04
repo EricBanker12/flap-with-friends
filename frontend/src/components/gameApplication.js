@@ -20,6 +20,7 @@ class GameApplication {
             width: WIDTH,
             height: HEIGHT,
             backgroundColor: 0x75CAEB,
+            resolution: devicePixelRatio || 1,
         })
         
         this.resize()
@@ -43,6 +44,7 @@ class GameApplication {
     }
     
     resize = () => {
+        console.log("resize")
         const parent = this.app.view.parentElement || {}
         let width = parent.clientWidth || WIDTH
         let height = parent.clientHeight || HEIGHT
@@ -85,7 +87,7 @@ class GameApplication {
         }
     }
 
-    resizeHandler = debounce(this.resize, 100)
+    resizeHandler = debounce(this.resize, 50)
 }
 
 export default GameApplication

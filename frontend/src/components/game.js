@@ -9,6 +9,8 @@ class Game extends Component {
     ref = createRef()
 
     init = () => {
+        console.log("init")
+
         this.props.dispatch({
             type: "player",
             payload: {
@@ -21,8 +23,11 @@ class Game extends Component {
             },
         })
 
-        const game = new GameApplication(this.ref.current)
+        const game = new GameApplication()
+        const deviceScale = 1/(devicePixelRatio || 1)
+        game.app.view.style = `transform: scale3d(${deviceScale}, ${deviceScale}, 1); transform-origin: 0 0 0;`
         this.ref.current.appendChild(game.app.view)
+        setTimeout(() => {game.resize()}, 0)
         this.setState({game})
     }
 
@@ -37,6 +42,7 @@ class Game extends Component {
         }
         if (this.props.hidden && !props.hidden && state.game) {
             state.game.destroy()
+            this.setState({game: null})
         }
     }
 
@@ -53,9 +59,10 @@ class Game extends Component {
                 style={{
                     position: "relative",
                     backgroundColor: "#75CAEB",
-                    width: "100%",
+                    width: "min(100%, 67vh)",
                     height: 0,
                     paddingBottom: "150%",
+                    margin: "0 auto",
                     overflow: "hidden",
                 }}>
                 <GameOver reset={this.reset} />

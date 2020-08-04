@@ -36,6 +36,12 @@ class Navbar extends Component {
         }
     }
 
+    componentDidUpdate(props) {
+        if (props.game.tab !== this.props.game.tab && this.state.show) {
+            this.setState({show: false})
+        }
+    }
+
     componentWillUnmount() {
         if (typeof window !== typeof undefined) {
             window.removeEventListener("resize", this.resizeHandler)

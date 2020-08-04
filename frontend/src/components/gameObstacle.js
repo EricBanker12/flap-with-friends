@@ -31,7 +31,6 @@ class GameObstacle {
         this.obstacleBot = new PIXI.Sprite(game.textures.obstacleTex)
 
         const sprites = [this.obstacleTop, this.obstacleBot]
-        // sprites.forEach((sprite) => {sprite.anchor.set(0.5, 0)})
         
         this.obstacleTop.scale.set(1, -1)
         this.obstacleBot.y = GAP_HEIGHT * game.scale
@@ -52,6 +51,7 @@ class GameObstacle {
         const { game, player } = store.getState()
         this.obstacleTop.texture = game.textures.obstacleTex
         this.obstacleBot.texture = game.textures.obstacleTex
+        this.obstacleBot.y = GAP_HEIGHT * game.scale
         this.container.x = this.app.screen.width / 2 + (this.x - player.x) * game.scale
         this.container.y = this.y * game.scale
     }

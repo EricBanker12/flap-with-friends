@@ -64,6 +64,7 @@ class GamePlayer {
         this.faceSprite2.texture = game.textures.faceTex2
 
         this.wingSprite.textures = wingFrames.map(key => game.textures[key])
+        this.wingSprite.play()
 
         this.container.x = this.app.screen.width / 2
         this.container.y = player.y * game.scale
