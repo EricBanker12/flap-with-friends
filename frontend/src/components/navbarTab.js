@@ -1,7 +1,7 @@
 import React, { useCallback } from "react"
 import { connect } from "react-redux"
 
-const Tab = ({tab, game, dispatch}) => {
+const NavbarTab = ({tab, hidden, game, dispatch}) => {
     
     const onClick = useCallback((e) => {
         e.preventDefault()
@@ -14,17 +14,17 @@ const Tab = ({tab, game, dispatch}) => {
     return (
         <li
             className="nav-item"
-            hidden={game.tab === tab}>
+            hidden={game.tab === tab || hidden}>
             <a
                 className="nav-link"
                 href={`#${tab}`}
                 onClick={onClick}>
-                <h1 className="m-0">
+                <span className="mt-3" style={{fontSize: "1.75rem", fontWeight: 500}}>
                     {tab}
-                </h1>
+                </span>
             </a>
         </li>
     )
 }
 
-export default connect(({game}) => ({game}))(Tab)
+export default connect(({game}) => ({game}))(NavbarTab)

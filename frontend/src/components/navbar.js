@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { debounce } from "lodash-core"
 
-import Tab from "./tab"
+import NavbarTab from "./navbarTab"
 
 import { DESKTOP, MOBILE, CHAT, SETUP, ABOUT, GAME } from "../utils/constants"
 
@@ -18,7 +18,7 @@ class Navbar extends Component {
         }
         if (this.props.game.device === MOBILE && window.innerWidth >= 768) {
             if (this.props.game.tab === CHAT) {
-                var tab = SETUP
+                var tab = this.props.game.playing ? GAME : SETUP
             }
             this.props.dispatch({
                 type: "game",
@@ -46,7 +46,11 @@ class Navbar extends Component {
 
         return (
             <nav className="navbar navbar-expand-md navbar-light bg-light col-12">
-                <div className="navbar-brand"><h1>{this.props.game.tab}</h1></div>
+                <div className="navbar-brand">
+                    <h1 className="m-0">
+                        {this.props.game.tab}
+                    </h1>
+                </div>
                 
                 <button
                     className="navbar-toggler"
@@ -59,10 +63,10 @@ class Navbar extends Component {
     
                 <div className={`collapse navbar-collapse${this.state.show ? " show" : ""}`}>
                     <ul className="navbar-nav mr-auto">
-                        <Tab tab={SETUP} />
-                        <Tab tab={GAME} />
-                        <Tab tab={ABOUT} />
-                        <Tab tab={CHAT} />
+                        <NavbarTab tab={SETUP} hidden={this.props.game.playing} />
+                        <NavbarTab tab={GAME} hidden={!this.props.game.playing} />
+                        <NavbarTab tab={ABOUT} />
+                        <NavbarTab tab={CHAT} hidden={this.props.game.device === DESKTOP} />
                     </ul>
                 </div>
             </nav>

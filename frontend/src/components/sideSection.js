@@ -1,11 +1,9 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { debounce } from "lodash-core"
 
-import Tab from "./tab"
 import TabChat from "./tabChat"
 
-import { CHAT, DESKTOP, MOBILE, SETUP } from "../utils/constants"
+import { DESKTOP } from "../utils/constants"
 
 class SideSection extends Component {
 

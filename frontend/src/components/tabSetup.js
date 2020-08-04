@@ -1,5 +1,4 @@
 import React from "react"
-import { navigate } from "gatsby"
 import { connect } from "react-redux"
 import Axios from "axios"
 
