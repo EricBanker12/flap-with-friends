@@ -54,17 +54,22 @@ class Game extends Component {
     render() {
         return (
             <div
-                ref={this.ref}
                 style={{
-                    position: "relative",
                     backgroundColor: "#75CAEB",
                     width: "min(100%, 67vh)",
-                    height: 0,
-                    paddingBottom: "150%",
                     margin: "0 auto",
                     overflow: "hidden",
                 }}>
-                <GameOver reset={this.reset} />
+                    <div
+                        ref={this.ref}
+                        style={{
+                            position: "relative",
+                            height: 0,
+                            paddingBottom: "150%",
+                        }}>
+
+                        <GameOver reset={this.reset} />
+                    </div>
             </div>
         )
     }
