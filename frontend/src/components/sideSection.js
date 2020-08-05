@@ -9,7 +9,7 @@ class SideSection extends Component {
 
     render() {
         return (
-            <section className="col-md-6 px-0" hidden={this.props.game.device !== DESKTOP}>
+            <section className="col-md-6 px-0" hidden={this.props.ui.device !== DESKTOP}>
                 <div className="mx-4">
                     <TabChat device={DESKTOP} />
                 </div>
@@ -18,4 +18,4 @@ class SideSection extends Component {
     }
 }
 
-export default connect(({game})=>({game}))(SideSection)
+export default connect(({ui})=>({ui}))(SideSection)

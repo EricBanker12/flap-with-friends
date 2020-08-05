@@ -1,10 +1,14 @@
 import React from "react"
 import { connect } from "react-redux"
 
-const TabAbout = ({ game, tab }) => {
+const TabAbout = ({ ui, tab }) => {
+
+    if (ui.tab !== tab) {
+        return null
+    }
 
     return (
-        <div role="tabpanel" hidden={game.tab !== tab}>
+        <div>
             <p>This is a remake of Dong Nguyen's Flappy Bird, the video game, with added multiplayer to compete with friends.</p>
             <p><small>Multiplayer is not yet implemented.</small></p>
             <h2>How to Play</h2>
@@ -17,4 +21,4 @@ const TabAbout = ({ game, tab }) => {
     )
 }
 
-export default connect(({game}) => ({game}))(TabAbout)
+export default connect(({ui}) => ({ui}))(TabAbout)

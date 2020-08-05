@@ -1,12 +1,12 @@
 import React from "react"
 import { connect } from "react-redux"
 
-const SettingsGame = ({game, dispatch}) => {
+const SettingsGame = ({settings, dispatch}) => {
     
     const handleGameInput = (e) => {
         const {name, value} = e.currentTarget
         dispatch({
-            type: "game",
+            type: "settings",
             payload: {[name]: value}
         })
     }
@@ -22,7 +22,7 @@ const SettingsGame = ({game, dispatch}) => {
                     name='rounds'
                     min={1}
                     max={20}
-                    defaultValue={game.rounds}
+                    defaultValue={settings.rounds}
                     onChange={handleGameInput}
                 />
             </label>
@@ -30,4 +30,4 @@ const SettingsGame = ({game, dispatch}) => {
     )
 }
 
-export default connect(({game}) => ({game}))(SettingsGame)
+export default connect(({settings}) => ({settings}))(SettingsGame)

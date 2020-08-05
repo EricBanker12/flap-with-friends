@@ -44,7 +44,6 @@ class GameApplication {
     }
     
     resize = () => {
-        console.log("resize")
         const parent = this.app.view.parentElement || {}
         let width = parent.clientWidth || WIDTH
         let height = parent.clientHeight || HEIGHT

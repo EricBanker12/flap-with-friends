@@ -4,14 +4,17 @@ import loadable from "@loadable/component"
 
 const Game = loadable(() => import("./game"))
 
-const TabGame = ({game, tab}) => {
+const TabGame = ({ui, tab}) => {
+
+    if (ui.tab !== tab) {
+        return null
+    }
+
     return (
-        <div
-            role="tabpanel"
-            hidden={game.tab !== tab}>
-            <Game hidden={game.tab !== tab} />
+        <div>
+            <Game />
         </div>
     )
 }
 
-export default connect(({game}) => ({game}))(TabGame)
+export default connect(({ui}) => ({ui}))(TabGame)

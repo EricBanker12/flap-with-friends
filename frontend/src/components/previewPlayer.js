@@ -31,10 +31,10 @@ class PreviewPlayer {
     }
 
     color = () => {
-        const {player} = store.getState()
-        this.bodySprite1.tint = player.mainColor
-        this.bodySprite2.tint = player.accentColor
-        this.wingSprite.tint = player.accentColor
+        const { settings } = store.getState()
+        this.bodySprite1.tint = settings.mainColor
+        this.bodySprite2.tint = settings.accentColor
+        this.wingSprite.tint = settings.accentColor
     }
 }
 

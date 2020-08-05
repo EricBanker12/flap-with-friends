@@ -6,12 +6,12 @@ import InputColor from "./inputColor"
 
 const Preview = loadable(() => import("./preview"))
 
-const SettingsPlayer = ({hidden, player, dispatch}) => {
+const SettingsPlayer = ({settings, dispatch}) => {
 
     const handlePlayerInput = (e) => {
         const {name, value} = e.currentTarget
         dispatch({
-            type: "player",
+            type: "settings",
             payload: {[name]: value}
         })
     }
@@ -28,7 +28,7 @@ const SettingsPlayer = ({hidden, player, dispatch}) => {
                             type='text'
                             name='nickname'
                             required
-                            defaultValue={player.nickname}
+                            defaultValue={settings.nickname}
                             onChange={handlePlayerInput}
                         />
                     </label>
@@ -36,11 +36,11 @@ const SettingsPlayer = ({hidden, player, dispatch}) => {
                     <InputColor label="Accent Color: " name="accentColor" />
                 </div>
                 <div className="col-6 px-0 d-flex justify-content-center align-items-center">
-                    {!hidden && <Preview />}
+                    <Preview />
                 </div>
             </div>
         </>
     )
 }
 
-export default connect(({player}) => ({player}))(SettingsPlayer)
+export default connect(({settings}) => ({settings}))(SettingsPlayer)

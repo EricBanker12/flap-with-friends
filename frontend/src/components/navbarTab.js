@@ -1,12 +1,12 @@
 import React, { useCallback } from "react"
 import { connect } from "react-redux"
 
-const NavbarTab = ({tab, hidden, game, dispatch}) => {
+const NavbarTab = ({tab, hidden, ui, dispatch}) => {
     
     const onClick = useCallback((e) => {
         e.preventDefault()
         dispatch({
-            type: "game",
+            type: "ui",
             payload: {tab},
         })
     }, [tab, dispatch])
@@ -14,7 +14,7 @@ const NavbarTab = ({tab, hidden, game, dispatch}) => {
     return (
         <li
             className="nav-item"
-            hidden={game.tab === tab || hidden}>
+            hidden={ui.tab === tab || hidden}>
             <a
                 className="nav-link"
                 href={`#${tab}`}
@@ -27,4 +27,4 @@ const NavbarTab = ({tab, hidden, game, dispatch}) => {
     )
 }
 
-export default connect(({game}) => ({game}))(NavbarTab)
+export default connect(({ui}) => ({ui}))(NavbarTab)

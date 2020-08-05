@@ -1,13 +1,17 @@
 import React from "react"
 import { connect } from "react-redux"
 
-const TabChat = ({ game, tab, device }) => {
+const TabChat = ({ ui, tab, device }) => {
     
+    if ((tab && ui.tab !== tab) || (device && ui.device !== device)) {
+        return null
+    }
+
     return (
-        <div role="tabpanel" hidden={(tab && game.tab !== tab) || (device && game.device !== device)}>
+        <div>
             <span>chat goes here</span>
         </div>
     )
 }
 
-export default connect(({game}) => ({game}))(TabChat)
+export default connect(({ui}) => ({ui}))(TabChat)

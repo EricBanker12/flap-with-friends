@@ -10,19 +10,19 @@ class Navbar extends Component {
     state = {show: false}
 
     resize = () => {
-        if (this.props.game.device === DESKTOP && window.innerWidth < 768) {
+        if (this.props.ui.device === DESKTOP && window.innerWidth < 768) {
             this.props.dispatch({
-                type: "game",
+                type: "ui",
                 payload: {device: MOBILE}
             })
         }
-        if (this.props.game.device === MOBILE && window.innerWidth >= 768) {
-            if (this.props.game.tab === CHAT) {
-                var tab = this.props.game.playing ? GAME : SETUP
+        if (this.props.ui.device === MOBILE && window.innerWidth >= 768) {
+            if (this.props.ui.tab === CHAT) {
+                var tab = this.props.ui.playing ? GAME : SETUP
             }
             this.props.dispatch({
-                type: "game",
-                payload: {device: DESKTOP, tab: tab || this.props.game.tab}
+                type: "ui",
+                payload: {device: DESKTOP, tab: tab || this.props.ui.tab}
             })
         }
     }
@@ -37,7 +37,7 @@ class Navbar extends Component {
     }
 
     componentDidUpdate(props) {
-        if (props.game.tab !== this.props.game.tab && this.state.show) {
+        if (props.ui.tab !== this.props.ui.tab && this.state.show) {
             this.setState({show: false})
         }
     }
@@ -49,12 +49,11 @@ class Navbar extends Component {
     }
 
     render() {
-
         return (
             <nav className="navbar navbar-expand-md navbar-light bg-light col-12">
                 <div className="navbar-brand">
                     <h1 className="m-0">
-                        {this.props.game.tab}
+                        {this.props.ui.tab}
                     </h1>
                 </div>
                 
@@ -69,10 +68,10 @@ class Navbar extends Component {
     
                 <div className={`collapse navbar-collapse${this.state.show ? " show" : ""}`}>
                     <ul className="navbar-nav mr-auto">
-                        <NavbarTab tab={SETUP} hidden={this.props.game.playing} />
-                        <NavbarTab tab={GAME} hidden={!this.props.game.playing} />
+                        <NavbarTab tab={SETUP} hidden={this.props.ui.playing} />
+                        <NavbarTab tab={GAME} hidden={!this.props.ui.playing} />
                         <NavbarTab tab={ABOUT} />
-                        <NavbarTab tab={CHAT} hidden={this.props.game.device === DESKTOP} />
+                        <NavbarTab tab={CHAT} hidden={this.props.ui.device === DESKTOP} />
                     </ul>
                 </div>
             </nav>
@@ -80,4 +79,4 @@ class Navbar extends Component {
     }
 }
 
-export default connect(({game}) => ({game}))(Navbar)
+export default connect(({ui}) => ({ui}))(Navbar)

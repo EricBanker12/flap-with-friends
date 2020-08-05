@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react"
 import { connect } from "react-redux"
 import { debounce } from "lodash"
 
-const InputColor = ({label, name, player, dispatch}) => {
+const InputColor = ({label, name, settings, dispatch}) => {
 
     const [focus, setFocus] = useState(false)
 
@@ -23,7 +23,7 @@ const InputColor = ({label, name, player, dispatch}) => {
 
     const dispatchColors = useCallback(debounce((name, value) => {
         dispatch({
-            type: "player",
+            type: "settings",
             payload: {
                 [name]: parseInt(value.slice(1), 16),
                 [name + "Hex"]: value,
@@ -44,7 +44,7 @@ const InputColor = ({label, name, player, dispatch}) => {
                     type='color'
                     name={name}
                     style={{opacity: 0, width: "1rem"}}
-                    defaultValue={player[name + "Hex"]}
+                    defaultValue={settings[name + "Hex"]}
                     onChange={handleColors}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
@@ -59,7 +59,7 @@ const InputColor = ({label, name, player, dispatch}) => {
                         height: "1rem",
                         border: focus ? "2px solid #158CBA" : "1px solid #ced4da",
                         borderRadius: "1rem",
-                        background: player[name + "Hex"],
+                        background: settings[name + "Hex"],
                     }}
                 />
             </div>
@@ -67,4 +67,4 @@ const InputColor = ({label, name, player, dispatch}) => {
     )
 }
 
-export default connect(({player}) => ({player}))(InputColor)
+export default connect(({settings}) => ({settings}))(InputColor)

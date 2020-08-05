@@ -19,7 +19,7 @@ class GamePlayer {
 
         this.alive = true
 
-        const { game, player } = store.getState()
+        const { game, player, settings } = store.getState()
 
         this.bodySprite1 = new PIXI.Sprite(game.textures.bodyTex1)
         this.bodySprite2 = new PIXI.Sprite(game.textures.bodyTex2)
@@ -30,9 +30,9 @@ class GamePlayer {
         this.wingSprite.animationSpeed = 0.2
         this.wingSprite.play()
 
-        this.bodySprite1.tint = player.mainColor
-        this.bodySprite2.tint = player.accentColor
-        this.wingSprite.tint = player.accentColor
+        this.bodySprite1.tint = settings.mainColor
+        this.bodySprite2.tint = settings.accentColor
+        this.wingSprite.tint = settings.accentColor
 
         const sprites = [this.bodySprite1, this.bodySprite2, this.wingSprite, this.faceSprite1, this.faceSprite2]
         sprites.forEach((sprite) => {sprite.anchor.set(0.5, 0.5)})
@@ -88,9 +88,9 @@ class GamePlayer {
     }, 100)
 
     update = (delta) => {
-        const { game, player } = store.getState()
+        const { game, player, ui } = store.getState()
         
-        let {x, dx, y, dy} = player
+        let {x, dx, y, dy, highScore} = player
         
         // gravity
         y = Math.min(Math.max(y + dy * delta, 17), 463)
@@ -111,9 +111,21 @@ class GamePlayer {
             this.wingSprite.play()
         }
 
+        if (!this.alive && !ui.gameOver && dy === TVELOCITY) {
+            highScore = Math.max(player.score, highScore)
+            store.dispatch({
+                type: "ui",
+                payload: {
+                    gameOver: true,
+                    score: player.score,
+                    highScore,
+                }
+            })
+        }
+
         store.dispatch({
             type: "player",
-            payload: {x, y, dy},
+            payload: {x, y, dy, highScore},
         })
         
     }

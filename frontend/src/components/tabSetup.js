@@ -7,7 +7,11 @@ import SettingsGame from "./settingsGame"
 
 import { GAME } from "../utils/constants"
 
-const TabSetup = ({game, dispatch, tab}) => {
+const TabSetup = ({ui, dispatch, tab}) => {
+
+    if (ui.tab !== tab) {
+        return null
+    }
     
     const play = async (e) => {
         e.preventDefault()
@@ -18,29 +22,30 @@ const TabSetup = ({game, dispatch, tab}) => {
             if (obstacles) {
                 dispatch({
                     type: "game",
-                    payload: {obstacles, tab: GAME, playing: true},
-                })
-            }
-            else {
-                dispatch({
-                    type: "game",
-                    payload: {tab: GAME, playing: true}
+                    payload: {obstacles},
                 })
             }
         }
         catch (err) {
+            console.log("Cannot reach backend, locally generating random obstacles instead.")
+        }
+        finally {
             dispatch({
-                type: "game",
-                payload: {tab: GAME, playing: true}
+                type: "ui",
+                payload: {
+                    tab: GAME,
+                    playing: true,
+                    gameOver: false,
+                }
             })
         }
     }
 
     return (
-        <div role="tabpanel" hidden={game.tab !== tab}>
+        <div>
             <form onSubmit={play}>
                 <SettingsGame />
-                <SettingsPlayer hidden={game.tab !== tab} />
+                <SettingsPlayer />
                 <button
                     className="btn btn-success btn-lg w-100"
                     type="button">
@@ -60,4 +65,4 @@ const TabSetup = ({game, dispatch, tab}) => {
     )
 }
 
-export default connect(({game}) => ({game}))(TabSetup)
+export default connect(({ui}) => ({ui}))(TabSetup)

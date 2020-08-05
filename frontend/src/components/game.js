@@ -9,7 +9,12 @@ class Game extends Component {
     ref = createRef()
 
     init = () => {
-        console.log("init")
+        this.props.dispatch({
+            type: "ui",
+            payload: {
+                gameOver: false,
+            }
+        })
 
         this.props.dispatch({
             type: "player",
@@ -36,14 +41,8 @@ class Game extends Component {
         this.init()
     }
 
-    componentDidUpdate(props, state) {
-        if (!this.props.hidden && props.hidden) {
-            this.init()
-        }
-        if (this.props.hidden && !props.hidden && state.game) {
-            state.game.destroy()
-            this.setState({game: null})
-        }
+    componentDidMount() {
+        this.init()
     }
 
     componentWillUnmount() {
