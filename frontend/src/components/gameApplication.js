@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js"
-import { debounce } from "lodash"
+import { debounce } from "lodash-core"
 
 import GamePlayer from "./gamePlayer"
 import GameObstacle from "./gameObstacle"
@@ -15,10 +15,12 @@ const HEIGHT = 480
 
 class GameApplication {
     constructor() {
+
         this.app = new PIXI.Application({
             width: WIDTH,
             height: HEIGHT,
             backgroundColor: 0x75CAEB,
+            resolution: devicePixelRatio || 1,
         })
         
         this.resize()
@@ -42,11 +44,9 @@ class GameApplication {
     }
     
     resize = () => {
-        let width = Math.min(800, window.innerWidth)
-        let height = window.innerHeight
-        if (width > 576) {
-            height -= 124
-        }
+        const parent = this.app.view.parentElement || {}
+        let width = parent.clientWidth || WIDTH
+        let height = parent.clientHeight || HEIGHT
 
         const scaleX = width / WIDTH
         const scaleY = height / HEIGHT
@@ -68,13 +68,12 @@ class GameApplication {
             cloudTex: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 0 * scale, 128 * scale, 64 * scale)),
             bodyTex1: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 65 * scale, 34 * scale, 34 * scale)),
             bodyTex2: new PIXI.Texture(baseTexture, new PIXI.Rectangle(35 * scale, 65 * scale, 34 * scale, 34 * scale)),
-            bodyTex3: new PIXI.Texture(baseTexture, new PIXI.Rectangle(70 * scale, 65 * scale, 34 * scale, 34 * scale)),
             wingTex1: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 100 * scale, 34 * scale, 34 * scale)),
             wingTex2: new PIXI.Texture(baseTexture, new PIXI.Rectangle(35 * scale, 100 * scale, 34 * scale, 34 * scale)),
             wingTex3: new PIXI.Texture(baseTexture, new PIXI.Rectangle(70 * scale, 100 * scale, 34 * scale, 34 * scale)),
             faceTex1: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 135 * scale, 34 * scale, 34 * scale)),
             faceTex2: new PIXI.Texture(baseTexture, new PIXI.Rectangle(35 * scale, 135 * scale, 34 * scale, 34 * scale)),
-            obstacleTex: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 169 * scale, 66 * scale, 300 * scale)),
+            obstacleTex: new PIXI.Texture(baseTexture, new PIXI.Rectangle(0 * scale, 170 * scale, 66 * scale, 300 * scale)),
         }
 
         store.dispatch({
@@ -87,7 +86,7 @@ class GameApplication {
         }
     }
 
-    resizeHandler = debounce(this.resize, 100)
+    resizeHandler = debounce(this.resize, 50)
 }
 
 export default GameApplication

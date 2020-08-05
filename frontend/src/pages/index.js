@@ -1,56 +1,33 @@
-import React, { useState } from "react"
+import React from "react"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import GameSetup from "../components/gameSetup"
+import TabAbout from "../components/tabAbout"
+import TabSetup from "../components/tabSetup"
+import TabChat from "../components/tabChat"
+import SideSection from "../components/sideSection"
+import TabGame from "../components/tabGame"
+import Navbar from "../components/navbar"
 
-const SETUP = "setup"
-const ABOUT = "about"
+import { MOBILE, SETUP, ABOUT, CHAT, GAME } from "../utils/constants"
 
 const IndexPage = () => {
-  const [currentTab, setCurrentTab] = useState(SETUP)
 
   return (
     <Layout>
       <SEO title="Home" />
-      <section>
-        <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <button
-              className={`nav-link ${currentTab === SETUP ? "active" : ""}`}
-              style={{cursor: "pointer"}}
-              role="tab"  
-              onClick={() => {setCurrentTab(SETUP)}}>
-              <h1>Setup</h1>
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              className={`nav-link ${currentTab === ABOUT ? "active" : ""}`}
-              style={{cursor: "pointer"}}
-              role="tab"
-              onClick={() => {setCurrentTab(ABOUT)}}>
-              <h1>About</h1>
-            </button>
-          </li>
-        </ul>
-        <div className="tab-content">
-          <div role="tabpanel" className={`tab-pane fade ${currentTab === SETUP ? "active show" : ""}`}>
-            <GameSetup/>
+      <div className="row m-0">
+        <Navbar />
+        <section className="col-md-6 col-sm-12 p-0">
+          <div className="mx-4">
+            <TabSetup tab={SETUP} />
+            <TabGame tab={GAME} />
+            <TabAbout tab={ABOUT} />
+            <TabChat tab={CHAT} device={MOBILE} />
           </div>
-          <div role="tabpanel" className={`tab-pane fade ${currentTab === ABOUT ? "active show" : ""}`}>
-            <p className="mx-4">This is a remake of Dong Nguyen's Flappy Bird, the video game, with added multiplayer to compete with friends.</p>
-            <p className="mx-4"><small>Multiplayer is not yet implemented.</small></p>
-          
-            <h2 className="mx-4">How to Play</h2>
-            <ul className="mx-4">
-              <li>Tap the screen or hit spacebar to flap upwards.</li>
-              <li>Wait for gravity to fall downwards.</li>
-              <li>Avoid obstacles and stay in flight the longest to win!</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+        </section>
+        <SideSection />
+      </div>
     </Layout>
   )
 }

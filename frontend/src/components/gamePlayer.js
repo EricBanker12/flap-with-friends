@@ -1,9 +1,10 @@
 import * as PIXI from "pixi.js"
-import { throttle } from "lodash"
+import { throttle } from "lodash-core"
 
 import store from "../utils/store"
 
 import playerFlap from "../audio/player_flap.mp3"
+import { Howl } from "howler"
 
 const wingFrames = ["wingTex1", "wingTex2", "wingTex3", "wingTex2"]
 
@@ -14,35 +15,33 @@ class GamePlayer {
     constructor(app) {
         this.app = app
 
-        this.audio = document.createElement("audio")
-        this.audio.src = playerFlap
+        this.audio = new Howl({src: [playerFlap]})
 
-        this.frame = 0
-        this.frameCount = 0
         this.alive = true
 
-        const { game, player } = store.getState()
+        const { game, player, settings } = store.getState()
 
         this.bodySprite1 = new PIXI.Sprite(game.textures.bodyTex1)
         this.bodySprite2 = new PIXI.Sprite(game.textures.bodyTex2)
-        this.wingSprite = new PIXI.Sprite(game.textures[wingFrames[this.frame]])
         this.faceSprite1 = new PIXI.Sprite(game.textures.faceTex1)
-        this.bodySprite3 = new PIXI.Sprite(game.textures.bodyTex3)
         this.faceSprite2 = new PIXI.Sprite(game.textures.faceTex2)
+        
+        this.wingSprite = new PIXI.AnimatedSprite(wingFrames.map(key => game.textures[key]))
+        this.wingSprite.animationSpeed = 0.2
+        this.wingSprite.play()
 
-        this.bodySprite1.tint = player.mainColor
-        this.bodySprite2.tint = player.accentColor
-        this.wingSprite.tint = player.accentColor
-        this.bodySprite3.tint = player.accentColor
+        this.bodySprite1.tint = settings.mainColor
+        this.bodySprite2.tint = settings.accentColor
+        this.wingSprite.tint = settings.accentColor
 
-        const sprites = [this.bodySprite1, this.bodySprite2, this.wingSprite, this.faceSprite1, this.bodySprite3, this.faceSprite2]
+        const sprites = [this.bodySprite1, this.bodySprite2, this.wingSprite, this.faceSprite1, this.faceSprite2]
         sprites.forEach((sprite) => {sprite.anchor.set(0.5, 0.5)})
+        sprites.pop() // remove faceSprite2
 
         this.container = new PIXI.Container()
         this.container.x = this.app.screen.width / 2
         this.container.y = player.y * game.scale
         this.container.addChild(...sprites)
-        this.container.removeChild(this.faceSprite2)
 
         this.app.ticker.add(this.update)
         window.addEventListener("keydown", this.flap)
@@ -61,10 +60,12 @@ class GamePlayer {
         const { game, player } = store.getState()
         this.bodySprite1.texture = game.textures.bodyTex1
         this.bodySprite2.texture = game.textures.bodyTex2
-        this.wingSprite.texture = game.textures[wingFrames[this.frame]]
         this.faceSprite1.texture = game.textures.faceTex1
-        this.bodySprite3.texture = game.textures.bodyTex3
         this.faceSprite2.texture = game.textures.faceTex2
+
+        this.wingSprite.textures = wingFrames.map(key => game.textures[key])
+        this.wingSprite.play()
+
         this.container.x = this.app.screen.width / 2
         this.container.y = player.y * game.scale
     }
@@ -72,10 +73,11 @@ class GamePlayer {
     flap = throttle((e) => {
         const { player } = store.getState()
         if (player.alive) {
-            if (!(e instanceof KeyboardEvent) || e.key === " ") {
+            if ((e instanceof KeyboardEvent && e.key === " ")
+                || (e instanceof MouseEvent && e.button === 0)
+                || e instanceof TouchEvent) {
                 e.preventDefault()
-                this.audio.pause()
-                this.audio.currentTime = 0
+                this.audio.stop()
                 this.audio.play()
                 store.dispatch({
                     type: "player",
@@ -86,9 +88,9 @@ class GamePlayer {
     }, 100)
 
     update = (delta) => {
-        const { game, player } = store.getState()
+        const { game, player, ui } = store.getState()
         
-        let {x, dx, y, dy} = player
+        let {x, dx, y, dy, highScore} = player
         
         // gravity
         y = Math.min(Math.max(y + dy * delta, 17), 463)
@@ -100,35 +102,32 @@ class GamePlayer {
         if (this.alive && !player.alive) {
             this.alive = false
             this.container.addChild(this.faceSprite2)
+            this.wingSprite.stop()
         }
 
         if (!this.alive && player.alive) {
             this.alive = true
             this.container.removeChild(this.faceSprite2)
+            this.wingSprite.play()
         }
 
-        if (player.alive) {
-            this.animate(delta, game)
+        if (!this.alive && !ui.gameOver && dy === TVELOCITY) {
+            highScore = Math.max(player.score, highScore)
+            store.dispatch({
+                type: "ui",
+                payload: {
+                    gameOver: true,
+                    score: player.score,
+                    highScore,
+                }
+            })
         }
 
         store.dispatch({
             type: "player",
-            payload: {x, y, dy},
+            payload: {x, y, dy, highScore},
         })
         
-    }
-
-    animate = (delta, game) => {
-        // animate wings flaping
-        const targetFrames = 5 // 1000ms/s / 12frames/s / 16.66ms
-        if (this.frameCount + delta >= targetFrames) {
-            this.frame = (this.frame + 1) % wingFrames.length
-            this.wingSprite.texture = game.textures[wingFrames[this.frame]]
-            this.frameCount += delta - targetFrames
-        }
-        else {
-            this.frameCount += delta
-        }
     }
 }
 

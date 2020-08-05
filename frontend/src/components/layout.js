@@ -32,7 +32,7 @@ const Layout = ({ children }) => {
   return (
     <Provider store={store}>
       <Header siteTitle={data.site.siteMetadata.title} />
-      <div className="layout" style={{background: "#fff", margin: "0 auto", flex: 1, width: "100%", maxWidth: 864}}>
+      <div className="container-xl flex-grow-1 bg-white px-0">
         <main>{children}</main>
         <Footer />
       </div>

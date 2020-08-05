@@ -6,7 +6,7 @@ class GameScore {
     constructor(app) {
         this.app = app
 
-        const { game, player } = store.getState()
+        const { game, player, settings } = store.getState()
 
         this.x = 20
         this.y = 20
@@ -33,7 +33,7 @@ class GameScore {
         }
 
         this.scoreDot = new PIXI.Text(`\u2b24`, {...style, fill: player.mainColor})
-        this.scoreText = new PIXI.Text(`${player.nickname}\n${player.score}`, style)
+        this.scoreText = new PIXI.Text(`${settings.nickname}\n${player.score}`, style)
         this.scoreText.x = 20 * game.scale
 
         this.container = new PIXI.Container()
@@ -49,7 +49,7 @@ class GameScore {
     }
 
     resize = () => {
-        const { game, player } = store.getState()
+        const { game, settings } = store.getState()
         
         const style = {
             fontFamily: [
@@ -72,7 +72,7 @@ class GameScore {
             strokeThickness: 4 * game.scale,
         }
 
-        this.scoreDot.style = {...style, fill: player.mainColor}
+        this.scoreDot.style = {...style, fill: settings.mainColor}
         this.scoreText.style = style
         this.scoreText.x = 20 * game.scale
 
@@ -81,8 +81,8 @@ class GameScore {
     }
 
     update = () => {
-        const { player } = store.getState()
-        this.scoreText.text = `${player.nickname}\n${player.score}`
+        const { player, settings } = store.getState()
+        this.scoreText.text = `${settings.nickname}\n${player.score}`
     }
 }
 

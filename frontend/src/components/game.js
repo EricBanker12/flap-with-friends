@@ -10,11 +10,18 @@ class Game extends Component {
 
     init = () => {
         this.props.dispatch({
+            type: "ui",
+            payload: {
+                gameOver: false,
+            }
+        })
+
+        this.props.dispatch({
             type: "player",
             payload: {
                 alive: true,
                 score: 0,
-                x: -393,
+                x: -360,
                 dx: 2,
                 y: 0,
                 dy: 0,
@@ -22,7 +29,10 @@ class Game extends Component {
         })
 
         const game = new GameApplication()
+        const deviceScale = 1/(devicePixelRatio || 1)
+        game.app.view.style = `transform: scale3d(${deviceScale}, ${deviceScale}, 1); transform-origin: 0 0 0;`
         this.ref.current.appendChild(game.app.view)
+        setTimeout(() => {game.resize()}, 0)
         this.setState({game})
     }
 
@@ -36,13 +46,30 @@ class Game extends Component {
     }
 
     componentWillUnmount() {
-        this.state.game.destroy()
+        if (this.state.game) {
+            this.state.game.destroy()
+        }
     }
     
     render() {
         return (
-            <div ref={this.ref} style={{position: "relative"}}>
-                <GameOver reset={this.reset} />
+            <div
+                style={{
+                    backgroundColor: "#75CAEB",
+                    width: "min(100%, 67vh)",
+                    margin: "0 auto",
+                    overflow: "hidden",
+                }}>
+                    <div
+                        ref={this.ref}
+                        style={{
+                            position: "relative",
+                            height: 0,
+                            paddingBottom: "150%",
+                        }}>
+
+                        <GameOver reset={this.reset} />
+                    </div>
             </div>
         )
     }

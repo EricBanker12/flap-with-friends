@@ -1,35 +1,33 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useRef } from "react"
 import { connect } from "react-redux"
-import { navigate } from "gatsby"
 
-const GameOver = ({game, player, reset, dispatch}) => {
-    const [hidden, setHidden] = useState(true)
+import { SETUP } from "../utils/constants"
+
+const GameOver = ({game, ui, reset, dispatch}) => {
     const resetButton = useRef()
 
+    const setupHandler = () => {
+        dispatch({
+            type: "ui",
+            payload: {
+                tab: SETUP,
+                playing: false,
+                gameOver: false,
+            }
+        })
+    }
+
     useEffect(() => {
-        if (hidden && !player.alive && player.y === 463) {
-            setHidden(false)
+        if (ui.gameOver) {
             setTimeout(() => {
                 resetButton.current.focus()
             }, 0)
         }
-        else if (!hidden && player.alive) {
-            setHidden(true)
-        }
-    }, [player, hidden])
-    
-    useEffect(() => {
-        if (!player.alive && player.score > player.highScore) {
-            dispatch({
-                type: "player",
-                payload: {highScore: player.score},
-            })
-        }
-    }, [player, dispatch])
+    }, [ui])
 
     return (
         <div
-            hidden={hidden}
+            hidden={!ui.gameOver}
             style={{
                 display: "flex",
                 flexDirection: "column",
@@ -53,8 +51,8 @@ const GameOver = ({game, player, reset, dispatch}) => {
                     textAlign: "center",
                     height: "12rem",
                 }}>
-                <h2>Score: {player.score}</h2>
-                <h2>High Score: {player.highScore}</h2>
+                <h2>Score: {ui.score}</h2>
+                <h2>High Score: {ui.highScore}</h2>
                 <button
                     className="btn btn-primary btn-lg mx-4"
                     onClick={reset}
@@ -63,7 +61,7 @@ const GameOver = ({game, player, reset, dispatch}) => {
                 </button>
                 <button
                     className="btn btn-primary btn-lg mx-4"
-                    onClick={() => {navigate("/")}}>
+                    onClick={setupHandler}>
                     Setup
                 </button>
             </div>
@@ -71,4 +69,4 @@ const GameOver = ({game, player, reset, dispatch}) => {
     )
 }
 
-export default connect(({game, player}) => ({game, player}))(GameOver)
+export default connect(({game, ui}) => ({game, ui}))(GameOver)
