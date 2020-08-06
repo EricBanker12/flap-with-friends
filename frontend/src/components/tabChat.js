@@ -1,6 +1,8 @@
 import React from "react"
 import { connect } from "react-redux"
 
+import Chat from "./chat"
+
 const TabChat = ({ ui, tab, device }) => {
     
     if ((tab && ui.tab !== tab) || (device && ui.device !== device)) {
@@ -8,8 +10,8 @@ const TabChat = ({ ui, tab, device }) => {
     }
 
     return (
-        <div>
-            <span>chat goes here</span>
+        <div className="my-4">
+            <Chat />
         </div>
     )
 }
