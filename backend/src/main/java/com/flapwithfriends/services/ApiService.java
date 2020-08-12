@@ -29,17 +29,4 @@ public class ApiService {
         return Mono.just(new JSONObject(memory).toString());
     }
 
-    public String obstacles() {
-        Map<String, int[]> obstaclesMap = new LinkedHashMap<>();
-
-        int[] obstaclesArr = new int[32];
-        for (int i = 0; i < obstaclesArr.length; i++) {
-            double randVal = Math.random() * 206.0;
-            obstaclesArr[i] = 80 + (int) randVal;
-        }
-        obstaclesMap.put("obstacles", obstaclesArr);
-
-        return new JSONObject(obstaclesMap).toString();
-    }
-
 }
