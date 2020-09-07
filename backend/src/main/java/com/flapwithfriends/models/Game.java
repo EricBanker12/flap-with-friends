@@ -25,7 +25,6 @@ public class Game {
 
     private List<String> players;
     private int[] obstacles;
-    
 
     public Game() {
         this.id = UUID.randomUUID().toString();
@@ -36,6 +35,10 @@ public class Game {
             this.obstacles[i] = 80 + (int) randVal;
         }
         this.created = new Date();
+    }
+
+    public void join(String peer) {
+        this.players.add(peer);
     }
 
 }
