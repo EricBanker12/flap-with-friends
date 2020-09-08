@@ -1,6 +1,8 @@
 package com.flapwithfriends.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.flapwithfriends.dto.Peer;
@@ -9,6 +11,7 @@ import com.flapwithfriends.repositories.GameRepository;
 import com.flapwithfriends.services.ApiService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,36 +40,69 @@ public class ApiController {
     /**
      * Create a new game instance
      * @param peer - JSON request body containing peer id
-     * @return
      */
-    @PostMapping(path = "/new")
-    public @ResponseBody Mono<Game> newGame(@RequestBody Peer peer) {
-        // delete old games
+    @PostMapping(path = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Mono<Game> newGame(@RequestBody Mono<Peer> peerMono) {
+        Game game = new Game();
+        
+        /**
+         * Function to filter for only old games
+         */
         Predicate<Game> isOld = new Predicate<Game>(){
             @Override
             public boolean test(Game game) {
                 return game.getCreated().getTime() < new Date().getTime() - 4L*60L*60L*1000L; // more than 4 hours old
             }
         };
-        gameRepository.deleteAll(gameRepository.findAll().filter(isOld));
+        
+        /**
+         * Consumer to grab peer id from request body and join a game
+         */
+        Consumer<Peer> joinGame = new Consumer<Peer>(){
+            @Override
+            public void accept(Peer peer) {
+                game.join(peer.getId());
+            }
+        };
 
-        // create new game
-        Game game = new Game();
-        game.join(peer.getId());
-        return gameRepository.save(game);
+        return gameRepository.deleteAll(gameRepository.findAll().filter(isOld)).then(peerMono.doOnSuccess(joinGame)).then(gameRepository.save(game));
     }
 
     /**
      * Join a game with given game id and peer id
      * @param id - game id given as a path variable
      * @param peer - JSON request body containing peer id
-     * @return
      */
-    @PostMapping(path = "/join/{id}")
-    public @ResponseBody Mono<Game> joinGame(@PathVariable String id, @RequestBody Peer peer) {
-        Game game = gameRepository.findById(id).block();
-        game.join(peer.getId());
-        return gameRepository.save(game);
+    @PostMapping(path = "/join/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Mono<Game> joinGame(@PathVariable String id, @RequestBody Mono<Peer> peerMono) {
+        Game game = new Game("", new Date(0L), new ArrayList<String>(), new int[32]);
+
+        Mono<Game> gameMono = gameRepository.findById(id);
+
+        /**
+         * Consumer to grab game by id
+         */
+        Consumer<Game> getGame = new Consumer<Game>(){
+            @Override
+            public void accept(Game g) {
+                game.setId(g.getId());
+                game.setCreated(g.getCreated());
+                game.setPlayers(g.getPlayers());
+                game.setObstacles(g.getObstacles());
+            }
+        };
+        
+        /**
+         * Consumer to grab peer id from request body and join a game
+         */
+        Consumer<Peer> joinGame = new Consumer<Peer>(){
+            @Override
+            public void accept(Peer peer) {
+                game.join(peer.getId());
+            }
+        };
+
+        return gameMono.doOnSuccess(getGame).then(peerMono.doOnSuccess(joinGame).then(gameRepository.save(game)));
     }
 
 }

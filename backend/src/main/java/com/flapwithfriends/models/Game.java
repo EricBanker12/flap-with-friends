@@ -28,7 +28,7 @@ public class Game {
 
     public Game() {
         this.id = UUID.randomUUID().toString();
-        this.players = new ArrayList<>();
+        this.players = new ArrayList<String>();
         this.obstacles = new int[32];
         for (int i = 0; i < this.obstacles.length; i++) {
             double randVal = Math.random() * 206.0;
