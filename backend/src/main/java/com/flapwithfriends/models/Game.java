@@ -1,8 +1,8 @@
 package com.flapwithfriends.models;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -23,13 +23,13 @@ public class Game {
     @CreatedDate
     private Date created;
 
-    private List<String> players;
+    private Set<String> players;
     private int[] obstacles;
 
     public Game() {
         this.id = UUID.randomUUID().toString();
-        this.players = new ArrayList<String>();
-        this.obstacles = new int[32];
+        this.players = new HashSet<String>();
+        this.obstacles = new int[30];
         for (int i = 0; i < this.obstacles.length; i++) {
             double randVal = Math.random() * 206.0;
             this.obstacles[i] = 80 + (int) randVal;
@@ -38,6 +38,9 @@ public class Game {
     }
 
     public void join(String peer) {
+        if (this.players.size() >= 10) {
+            throw new Error("This game's lobby is already full!");
+        }
         this.players.add(peer);
     }
 

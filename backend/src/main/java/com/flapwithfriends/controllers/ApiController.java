@@ -1,7 +1,7 @@
 package com.flapwithfriends.controllers;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -75,7 +75,7 @@ public class ApiController {
      */
     @PostMapping(path = "/join/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Mono<Game> joinGame(@PathVariable String id, @RequestBody Mono<Peer> peerMono) {
-        Game game = new Game("", new Date(0L), new ArrayList<String>(), new int[32]);
+        Game game = new Game("", new Date(0L), new HashSet<String>(), new int[30]);
 
         Mono<Game> gameMono = gameRepository.findById(id);
 
