@@ -1,5 +1,4 @@
 const initState = {
-    rounds: 1,
     nickname: "",
     ready: false,
     mainColor: 0xff0000,

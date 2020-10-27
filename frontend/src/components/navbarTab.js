@@ -1,20 +1,19 @@
-import React, { useCallback } from "react"
+import React from "react"
 import { connect } from "react-redux"
 
-const NavbarTab = ({tab, hidden, ui, dispatch}) => {
+const NavbarTab = ({tab, ui, dispatch}) => {
     
-    const onClick = useCallback((e) => {
-        e.preventDefault()
+    const onClick = (e) => {
         dispatch({
             type: "ui",
-            payload: {tab},
+            payload: {showTabs: false},
         })
-    }, [tab, dispatch])
+    }
 
     return (
         <li
             className="nav-item"
-            hidden={ui.tab === tab || hidden}>
+            hidden={ui.tab === tab}>
             <a
                 className="nav-link"
                 href={`#${tab}`}

@@ -12,6 +12,7 @@ import { Provider } from "react-redux"
 
 import Header from "./header"
 import Footer from "./footer"
+import SEO from "./seo"
 
 import store from "../utils/store"
 
@@ -31,6 +32,7 @@ const Layout = ({ children }) => {
 
   return (
     <Provider store={store}>
+      <SEO />
       <Header siteTitle={data.site.siteMetadata.title} />
       <div className="container-xl flex-grow-1 bg-white px-0">
         <main>{children}</main>

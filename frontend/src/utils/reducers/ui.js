@@ -1,8 +1,8 @@
-import { DESKTOP, SETUP } from "../constants"
+import { SETUP } from "../constants"
 
 const initState = {
     tab: SETUP,
-    device: DESKTOP,
+    showTabs: false,
     playing: false,
     gameOver: false,
     score: 0,

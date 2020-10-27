@@ -1,9 +1,8 @@
 const initState = {
     alive: true,
     score: 0,
-    highScore: 0,
-    x: -360, // 3s from first obstacle
-    dx: 2,
+    x: 0,
+    dx: 0,
     y: 0,
     dy: 0,
 }

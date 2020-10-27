@@ -1,5 +1,4 @@
 const initState = {
-    round: 1,
     scale: 1,
     baseTexture: null,
     textures: {},

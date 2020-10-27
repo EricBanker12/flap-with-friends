@@ -3,7 +3,6 @@ import { connect } from "react-redux"
 import Axios from "axios"
 
 import SettingsPlayer from "./settingsPlayer"
-import SettingsGame from "./settingsGame"
 
 import { GAME } from "../utils/constants"
 
@@ -30,6 +29,7 @@ const TabSetup = ({ui, dispatch, tab}) => {
             console.log("Cannot reach backend, locally generating random obstacles instead.")
         }
         finally {
+            window.location.hash=GAME
             dispatch({
                 type: "ui",
                 payload: {
@@ -44,7 +44,6 @@ const TabSetup = ({ui, dispatch, tab}) => {
     return (
         <div>
             <form onSubmit={play}>
-                <SettingsGame />
                 <SettingsPlayer />
                 <button
                     className="btn btn-success btn-lg w-100"

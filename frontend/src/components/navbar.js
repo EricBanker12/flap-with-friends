@@ -1,51 +1,31 @@
 import React, { Component } from "react"
-import { connect } from "react-redux"
-import { debounce } from "lodash-core"
 
 import NavbarTab from "./navbarTab"
 
-import { DESKTOP, MOBILE, CHAT, SETUP, ABOUT, GAME } from "../utils/constants"
+import { SETUP, ABOUT, JOIN} from "../utils/constants"
+import { connect } from "react-redux"
 
 class Navbar extends Component {
-    state = {show: false}
-
-    resize = () => {
-        if (this.props.ui.device === DESKTOP && window.innerWidth < 768) {
-            this.props.dispatch({
-                type: "ui",
-                payload: {device: MOBILE}
-            })
-        }
-        if (this.props.ui.device === MOBILE && window.innerWidth >= 768) {
-            if (this.props.ui.tab === CHAT) {
-                var tab = this.props.ui.playing ? GAME : SETUP
-            }
-            this.props.dispatch({
-                type: "ui",
-                payload: {device: DESKTOP, tab: tab || this.props.ui.tab}
-            })
-        }
-    }
-
-    resizeHandler = debounce(this.resize, 50, {leading: true})
     
+    toggleShowTabs = (e) => {
+        this.props.dispatch({
+            type: "ui",
+            payload: {
+                showTabs: !this.props.ui.showTabs
+            },
+        })
+    }
+
     componentDidMount() {
-        if (typeof window !== typeof undefined) {
-            this.resize()
-            window.addEventListener("resize", this.resizeHandler)
-        }
-    }
-
-    componentDidUpdate(props) {
-        if (props.ui.tab !== this.props.ui.tab && this.state.show) {
-            this.setState({show: false})
-        }
-    }
-
-    componentWillUnmount() {
-        if (typeof window !== typeof undefined) {
-            window.removeEventListener("resize", this.resizeHandler)
-        }
+        if (typeof window === typeof undefined)
+            return null
+        
+        this.props.dispatch({
+            type: "ui",
+            payload: {
+                tab: window.location.hash.slice(1) || SETUP
+            },
+        })
     }
 
     render() {
@@ -60,18 +40,17 @@ class Navbar extends Component {
                 <button
                     className="navbar-toggler"
                     type="button"
-                    aria-expanded={this.state.show}
+                    aria-expanded={this.props.ui.showTabs}
                     aria-label="Toggle navigation"
-                    onClick={() => {this.setState({show: !this.state.show})}}>
+                    onClick={this.toggleShowTabs}>
                     <div className="navbar-toggler-icon" />
                 </button>
     
-                <div className={`collapse navbar-collapse${this.state.show ? " show" : ""}`}>
+                <div className={`collapse navbar-collapse${this.props.ui.showTabs ? " show" : ""}`}>
                     <ul className="navbar-nav mr-auto">
-                        <NavbarTab tab={SETUP} hidden={this.props.ui.playing} />
-                        <NavbarTab tab={GAME} hidden={!this.props.ui.playing} />
+                        <NavbarTab tab={SETUP} />
                         <NavbarTab tab={ABOUT} />
-                        <NavbarTab tab={CHAT} hidden={this.props.ui.device === DESKTOP} />
+                        <NavbarTab tab={JOIN} />
                     </ul>
                 </div>
             </nav>

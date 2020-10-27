@@ -9,8 +9,9 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
+import { connect } from "react-redux"
 
-function SEO({ description, lang, meta, title, path }) {
+function SEO({ description, lang, meta, title, path, ui }) {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -26,15 +27,13 @@ function SEO({ description, lang, meta, title, path }) {
     `
   )
 
+  const metaTitle = title || site.siteMetadata.title
   const metaDescription = description || site.siteMetadata.description
 
   return (
     <Helmet
-      htmlAttributes={{
-        lang,
-      }}
-      title={title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
+      htmlAttributes={{lang}}
+      title={`${title || ui.tab} | ${site.siteMetadata.title}`}
       meta={[
         {
           name: `description`,
@@ -42,7 +41,7 @@ function SEO({ description, lang, meta, title, path }) {
         },
         {
           property: `og:title`,
-          content: title,
+          content: metaTitle,
         },
         {
           property: `og:description`,
@@ -62,7 +61,7 @@ function SEO({ description, lang, meta, title, path }) {
         },
         {
           name: `twitter:title`,
-          content: title,
+          content: metaTitle,
         },
         {
           name: `twitter:description`,
@@ -76,6 +75,7 @@ function SEO({ description, lang, meta, title, path }) {
 }
 
 SEO.defaultProps = {
+  title: ``,
   lang: `en`,
   meta: [],
   description: ``,
@@ -86,8 +86,9 @@ SEO.propTypes = {
   description: PropTypes.string,
   lang: PropTypes.string,
   meta: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   path: PropTypes.string,
+  ui: PropTypes.object,
 }
 
-export default SEO
+export default connect(({ui}) => ({ui}))(SEO)
