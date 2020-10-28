@@ -12,13 +12,16 @@ const SettingsPlayer = ({settings, dispatch}) => {
         const {name, value} = e.currentTarget
         dispatch({
             type: "settings",
-            payload: {[name]: value}
+            payload: {
+                [name]: value,
+                ready: false,
+            }
         })
     }
 
     return (
         <>
-            <h2>Player Settings</h2>
+            <h2 className="mt-1">Player Settings</h2>
             <div className="row m-0">
                 <div className="col-6 px-0">
                     <label>

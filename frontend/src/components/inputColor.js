@@ -27,6 +27,7 @@ const InputColor = ({label, name, settings, dispatch}) => {
             payload: {
                 [name]: parseInt(value.slice(1), 16),
                 [name + "Hex"]: value,
+                ready: false,
             }
         })
     }, 100, {leading: true}), [dispatch])
@@ -37,7 +38,7 @@ const InputColor = ({label, name, settings, dispatch}) => {
     }
 
     return (
-        <label style={{display: "block"}}>
+        <label className="d-block">
             <span>{label}</span>
             <div style={{display: "inline", position: "relative"}}>
                 <input

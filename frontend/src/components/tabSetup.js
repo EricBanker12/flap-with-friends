@@ -4,12 +4,19 @@ import Axios from "axios"
 
 import SettingsPlayer from "./settingsPlayer"
 
-import { GAME } from "../utils/constants"
+import { GAME, CHAT } from "../utils/constants"
 
-const TabSetup = ({ui, dispatch, tab}) => {
+const TabSetup = ({settings, ui, dispatch, tab}) => {
 
     if (ui.tab !== tab) {
         return null
+    }
+
+    const ready = (e) => {
+        dispatch({
+            type: "settings",
+            payload: {ready: !settings.ready}
+        })
     }
     
     const play = async (e) => {
@@ -45,23 +52,26 @@ const TabSetup = ({ui, dispatch, tab}) => {
         <div>
             <form onSubmit={play}>
                 <SettingsPlayer />
-                <button
-                    className="btn btn-success btn-lg w-100"
-                    type="button">
-                    Ready
-                </button>
-                <h2>Player Status</h2>
+                <div className="d-flex w-100">
+                    <button
+                        className={`btn btn-${settings.ready ? "success" : "primary"} btn-lg flex-grow-1 mr-4`}
+                        type="button"
+                        onClick={ready}>
+                        Ready
+                    </button>
+                    <a
+                        className="btn btn-primary btn-lg flex-grow-1"
+                        href={`#${CHAT}`}>
+                        Chat
+                    </a>
+                </div>
+                <h2 className="mt-1">Player Status</h2>
                 <div >
                     <p>To Do</p>
                 </div>
-                <button
-                    className="btn btn-primary btn-lg w-100"
-                    type="submit">
-                    Play
-                </button>
             </form>
         </div>
     )
 }
 
-export default connect(({ui}) => ({ui}))(TabSetup)
+export default connect(({settings, ui}) => ({settings, ui}))(TabSetup)

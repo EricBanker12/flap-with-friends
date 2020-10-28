@@ -30,7 +30,7 @@ class Navbar extends Component {
 
     render() {
         return (
-            <nav className="navbar navbar-expand-md navbar-light bg-light col-12">
+            <nav className="navbar navbar-expand-sm navbar-light bg-light col-12">
                 <div className="navbar-brand">
                     <h1 className="m-0">
                         {this.props.ui.tab}
@@ -47,7 +47,7 @@ class Navbar extends Component {
                 </button>
     
                 <div className={`collapse navbar-collapse${this.props.ui.showTabs ? " show" : ""}`}>
-                    <ul className="navbar-nav mr-auto">
+                    <ul className="navbar-nav">
                         <NavbarTab tab={SETUP} />
                         <NavbarTab tab={ABOUT} />
                         <NavbarTab tab={JOIN} />

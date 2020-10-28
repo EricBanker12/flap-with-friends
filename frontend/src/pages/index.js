@@ -64,7 +64,7 @@ const IndexPage = () => {
     <Layout>
       <div className="row m-0">
         <Navbar />
-        <section className="col-md-6 col-sm-12 p-0">
+        <section className="col-12 p-0">
           <div className="mx-4">
             <TabSetup tab={SETUP} />
             <TabGame tab={GAME} />
