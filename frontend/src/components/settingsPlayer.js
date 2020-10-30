@@ -23,7 +23,7 @@ const SettingsPlayer = ({settings, dispatch}) => {
         <>
             <h2 className="mt-1">Player Settings</h2>
             <div className="row m-0">
-                <div className="col-6 px-0">
+                <div className="col-6 px-0 d-flex flex-column align-items-start">
                     <label>
                         <span>Nickname: </span>
                         <input

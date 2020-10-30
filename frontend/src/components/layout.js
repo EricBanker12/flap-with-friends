@@ -34,7 +34,7 @@ const Layout = ({ children }) => {
     <Provider store={store}>
       <SEO />
       <Header siteTitle={data.site.siteMetadata.title} />
-      <div className="container-md bg-white px-0 flex-grow-1">
+      <div className="container-fluid bg-white px-0 flex-grow-1" style={{maxWidth: 720}}>
         <main>{children}</main>
         <Footer />
       </div>

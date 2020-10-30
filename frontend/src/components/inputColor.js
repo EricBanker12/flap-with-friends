@@ -38,7 +38,7 @@ const InputColor = ({label, name, settings, dispatch}) => {
     }
 
     return (
-        <label className="d-block">
+        <label>
             <span>{label}</span>
             <div style={{display: "inline", position: "relative"}}>
                 <input

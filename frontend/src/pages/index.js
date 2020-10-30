@@ -8,14 +8,16 @@ import TabChat from "../components/tabChat"
 import SideSection from "../components/sideSection"
 import TabGame from "../components/tabGame"
 import Navbar from "../components/navbar"
+import TabJoin from "../components/tabJoin"
 
 import store from "../utils/store"
-import { SETUP, ABOUT, CHAT, GAME } from "../utils/constants"
+import { SETUP, ABOUT, CHAT, GAME, JOIN } from "../utils/constants"
 
 const IndexPage = () => {
 
   /** popstate event handler */
   const updateTab = (tab) => {
+    window.scroll({top: 0, left: 0, behavior: "auto"})
     store.dispatch({
       type: "ui",
       payload: {
@@ -70,6 +72,7 @@ const IndexPage = () => {
             <TabGame tab={GAME} />
             <TabAbout tab={ABOUT} />
             <TabChat tab={CHAT} />
+            <TabJoin tab={JOIN} />
           </div>
         </section>
         <SideSection />
