@@ -1,6 +1,6 @@
 const initState = {
   lobbyId: "",
-  playerId: "",
+  peerId: "",
 }
 
 export default function(state = initState, action) {
