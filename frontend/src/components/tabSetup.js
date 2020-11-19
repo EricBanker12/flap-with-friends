@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import Axios from "axios"
 
 import SettingsPlayer from "./settingsPlayer"
+import InviteLink from "./inviteLink"
 
 import { GAME, CHAT } from "../utils/constants"
 
@@ -50,6 +51,7 @@ const TabSetup = ({settings, ui, dispatch, tab}) => {
 
     return (
         <div>
+            <InviteLink/>
             <form onSubmit={play}>
                 <SettingsPlayer />
                 <div className="d-flex w-100">
