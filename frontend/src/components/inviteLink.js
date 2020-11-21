@@ -12,19 +12,22 @@ const InviteLink = ({lobby}) => {
   }
 
   return (
-    <label className="d-flex align-items-center mt-3 flex-wrap">
-      <span className="d-block">Invite&nbsp;Link:&nbsp;</span>
-      <input
-        type="text"
-        className="form-control w-25 flex-grow-1"
-        value={inviteLink}
-      />
-      <button
-        type="button"
-        className="btn btn-success"
-        onClick={copyInviteLink}>
-        Copy
-      </button>
+    <label className="d-block">
+      <h2>Invite Link</h2>
+      <div className="d-flex w-100">
+        <input
+          type="text"
+          className="form-control"
+          value={inviteLink}
+          readOnly
+        />
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={copyInviteLink}>
+          Copy
+        </button>
+      </div>
     </label>
   )
 }

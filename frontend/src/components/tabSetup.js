@@ -50,7 +50,7 @@ const TabSetup = ({settings, ui, dispatch}) => {
     }
 
     return (
-        <div>
+        <div className="mt-1">
             <InviteLink/>
             <form onSubmit={play}>
                 <SettingsPlayer />

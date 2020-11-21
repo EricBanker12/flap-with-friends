@@ -1,13 +1,27 @@
-import React, { Component } from "react"
+import React, { Component, createRef } from "react"
+import { connect } from "react-redux"
 
 import NavbarTab from "./navbarTab"
 
 import { SETUP, ABOUT, JOIN} from "../utils/constants"
-import { connect } from "react-redux"
 
 class Navbar extends Component {
+    navbarRef = createRef()
     
-    toggleShowTabs = (e) => {
+    startShowTabs = (e) => {
+        this.navbarRef.current.classList.remove("collapse", "show")
+        this.navbarRef.current.classList.add("collapsing")
+        
+        setTimeout(() => {
+            if (!this.navbarRef.current.style.height) {
+                const height = [...this.navbarRef.current.children].reduce((a, b) => a + b.clientHeight, 0)
+                this.navbarRef.current.style.height = `${height}px`
+            }
+            else {
+                this.navbarRef.current.removeAttribute("style")
+            }
+        }, 0)
+
         this.props.dispatch({
             type: "ui",
             payload: {
@@ -16,9 +30,20 @@ class Navbar extends Component {
         })
     }
 
+    stopShowTabs = (e) => {
+        if (e.target === this.navbarRef.current) {
+            e.target.className = e.target.className.replace(" collapsing", " collapse")
+            if (this.props.ui.showTabs) {
+                e.target.className += " show"
+            }
+        }
+    }
+
     componentDidMount() {
         if (typeof window === typeof undefined)
             return null
+
+        window.addEventListener("transitionend", this.stopShowTabs)
         
         this.props.dispatch({
             type: "ui",
@@ -26,6 +51,13 @@ class Navbar extends Component {
                 tab: window.location.hash || SETUP
             },
         })
+    }
+
+    componentWillUnmount() {
+        if (typeof window === typeof undefined)
+            return null
+
+        window.removeEventListener("transitionend", this.stopShowTabs)
     }
 
     render() {
@@ -42,11 +74,11 @@ class Navbar extends Component {
                     type="button"
                     aria-expanded={this.props.ui.showTabs}
                     aria-label="Toggle navigation"
-                    onClick={this.toggleShowTabs}>
+                    onClick={this.startShowTabs}>
                     <div className="navbar-toggler-icon" />
                 </button>
     
-                <div className={`collapse navbar-collapse${this.props.ui.showTabs ? " show" : ""}`}>
+                <div ref={this.navbarRef} className="navbar-collapse collapse">
                     <ul className="navbar-nav">
                         <NavbarTab tab={SETUP} />
                         <NavbarTab tab={ABOUT} />

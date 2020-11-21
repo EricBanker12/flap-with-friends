@@ -24,10 +24,10 @@ const SettingsPlayer = ({settings, dispatch}) => {
             <h2 className="mt-1">Player Settings</h2>
             <div className="row m-0">
                 <div className="col-6 px-0 d-flex flex-column align-items-start">
-                    <label>
-                        <span>Nickname: </span>
+                    <label className="d-flex w-100 align-items-center justify-content-start flex-wrap flex-sm-nowrap">
+                        <span>Name:&nbsp;</span>
                         <input
-                            className="form-control"
+                            className="form-control mr-2"
                             type='text'
                             name='nickname'
                             required
