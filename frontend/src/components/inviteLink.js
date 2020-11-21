@@ -12,11 +12,11 @@ const InviteLink = ({lobby}) => {
   }
 
   return (
-    <label className="d-flex align-items-center mt-3">
+    <label className="d-flex align-items-center mt-3 flex-wrap">
       <span className="d-block">Invite&nbsp;Link:&nbsp;</span>
       <input
         type="text"
-        className="form-control"
+        className="form-control w-25 flex-grow-1"
         value={inviteLink}
       />
       <button

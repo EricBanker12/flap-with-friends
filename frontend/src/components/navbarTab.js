@@ -13,7 +13,7 @@ const NavbarTab = ({tab, ui, dispatch}) => {
     return (
         <li
             className="nav-item"
-            hidden={ui.tab === tab}>
+            hidden={RegExp(tab).test(ui.tab)}>
             <a
                 className="nav-link"
                 href={`#${tab}`}

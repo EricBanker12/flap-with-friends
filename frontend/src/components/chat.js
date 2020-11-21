@@ -24,19 +24,23 @@ const Chat = ({ chat, settings, dispatch, ...props }) => {
     }
 
     return (
-        <div {...props} className="card">
-            <div className="card-body">
-                {chat.history.map((props) => <ChatMessage {...props} />)}
-            </div>
-            <form className="card-footer" onSubmit={onSubmit}>
-                <input
-                    className="form-control"
-                    type="text"
-                    maxLength={300}
-                    onChange={(e) => {setInput(e.target.value)}}
-                    value={input}
-                />
-            </form>
+        <div {...props} className="modal">
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-body">
+                        {chat.history.map((props) => <ChatMessage {...props} />)}
+                    </div>
+                    <form className="modal-footer" onSubmit={onSubmit}>
+                        <input
+                            className="form-control"
+                            type="text"
+                            maxLength={300}
+                            onChange={(e) => {setInput(e.target.value)}}
+                            value={input}
+                        />
+                    </form>
+                    </div>
+                </div>
         </div>
     )
 }

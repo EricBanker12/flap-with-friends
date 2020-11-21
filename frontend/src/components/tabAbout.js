@@ -1,9 +1,10 @@
 import React from "react"
 import { connect } from "react-redux"
+import { ABOUT } from "../utils/constants"
 
-const TabAbout = ({ ui, tab }) => {
+const TabAbout = ({ ui }) => {
 
-    if (ui.tab !== tab) {
+    if (!RegExp(ABOUT).test(ui.tab)) {
         return null
     }
 

@@ -1,12 +1,13 @@
 import React from "react"
 import { connect } from "react-redux"
 import loadable from "@loadable/component"
+import { GAME } from "../utils/constants"
 
 const Game = loadable(() => import("./game"))
 
-const TabGame = ({ui, tab}) => {
+const TabGame = ({ui}) => {
 
-    if (ui.tab !== tab) {
+    if (!RegExp(GAME).test(ui.tab)) {
         return null
     }
 

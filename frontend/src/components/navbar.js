@@ -23,7 +23,7 @@ class Navbar extends Component {
         this.props.dispatch({
             type: "ui",
             payload: {
-                tab: window.location.hash.slice(1) || SETUP
+                tab: window.location.hash || SETUP
             },
         })
     }
@@ -33,7 +33,7 @@ class Navbar extends Component {
             <nav className="navbar navbar-expand-sm navbar-light bg-light col-12">
                 <div className="navbar-brand">
                     <h1 className="m-0">
-                        {this.props.ui.tab}
+                        {this.props.ui.tab.match(RegExp(`${SETUP}|${ABOUT}|${JOIN}`))}
                     </h1>
                 </div>
                 

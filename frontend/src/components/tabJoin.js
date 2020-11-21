@@ -2,8 +2,14 @@ import React, { useState } from "react"
 import { connect } from "react-redux"
 import Axios from "axios"
 
-const TabJoin = ({ui, lobby, dispatch, tab}) => {
+import { JOIN } from "../utils/constants"
+
+const TabJoin = ({ui, lobby, dispatch}) => {
   const [joinCode, setJoinCode] = useState("")
+  
+  if (!RegExp(JOIN).test(ui.tab)) {
+    return null
+  }
 
   const handleInput = (e) => {
     setJoinCode(e.target.value)
@@ -33,7 +39,7 @@ const TabJoin = ({ui, lobby, dispatch, tab}) => {
   }
 
   return (
-    <div className="mt-1" hidden={ui.tab !== tab}>
+    <div className="mt-1">
       <h2>Connect with Friends</h2>
       <p>Enter your invite link or code to join your friend's lobby.</p>
       <form onSubmit={join}>

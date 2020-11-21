@@ -4,14 +4,12 @@ import React, { useEffect } from "react"
 import Layout from "../components/layout"
 import TabAbout from "../components/tabAbout"
 import TabSetup from "../components/tabSetup"
-import TabChat from "../components/tabChat"
-import SideSection from "../components/sideSection"
 import TabGame from "../components/tabGame"
 import Navbar from "../components/navbar"
 import TabJoin from "../components/tabJoin"
+import Chat from "../components/chat"
 
 import store from "../utils/store"
-import { SETUP, ABOUT, CHAT, GAME, JOIN } from "../utils/constants"
 
 const IndexPage = () => {
 
@@ -21,7 +19,7 @@ const IndexPage = () => {
     store.dispatch({
       type: "ui",
       payload: {
-        tab: window.location.hash.slice(1)
+        tab: window.location.hash
       }
     })
   }
@@ -68,14 +66,13 @@ const IndexPage = () => {
         <Navbar />
         <section className="col-12 p-0">
           <div className="mx-4">
-            <TabSetup tab={SETUP} />
-            <TabGame tab={GAME} />
-            <TabAbout tab={ABOUT} />
-            <TabChat tab={CHAT} />
-            <TabJoin tab={JOIN} />
+            <TabSetup />
+            <TabGame />
+            <TabAbout />
+            <TabJoin />
+            <Chat />
           </div>
         </section>
-        <SideSection />
       </div>
     </Layout>
   )

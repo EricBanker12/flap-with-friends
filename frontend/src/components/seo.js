@@ -33,7 +33,7 @@ function SEO({ description, lang, meta, title, path, ui }) {
   return (
     <Helmet
       htmlAttributes={{lang}}
-      title={`${title || ui.tab} | ${site.siteMetadata.title}`}
+      title={`${title || ui.tab.match(/\w+$/)} | ${site.siteMetadata.title}`}
       meta={[
         {
           name: `description`,

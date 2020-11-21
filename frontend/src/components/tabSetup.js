@@ -5,11 +5,11 @@ import Axios from "axios"
 import SettingsPlayer from "./settingsPlayer"
 import InviteLink from "./inviteLink"
 
-import { GAME, CHAT } from "../utils/constants"
+import { GAME, CHAT, SETUP } from "../utils/constants"
 
-const TabSetup = ({settings, ui, dispatch, tab}) => {
+const TabSetup = ({settings, ui, dispatch}) => {
 
-    if (ui.tab !== tab) {
+    if (!RegExp(SETUP).test(ui.tab)) {
         return null
     }
 
@@ -63,7 +63,7 @@ const TabSetup = ({settings, ui, dispatch, tab}) => {
                     </button>
                     <a
                         className="btn btn-primary btn-lg flex-grow-1"
-                        href={`#${CHAT}`}>
+                        href={`#${SETUP}#${CHAT}`}>
                         Chat
                     </a>
                 </div>
