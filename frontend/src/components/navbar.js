@@ -1,19 +1,19 @@
 import React, { Component, createRef } from "react"
-import { connect } from "react-redux"
 
 import NavbarTab from "./navbarTab"
 
-import { SETUP, ABOUT, JOIN} from "../utils/constants"
+import { START, ABOUT, JOIN} from "../utils/constants"
 
 class Navbar extends Component {
     navbarRef = createRef()
     
     startShowTabs = (e) => {
-        this.navbarRef.current.classList.remove("collapse", "show")
-        this.navbarRef.current.classList.add("collapsing")
+        this.navbarRef.current.classList.toggle("collapse")
+        this.navbarRef.current.classList.toggle("collapsing")
+        this.navbarRef.current.classList.toggle("show")
         
         setTimeout(() => {
-            if (!this.navbarRef.current.style.height) {
+            if (this.navbarRef.current.classList.contains("show")) {
                 const height = [...this.navbarRef.current.children].reduce((a, b) => a + b.clientHeight, 0)
                 this.navbarRef.current.style.height = `${height}px`
             }
@@ -21,21 +21,12 @@ class Navbar extends Component {
                 this.navbarRef.current.removeAttribute("style")
             }
         }, 0)
-
-        this.props.dispatch({
-            type: "ui",
-            payload: {
-                showTabs: !this.props.ui.showTabs
-            },
-        })
     }
 
     stopShowTabs = (e) => {
         if (e.target === this.navbarRef.current) {
-            e.target.className = e.target.className.replace(" collapsing", " collapse")
-            if (this.props.ui.showTabs) {
-                e.target.className += " show"
-            }
+            this.navbarRef.current.classList.toggle("collapse")
+            this.navbarRef.current.classList.toggle("collapsing")
         }
     }
 
@@ -44,13 +35,6 @@ class Navbar extends Component {
             return null
 
         window.addEventListener("transitionend", this.stopShowTabs)
-        
-        this.props.dispatch({
-            type: "ui",
-            payload: {
-                tab: window.location.hash || SETUP
-            },
-        })
     }
 
     componentWillUnmount() {
@@ -65,14 +49,14 @@ class Navbar extends Component {
             <nav className="navbar navbar-expand-sm navbar-light bg-light col-12">
                 <div className="navbar-brand">
                     <h1 className="m-0">
-                        {this.props.ui.tab.match(RegExp(`${SETUP}|${ABOUT}|${JOIN}`))}
+                        {this.props.tab}
                     </h1>
                 </div>
                 
                 <button
                     className="navbar-toggler"
                     type="button"
-                    aria-expanded={this.props.ui.showTabs}
+                    aria-expanded={this.navbarRef.current && this.navbarRef.current.classList.contains("show")}
                     aria-label="Toggle navigation"
                     onClick={this.startShowTabs}>
                     <div className="navbar-toggler-icon" />
@@ -80,9 +64,9 @@ class Navbar extends Component {
     
                 <div ref={this.navbarRef} className="navbar-collapse collapse">
                     <ul className="navbar-nav">
-                        <NavbarTab tab={SETUP} />
-                        <NavbarTab tab={ABOUT} />
-                        <NavbarTab tab={JOIN} />
+                        <NavbarTab tab={START} hidden={this.props.tab === START} />
+                        <NavbarTab tab={ABOUT} hidden={this.props.tab === ABOUT} />
+                        <NavbarTab tab={JOIN} hidden={this.props.tab === JOIN} />
                     </ul>
                 </div>
             </nav>
@@ -90,4 +74,4 @@ class Navbar extends Component {
     }
 }
 
-export default connect(({ui}) => ({ui}))(Navbar)
+export default Navbar

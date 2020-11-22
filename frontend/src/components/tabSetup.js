@@ -5,14 +5,9 @@ import Axios from "axios"
 import SettingsPlayer from "./settingsPlayer"
 import InviteLink from "./inviteLink"
 
-import { GAME, CHAT, SETUP } from "../utils/constants"
+import { GAME, CHAT } from "../utils/constants"
 
 const TabSetup = ({settings, ui, dispatch}) => {
-
-    if (!RegExp(SETUP).test(ui.tab)) {
-        return null
-    }
-
     const ready = (e) => {
         dispatch({
             type: "settings",
@@ -50,11 +45,11 @@ const TabSetup = ({settings, ui, dispatch}) => {
     }
 
     return (
-        <div className="mt-1">
+        <main className="mt-1 px-4">
             <InviteLink/>
             <form onSubmit={play}>
                 <SettingsPlayer />
-                <div className="d-flex w-100">
+                <div className="d-flex w-100 my-2">
                     <button
                         className={`btn btn-${settings.ready ? "success" : "primary"} btn-lg flex-grow-1 mr-4`}
                         type="button"
@@ -63,16 +58,16 @@ const TabSetup = ({settings, ui, dispatch}) => {
                     </button>
                     <a
                         className="btn btn-primary btn-lg flex-grow-1"
-                        href={`#${SETUP}#${CHAT}`}>
+                        href={`#${CHAT}`}>
                         Chat
                     </a>
                 </div>
-                <h2 className="mt-1">Player Status</h2>
+                <h2>Player Status</h2>
                 <div >
                     <p>To Do</p>
                 </div>
             </form>
-        </div>
+        </main>
     )
 }
 

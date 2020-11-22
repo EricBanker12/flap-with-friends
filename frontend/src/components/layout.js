@@ -7,12 +7,9 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
 import { Provider } from "react-redux"
 
 import Header from "./header"
-import Footer from "./footer"
-import SEO from "./seo"
 
 import store from "../utils/store"
 
@@ -20,23 +17,11 @@ import "../styles/bootstrap.min.css"
 import "../styles/layout.css"
 
 const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
-
   return (
     <Provider store={store}>
-      <SEO />
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <div className="container-fluid bg-white px-0 flex-grow-1" style={{maxWidth: 720}}>
-        <main>{children}</main>
-        <Footer />
+      <Header />
+      <div className="container-fluid p-0 bg-white flex-grow-1" style={{maxWidth: "48rem"}}>
+        {children}
       </div>
     </Provider>
   )

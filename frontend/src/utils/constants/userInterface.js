@@ -1,10 +1,6 @@
-// game.tab
-export const SETUP = "Setup"
+// pages
+export const START = "Start"
 export const ABOUT = "About"
 export const JOIN = "Join"
 export const GAME = "Game"
 export const CHAT = "Chat"
-
-// game.device
-export const MOBILE = "Mobile"
-export const DESKTOP = "Desktop"

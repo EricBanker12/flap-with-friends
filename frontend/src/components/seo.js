@@ -9,9 +9,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
-import { connect } from "react-redux"
 
-function SEO({ description, lang, meta, title, path, ui }) {
+function SEO({ description, lang, meta, title, path }) {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -33,7 +32,7 @@ function SEO({ description, lang, meta, title, path, ui }) {
   return (
     <Helmet
       htmlAttributes={{lang}}
-      title={`${title || ui.tab.match(/\w+$/)} | ${site.siteMetadata.title}`}
+      title={title ? `${title} | ${site.siteMetadata.title}` : site.siteMetadata.title}
       meta={[
         {
           name: `description`,
@@ -69,7 +68,7 @@ function SEO({ description, lang, meta, title, path, ui }) {
         },
       ].concat(meta)}
     >
-      <link rel="canonical" href={site.siteMetadata.siteUrl + path} />
+      <link rel="canonical" href={site.siteMetadata.siteUrl + path.toLowerCase()} />
     </Helmet>
   )
 }
@@ -91,4 +90,4 @@ SEO.propTypes = {
   ui: PropTypes.object,
 }
 
-export default connect(({ui}) => ({ui}))(SEO)
+export default SEO

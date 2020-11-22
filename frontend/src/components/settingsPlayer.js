@@ -21,10 +21,10 @@ const SettingsPlayer = ({settings, dispatch}) => {
 
     return (
         <>
-            <h2 className="mt-1">Player Settings</h2>
+            <h2>Player Settings</h2>
             <div className="row m-0">
                 <div className="col-6 px-0 d-flex flex-column align-items-start">
-                    <label className="d-flex w-100 align-items-center justify-content-start flex-wrap flex-sm-nowrap">
+                    <label className="d-flex w-100 align-items-sm-center flex-column flex-sm-row">
                         <span>Name:&nbsp;</span>
                         <input
                             className="form-control mr-2"
@@ -35,8 +35,10 @@ const SettingsPlayer = ({settings, dispatch}) => {
                             onChange={handlePlayerInput}
                         />
                     </label>
-                    <InputColor label="Main Color: " name="mainColor" />
-                    <InputColor label="Accent Color: " name="accentColor" />
+                    <div className="d-flex w-100 flex-column flex-sm-row">
+                        <InputColor label="Main Color: " name="mainColor" />
+                        <InputColor label="Accent Color: " name="accentColor" />
+                    </div>
                 </div>
                 <div className="col-6 px-0 d-flex justify-content-center align-items-center">
                     <Preview />

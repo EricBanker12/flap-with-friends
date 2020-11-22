@@ -1,29 +1,20 @@
 import React from "react"
-import { connect } from "react-redux"
+import { Link } from "gatsby"
 
-const NavbarTab = ({tab, ui, dispatch}) => {
-    
-    const onClick = (e) => {
-        dispatch({
-            type: "ui",
-            payload: {showTabs: false},
-        })
-    }
-
+const NavbarTab = ({ tab = "", hidden }) => {
     return (
         <li
             className="nav-item"
-            hidden={RegExp(tab).test(ui.tab)}>
-            <a
+            hidden={hidden}>
+            <Link
                 className="nav-link"
-                href={`#${tab}`}
-                onClick={onClick}>
+                to={`/${tab.toLowerCase()}`}>
                 <span className="mt-3" style={{fontSize: "1.75rem", fontWeight: 500}}>
                     {tab}
                 </span>
-            </a>
+            </Link>
         </li>
     )
 }
 
-export default connect(({ui}) => ({ui}))(NavbarTab)
+export default NavbarTab

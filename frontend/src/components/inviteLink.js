@@ -5,7 +5,7 @@ const InviteLink = ({lobby}) => {
   if (typeof window === typeof undefined)
     return null
 
-  const inviteLink = new URL(`?join=${lobby.lobbyId}`, window.location)
+  const inviteLink = new URL(`/join?id=${lobby.lobbyId}`, window.location)
 
   const copyInviteLink = (e) => {
     navigator.clipboard.writeText(inviteLink)
@@ -17,7 +17,7 @@ const InviteLink = ({lobby}) => {
       <div className="d-flex w-100">
         <input
           type="text"
-          className="form-control"
+          className="form-control bg-white"
           value={inviteLink}
           readOnly
         />
