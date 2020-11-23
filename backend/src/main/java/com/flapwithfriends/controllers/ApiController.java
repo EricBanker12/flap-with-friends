@@ -13,6 +13,7 @@ import com.flapwithfriends.services.ApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Controller
@@ -37,6 +39,16 @@ public class ApiController {
         return apiService.status();
     }
 
+    // @GetMapping(path = "/database")
+    // public @ResponseBody Flux<Game> database() {
+    //     return gameRepository.findAll();
+    // }
+
+    // @DeleteMapping(path = "/delete")
+    // public @ResponseBody Mono<Void> deleteAll() {
+    //     return gameRepository.deleteAll();
+    // }
+
     /**
      * Create a new game instance
      * @param peer - JSON request body containing peer id
@@ -45,19 +57,15 @@ public class ApiController {
     public @ResponseBody Mono<Game> newGame(@RequestBody Mono<Peer> peerMono) {
         Game game = new Game();
         
-        /**
-         * Function to filter for only old games
-         */
+        /** Function to filter for only old games */
         Predicate<Game> isOld = new Predicate<Game>(){
             @Override
             public boolean test(Game game) {
-                return game.getCreated().getTime() < new Date().getTime() - 4L*60L*60L*1000L; // more than 4 hours old
+                return game.getCreated().getTime() < new Date().getTime() - 60L*60L*1000L; // more than 1 hour old
             }
         };
         
-        /**
-         * Consumer to grab peer id from request body and join a game
-         */
+        /** Consumer to grab peer id from request body and join a game */
         Consumer<Peer> joinGame = new Consumer<Peer>(){
             @Override
             public void accept(Peer peer) {
@@ -65,7 +73,21 @@ public class ApiController {
             }
         };
 
-        return gameRepository.deleteAll(gameRepository.findAll().filter(isOld)).then(peerMono.doOnSuccess(joinGame)).then(gameRepository.save(game));
+        /** Consumer to generate new id on id collision */
+        Consumer<Game> checkCollision = new Consumer<Game>(){
+            @Override
+            public void accept(Game g) {
+                if (g != null && g.getId().equals(game.getId())) {
+                    game.setId(Game.generateRandomId());
+                    throw new Error("id collision");
+                }
+            }
+        };
+
+        return gameRepository.deleteAll(gameRepository.findAll().filter(isOld))
+            .then(gameRepository.findById(game.getId()).doOnSuccess(checkCollision).retry())
+            .then(peerMono.doOnSuccess(joinGame))
+            .then(gameRepository.save(game));
     }
 
     /**

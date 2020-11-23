@@ -1,9 +1,9 @@
 package com.flapwithfriends.models;
 
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -26,8 +26,30 @@ public class Game {
     private Set<String> players;
     private int[] obstacles;
 
+    private static class Holder {
+        static final SecureRandom numberGenerator = new SecureRandom();
+    }
+
+    public static String generateRandomId() {
+        String id = "";
+        // base29 - modified Crockford's Base32 (added U, removed B,G,S,Z due to similarity to 8,6,5,2)
+        char[] base = "0123456789ACDEFHJKMNPQRTUVWXY".toCharArray();
+        byte[] bytes = new byte[9];
+        Holder.numberGenerator.nextBytes(bytes);
+        for (int i = 1; i < bytes.length; i++) {
+            int offset = bytes[i-1];
+            int randByte = bytes[i];
+            // add hyphen for readability
+            if (i == (bytes.length + 1) / 2) {
+                id += '-';
+            }
+            id += base[(randByte + offset + 256) % base.length];
+        }
+        return id;
+    }
+
     public Game() {
-        this.id = UUID.randomUUID().toString();
+        this.id = generateRandomId();
         this.players = new HashSet<String>();
         this.obstacles = new int[30];
         for (int i = 0; i < this.obstacles.length; i++) {
